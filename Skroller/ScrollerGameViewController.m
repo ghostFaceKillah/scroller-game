@@ -7,6 +7,7 @@
 //
 
 #import "ScrollerGameViewController.h"
+#import "GameActionScene.h"
 
 @interface ScrollerGameViewController ()
 
@@ -17,7 +18,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    SKView *spriteView = (SKView *) self.view;
+    spriteView.showsDrawCount = YES;
+    spriteView.showsNodeCount = YES;
+    spriteView.showsFPS = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(1024,764)];
+    SKView *spriteView = (SKView *) self.view;
+    [spriteView presentScene: hello];
 }
 
 - (void)didReceiveMemoryWarning

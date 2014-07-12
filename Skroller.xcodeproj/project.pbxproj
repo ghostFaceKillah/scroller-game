@@ -22,6 +22,10 @@
 		CB8CC4811971490B00DF0104 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8CC4601971490B00DF0104 /* UIKit.framework */; };
 		CB8CC4891971490B00DF0104 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC4871971490B00DF0104 /* InfoPlist.strings */; };
 		CB8CC48B1971490B00DF0104 /* SkrollerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC48A1971490B00DF0104 /* SkrollerTests.m */; };
+		CBCEC3561971548C00960425 /* GameActionScene.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCEC3551971548C00960425 /* GameActionScene.m */; };
+		CBCEC3581971570A00960425 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBCEC3571971570A00960425 /* SpriteKit.framework */; };
+		CBCEC35A19715A0900960425 /* running_placeholder_one.png in Resources */ = {isa = PBXBuildFile; fileRef = CBCEC35919715A0900960425 /* running_placeholder_one.png */; };
+		CBCEC35C19715AF500960425 /* running_placeholder_one_scaled.png in Resources */ = {isa = PBXBuildFile; fileRef = CBCEC35B19715AF500960425 /* running_placeholder_one_scaled.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +59,11 @@
 		CB8CC4861971490B00DF0104 /* SkrollerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SkrollerTests-Info.plist"; sourceTree = "<group>"; };
 		CB8CC4881971490B00DF0104 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CB8CC48A1971490B00DF0104 /* SkrollerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkrollerTests.m; sourceTree = "<group>"; };
+		CBCEC3541971548C00960425 /* GameActionScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameActionScene.h; sourceTree = "<group>"; };
+		CBCEC3551971548C00960425 /* GameActionScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameActionScene.m; sourceTree = "<group>"; };
+		CBCEC3571971570A00960425 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
+		CBCEC35919715A0900960425 /* running_placeholder_one.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = running_placeholder_one.png; path = ../../../Downloads/games/running_placeholder_one.png; sourceTree = "<group>"; };
+		CBCEC35B19715AF500960425 /* running_placeholder_one_scaled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = running_placeholder_one_scaled.png; path = ../../../Downloads/games/running_placeholder_one_scaled.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBCEC3581971570A00960425 /* SpriteKit.framework in Frameworks */,
 				CB8CC45F1971490B00DF0104 /* CoreGraphics.framework in Frameworks */,
 				CB8CC4611971490B00DF0104 /* UIKit.framework in Frameworks */,
 				CB8CC45D1971490B00DF0104 /* Foundation.framework in Frameworks */,
@@ -103,6 +113,7 @@
 		CB8CC45B1971490B00DF0104 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CBCEC3571971570A00960425 /* SpriteKit.framework */,
 				CB8CC45C1971490B00DF0104 /* Foundation.framework */,
 				CB8CC45E1971490B00DF0104 /* CoreGraphics.framework */,
 				CB8CC4601971490B00DF0104 /* UIKit.framework */,
@@ -120,6 +131,8 @@
 				CB8CC4711971490B00DF0104 /* Main_iPad.storyboard */,
 				CB8CC4741971490B00DF0104 /* ScrollerGameViewController.h */,
 				CB8CC4751971490B00DF0104 /* ScrollerGameViewController.m */,
+				CBCEC3541971548C00960425 /* GameActionScene.h */,
+				CBCEC3551971548C00960425 /* GameActionScene.m */,
 				CB8CC4771971490B00DF0104 /* Images.xcassets */,
 				CB8CC4631971490B00DF0104 /* Supporting Files */,
 			);
@@ -129,6 +142,8 @@
 		CB8CC4631971490B00DF0104 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CBCEC35B19715AF500960425 /* running_placeholder_one_scaled.png */,
+				CBCEC35919715A0900960425 /* running_placeholder_one.png */,
 				CB8CC4641971490B00DF0104 /* Skroller-Info.plist */,
 				CB8CC4651971490B00DF0104 /* InfoPlist.strings */,
 				CB8CC4681971490B00DF0104 /* main.m */,
@@ -236,6 +251,8 @@
 				CB8CC4781971490B00DF0104 /* Images.xcassets in Resources */,
 				CB8CC4701971490B00DF0104 /* Main_iPhone.storyboard in Resources */,
 				CB8CC4671971490B00DF0104 /* InfoPlist.strings in Resources */,
+				CBCEC35C19715AF500960425 /* running_placeholder_one_scaled.png in Resources */,
+				CBCEC35A19715A0900960425 /* running_placeholder_one.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +273,7 @@
 			files = (
 				CB8CC46D1971490B00DF0104 /* ScrollerGameAppDelegate.m in Sources */,
 				CB8CC4761971490B00DF0104 /* ScrollerGameViewController.m in Sources */,
+				CBCEC3561971548C00960425 /* GameActionScene.m in Sources */,
 				CB8CC4691971490B00DF0104 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,6 +489,7 @@
 				CB8CC4901971490B00DF0104 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CB8CC4911971490B00DF0104 /* Build configuration list for PBXNativeTarget "SkrollerTests" */ = {
 			isa = XCConfigurationList;
@@ -479,6 +498,7 @@
 				CB8CC4931971490B00DF0104 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
