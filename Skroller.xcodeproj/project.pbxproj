@@ -26,6 +26,8 @@
 		CBCEC3581971570A00960425 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBCEC3571971570A00960425 /* SpriteKit.framework */; };
 		CBCEC36119715EDB00960425 /* running_placeholder_one.png in Resources */ = {isa = PBXBuildFile; fileRef = CBCEC35F19715EDB00960425 /* running_placeholder_one.png */; };
 		CBCEC36219715EDB00960425 /* running_placeholder_one_scaled.png in Resources */ = {isa = PBXBuildFile; fileRef = CBCEC36019715EDB00960425 /* running_placeholder_one_scaled.png */; };
+		CBCEC365197178D800960425 /* running_placeholder_two.png in Resources */ = {isa = PBXBuildFile; fileRef = CBCEC363197178D800960425 /* running_placeholder_two.png */; };
+		CBCEC366197178D800960425 /* running_placeholder_two_scaled.png in Resources */ = {isa = PBXBuildFile; fileRef = CBCEC364197178D800960425 /* running_placeholder_two_scaled.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		CBCEC3571971570A00960425 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		CBCEC35F19715EDB00960425 /* running_placeholder_one.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running_placeholder_one.png; sourceTree = "<group>"; };
 		CBCEC36019715EDB00960425 /* running_placeholder_one_scaled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running_placeholder_one_scaled.png; sourceTree = "<group>"; };
+		CBCEC363197178D800960425 /* running_placeholder_two.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running_placeholder_two.png; sourceTree = "<group>"; };
+		CBCEC364197178D800960425 /* running_placeholder_two_scaled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = running_placeholder_two_scaled.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +184,8 @@
 		CBCEC35E19715EDB00960425 /* sprites */ = {
 			isa = PBXGroup;
 			children = (
+				CBCEC363197178D800960425 /* running_placeholder_two.png */,
+				CBCEC364197178D800960425 /* running_placeholder_two_scaled.png */,
 				CBCEC35F19715EDB00960425 /* running_placeholder_one.png */,
 				CBCEC36019715EDB00960425 /* running_placeholder_one_scaled.png */,
 			);
@@ -263,9 +269,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBCEC365197178D800960425 /* running_placeholder_two.png in Resources */,
 				CB8CC4731971490B00DF0104 /* Main_iPad.storyboard in Resources */,
 				CB8CC4781971490B00DF0104 /* Images.xcassets in Resources */,
 				CB8CC4701971490B00DF0104 /* Main_iPhone.storyboard in Resources */,
+				CBCEC366197178D800960425 /* running_placeholder_two_scaled.png in Resources */,
 				CB8CC4671971490B00DF0104 /* InfoPlist.strings in Resources */,
 				CBCEC36219715EDB00960425 /* running_placeholder_one_scaled.png in Resources */,
 				CBCEC36119715EDB00960425 /* running_placeholder_one.png in Resources */,

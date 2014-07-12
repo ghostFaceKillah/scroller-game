@@ -35,7 +35,19 @@
 
 -(SKSpriteNode *)createHeroSprite
 {
+    
+    NSMutableArray *heroWalkWithTextures = [NSMutableArray arrayWithCapacity:2];
+    SKTexture *f1 = [SKTexture textureWithImageNamed:@"running_placeholder_one_scaled.png"];
+    [heroWalkWithTextures addObject:f1];
+    SKTexture *f2 = [SKTexture textureWithImageNamed:@"running_placeholder_two_scaled.png"];
+    [heroWalkWithTextures addObject:f2];
+    
+    SKAction *walkAnimation = [SKAction animateWithTextures:heroWalkWithTextures timePerFrame:0.2];
+    
     SKSpriteNode *hero = [SKSpriteNode spriteNodeWithImageNamed:@"running_placeholder_one_scaled.png"];
+    SKAction *animate = [SKAction repeatActionForever:walkAnimation];
+    [hero runAction:animate];
+
     return hero;
 }
 
