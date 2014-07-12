@@ -27,7 +27,7 @@
 {
     
     SKSpriteNode *hero = [self createHeroSprite];
-    hero.position = CGPointMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame)+100);
+    hero.position = CGPointMake(CGRectGetMinX(self.frame)+100, CGRectGetMinY(self.frame)+100);
     [self addChild:hero];
     self.backgroundColor = [UIColor colorWithRed:81/255.0f green:228/255.0f blue:255/255.0f alpha:1.0f];
     self.scaleMode = SKSceneScaleModeAspectFit;
