@@ -26,7 +26,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(1024,764)];
+//    GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(2000,1666)];
+     GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(300,200)];
     SKView *spriteView = (SKView *) self.view;
     [spriteView presentScene: hello];
 }
@@ -35,6 +36,18 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
+//    [image_signature setImage:[self resizeImage:image_signature.image]];
+    return (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+}
+-(BOOL)shouldAutorotate {
+    return YES;
+}
+- (NSUInteger)supportedInterfaceOrientations {
+//    [image_signature setImage:[self resizeImage:image_signature.image]];
+    return UIInterfaceOrientationMaskLandscapeLeft;
 }
 
 @end
