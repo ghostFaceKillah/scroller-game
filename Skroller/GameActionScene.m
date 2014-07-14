@@ -30,20 +30,20 @@
     SKSpriteNode *floor = [self createFloorSprite];
     floor.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMinY(self.frame)+20);
     hero.position = CGPointMake(CGRectGetMinX(self.frame)+20, CGRectGetMinY(self.frame)+35);
-    [self addChild: floor];
+    [self addChild:floor];
     [self addChild:hero];
     self.backgroundColor = [UIColor colorWithRed:81/255.0f green:228/255.0f blue:255/255.0f alpha:1.0f];
     self.scaleMode = SKSceneScaleModeAspectFit;
 }
 
--(SKSpriteNode *)createFloorSprite
+- (SKSpriteNode *)createFloorSprite
 {
     SKSpriteNode *floor = [SKSpriteNode spriteNodeWithImageNamed:@"floor_two.png"];
     floor.texture.filteringMode = SKTextureFilteringNearest;
     return floor;
 }
 
--(SKSpriteNode *)createHeroSprite
+- (SKSpriteNode *)createHeroSprite
 {
     
     NSMutableArray *heroWalkWithTextures = [NSMutableArray arrayWithCapacity:2];
