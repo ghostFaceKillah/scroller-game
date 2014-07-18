@@ -8,6 +8,7 @@
 
 #import "ScrollerGameViewController.h"
 #import "GameActionScene.h"
+#import "Hero.h"
 
 @interface ScrollerGameViewController ()
 
@@ -18,6 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     SKView *spriteView = (SKView *) self.view;
     spriteView.showsDrawCount = YES;
     spriteView.showsNodeCount = YES;

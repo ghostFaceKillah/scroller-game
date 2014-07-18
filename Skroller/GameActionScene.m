@@ -7,9 +7,11 @@
 //
 
 #import "GameActionScene.h"
+#import "Hero.h"
 
 @interface GameActionScene ()
 @property BOOL contentCreated;
+@property SKSpriteNode* hero;
 @end
 
 @implementation GameActionScene
@@ -26,7 +28,7 @@
 - (void)createSceneContents
 {
     
-    SKSpriteNode *hero = [self createHeroSprite];
+    _hero = [Hero createHeroSprite];
     SKSpriteNode *floor = [self createFloorSprite];
     floor.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMinY(self.frame)+20);
     hero.position = CGPointMake(CGRectGetMinX(self.frame)+20, CGRectGetMinY(self.frame)+35);
@@ -44,24 +46,14 @@
     SKTexture *f2 = [SKTexture textureWithImageNamed:@"floor_two.png"];
     [floorTextures addObject:f1];
     [floorTextures addObject:f2];
-    [self animateSprite: floor : floorTextures : 0.2];
+    [Hero animateSprite: floor : floorTextures : 0.2];
     
     return floor;
 }
 
 - (SKSpriteNode *)createHeroSprite
 {
-    
-    NSMutableArray *heroWalkWithTextures = [NSMutableArray arrayWithCapacity:2];
-    SKTexture *f1 = [SKTexture textureWithImageNamed:@"running_placeholder_one.png"];
-    [heroWalkWithTextures addObject:f1];
-    SKTexture *f2 = [SKTexture textureWithImageNamed:@"running_placeholder_two.png"];
-    [heroWalkWithTextures addObject:f2];
-    SKSpriteNode *hero = [SKSpriteNode spriteNodeWithImageNamed:@"running_placeholder_one.png"];
-    [self animateSprite : hero : heroWalkWithTextures : 0.2];
-
-
-    return hero;
+    [Hero heroJump:_hero];
 }
 
 @end
