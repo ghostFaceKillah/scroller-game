@@ -22,6 +22,8 @@
 		CB8CC4811971490B00DF0104 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8CC4601971490B00DF0104 /* UIKit.framework */; };
 		CB8CC4891971490B00DF0104 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC4871971490B00DF0104 /* InfoPlist.strings */; };
 		CB8CC48B1971490B00DF0104 /* SkrollerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC48A1971490B00DF0104 /* SkrollerTests.m */; };
+		CBB01F1E19924CFB0020BC9D /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = CBB01F1D19924CFB0020BC9D /* Enemy.m */; };
+		CBB01F201992C5080020BC9D /* monster.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB01F1F1992C5080020BC9D /* monster.png */; };
 		CBCEC3561971548C00960425 /* GameActionScene.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCEC3551971548C00960425 /* GameActionScene.m */; };
 		CBCEC3581971570A00960425 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBCEC3571971570A00960425 /* SpriteKit.framework */; };
 		CBCEC36119715EDB00960425 /* running_placeholder_one.png in Resources */ = {isa = PBXBuildFile; fileRef = CBCEC35F19715EDB00960425 /* running_placeholder_one.png */; };
@@ -67,6 +69,9 @@
 		CB8CC4861971490B00DF0104 /* SkrollerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SkrollerTests-Info.plist"; sourceTree = "<group>"; };
 		CB8CC4881971490B00DF0104 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CB8CC48A1971490B00DF0104 /* SkrollerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkrollerTests.m; sourceTree = "<group>"; };
+		CBB01F1C19924CFB0020BC9D /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
+		CBB01F1D19924CFB0020BC9D /* Enemy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enemy.m; sourceTree = "<group>"; };
+		CBB01F1F1992C5080020BC9D /* monster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monster.png; sourceTree = "<group>"; };
 		CBCEC3541971548C00960425 /* GameActionScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameActionScene.h; sourceTree = "<group>"; };
 		CBCEC3551971548C00960425 /* GameActionScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameActionScene.m; sourceTree = "<group>"; };
 		CBCEC3571971570A00960425 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
@@ -152,6 +157,8 @@
 				CBCEC3551971548C00960425 /* GameActionScene.m */,
 				FAEE84D51975CE6D00A9F183 /* Hero.h */,
 				FAEE84D61975CE6D00A9F183 /* Hero.m */,
+				CBB01F1C19924CFB0020BC9D /* Enemy.h */,
+				CBB01F1D19924CFB0020BC9D /* Enemy.m */,
 				CB8CC4771971490B00DF0104 /* Images.xcassets */,
 				CB8CC4631971490B00DF0104 /* Supporting Files */,
 			);
@@ -199,6 +206,7 @@
 		CBCEC35E19715EDB00960425 /* sprites */ = {
 			isa = PBXGroup;
 			children = (
+				CBB01F1F1992C5080020BC9D /* monster.png */,
 				FAEE84D81977C74000A9F183 /* hero_jump_1.png */,
 				FAEE84D91977C74000A9F183 /* hero_jump_2.png */,
 				FAEE84DA1977C74000A9F183 /* hero_jump_3.png */,
@@ -301,6 +309,7 @@
 				CBCEC36219715EDB00960425 /* running_placeholder_one_scaled.png in Resources */,
 				FAEE84DD1977C74000A9F183 /* hero_jump_3.png in Resources */,
 				CBCEC36119715EDB00960425 /* running_placeholder_one.png in Resources */,
+				CBB01F201992C5080020BC9D /* monster.png in Resources */,
 				CBCEC36A1971A86D00960425 /* floor_two.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBB01F1E19924CFB0020BC9D /* Enemy.m in Sources */,
 				FAEE84D71975CE6D00A9F183 /* Hero.m in Sources */,
 				CB8CC46D1971490B00DF0104 /* ScrollerGameAppDelegate.m in Sources */,
 				CB8CC4761971490B00DF0104 /* ScrollerGameViewController.m in Sources */,

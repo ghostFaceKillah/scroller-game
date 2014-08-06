@@ -8,10 +8,10 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface Hero : SKSpriteNode
-
-+(SKSpriteNode *)createHeroSprite;
+@interface Hero : NSObject
+@property SKSpriteNode * sprite;
++(Hero *)createHero;
 +(void)animateSprite :(SKSpriteNode *)sprite :(NSArray *)arrayOfTextures :(NSTimeInterval )time;
-+(void)heroJump : (SKSpriteNode *)hero;
+-(void)heroJump : (SKSpriteNode *)hero;
 
 @end
