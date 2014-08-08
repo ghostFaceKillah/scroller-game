@@ -13,5 +13,10 @@
 +(Hero *)createHero;
 +(void)animateSprite :(SKSpriteNode *)sprite :(NSArray *)arrayOfTextures :(NSTimeInterval )time;
 -(void)heroJump : (SKSpriteNode *)hero;
-
+-(void)heroDash: (SKSpriteNode *) heroSprite;
+-(BOOL)isDashing;
+-(void)updateDashingState;
 @end
+
+static const uint32_t heroCategory     =  0x1 << 0;
+static const uint32_t monsterCategory        =  0x1 << 1;

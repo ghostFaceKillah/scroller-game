@@ -10,6 +10,7 @@
 @interface Hero()
 @property NSMutableArray* jumpTextures;
 @property NSMutableArray* walkTextures;
+@property BOOL dashing;
 
 @end
 
@@ -49,17 +50,49 @@
     
     // setup physics
     hero.sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:hero.sprite.size];
-    hero.sprite.physicsBody.dynamic = YES;
+    hero.sprite.physicsBody.dynamic = TRUE;
     hero.sprite.physicsBody.mass = 1;
     hero.sprite.physicsBody.restitution = 0;
+    hero.sprite.physicsBody.friction = 0;
+    hero.sprite.physicsBody.allowsRotation = FALSE;
+//    hero.sprite.physicsBody.categoryBitMask = heroCategory;
+//    hero.sprite.physicsBody.contactTestBitMask = monsterCategory;
+//    hero.sprite.physicsBody.collisionBitMask = 0;
+//    hero.sprite.physicsBody.usesPreciseCollisionDetection = YES;
+    
+    // setup state
+    hero.dashing = TRUE;
+    
     return hero;
+}
+
+-(BOOL) isDashing
+{
+    return _dashing;
 }
 
 -(void)heroJump: (SKSpriteNode *)heroSprite
 {
-    SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.25];
+    SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.15];
     [heroSprite runAction:sequenceOfTextures];
-    heroSprite.physicsBody.velocity = CGVectorMake(0, 360);
+    heroSprite.physicsBody.velocity = CGVectorMake(0, 500);
+}
+
+-(void)updateDashingState
+{
+    if (_dashing)
+    {
+        if (_sprite.physicsBody.velocity.dx <= 0)
+        {
+            _dashing = FALSE;
+        }
+    }
+}
+
+-(void)heroDash: (SKSpriteNode *) heroSprite
+{
+    _dashing = TRUE;
+    [heroSprite.physicsBody applyImpulse: CGVectorMake(1000, 0)];
 }
 
 @end

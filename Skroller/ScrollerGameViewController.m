@@ -51,4 +51,8 @@
     return UIInterfaceOrientationMaskLandscapeLeft;
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 @end
