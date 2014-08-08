@@ -34,7 +34,7 @@
     self.lastSpawnTimeInterval += timeSinceLast;
     if (self.lastSpawnTimeInterval > 1) {
         self.lastSpawnTimeInterval = 0;
-        // [self addMonster];
+        [self addMonster];
     }
 }
 
@@ -54,6 +54,7 @@
 {
     // General scene setup
     self.physicsWorld.gravity = CGVectorMake(0, -12);
+    self.physicsWorld.contactDelegate = self;
     self.backgroundColor = [UIColor colorWithRed:81/255.0f green:228/255.0f blue:255/255.0f alpha:1.0f];
     self.scaleMode = SKSceneScaleModeAspectFit;
     
@@ -78,6 +79,9 @@
     _monster.physicsBody.dynamic = NO;
     _monster.physicsBody.mass = 1;
     _monster.physicsBody.restitution = 0;
+    _monster.physicsBody.categoryBitMask = monsterCategory;
+    _monster.physicsBody.contactTestBitMask = heroCategory;
+    _monster.physicsBody.collisionBitMask = heroCategory;
 
     [self addChild:_monster];
     
@@ -101,6 +105,9 @@
     // floor physics
     floor.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:floor.size];
     floor.physicsBody.dynamic = false;
+    floor.physicsBody.categoryBitMask = floorCategory;
+    floor.physicsBody.contactTestBitMask = heroCategory;
+    floor.physicsBody.collisionBitMask = heroCategory;
     
     // floor animation
     SKAction *animation = [SKAction animateWithTextures:floorTextures timePerFrame: 0.2];
@@ -154,6 +161,36 @@ int signum(int n) { return (n < 0) ? -1 : (n > 0) ? +1 : 0; }
     
     [_hero updateDashingState];
     
+}
+
+- (void)didBeginContact:(SKPhysicsContact *)contact
+{
+    // 1
+    SKPhysicsBody *firstBody, *secondBody;
+    
+    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+    {
+        firstBody = contact.bodyA;
+        secondBody = contact.bodyB;
+    }
+    else
+    {
+        firstBody = contact.bodyB;
+        secondBody = contact.bodyA;
+    }
+    
+    // 2
+    if ((firstBody.categoryBitMask & heroCategory) != 0 &&
+        (secondBody.categoryBitMask & monsterCategory) != 0)
+    {
+        if ([_hero isDashing])
+        {
+            [secondBody.node removeFromParent];
+        } else
+        {
+            [_hero.sprite removeFromParent];
+        }
+    }
 }
 
 

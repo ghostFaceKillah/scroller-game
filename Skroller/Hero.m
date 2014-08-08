@@ -55,10 +55,10 @@
     hero.sprite.physicsBody.restitution = 0;
     hero.sprite.physicsBody.friction = 0;
     hero.sprite.physicsBody.allowsRotation = FALSE;
-//    hero.sprite.physicsBody.categoryBitMask = heroCategory;
-//    hero.sprite.physicsBody.contactTestBitMask = monsterCategory;
-//    hero.sprite.physicsBody.collisionBitMask = 0;
-//    hero.sprite.physicsBody.usesPreciseCollisionDetection = YES;
+    hero.sprite.physicsBody.categoryBitMask = heroCategory;
+    hero.sprite.physicsBody.contactTestBitMask = monsterCategory | floorCategory;
+    hero.sprite.physicsBody.collisionBitMask = monsterCategory | floorCategory;
+    hero.sprite.physicsBody.usesPreciseCollisionDetection = YES;
     
     // setup state
     hero.dashing = TRUE;
