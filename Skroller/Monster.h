@@ -11,7 +11,7 @@
 @interface Monster : NSObject
 @property SKSpriteNode *sprite;
 +(Monster *)createGoblin;
--(BOOL) didPassHero;
+-(BOOL) isNoLongerNeeded;
 -(void) resolveMovement;
 -(void) resolveHit;
 @end

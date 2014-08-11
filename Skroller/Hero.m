@@ -11,7 +11,7 @@
 @property NSMutableArray* jumpTextures;
 @property NSMutableArray* walkTextures;
 @property BOOL dashing;
-
+@property int timesJumped;
 @end
 
 @implementation Hero
@@ -77,9 +77,13 @@ static const uint32_t floorCategory    =  0x1 << 2;
 
 -(void)heroJump: (SKSpriteNode *)heroSprite
 {
-    SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.15];
-    [heroSprite runAction:sequenceOfTextures];
-    heroSprite.physicsBody.velocity = CGVectorMake(0, 500);
+    if (self.timesJumped <2)
+    {
+        self.timesJumped += 1;
+        SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.15];
+        [heroSprite runAction:sequenceOfTextures];
+        heroSprite.physicsBody.velocity = CGVectorMake(0, 500);
+    }
 }
 
 -(void)updateDashingState
@@ -97,6 +101,12 @@ static const uint32_t floorCategory    =  0x1 << 2;
 {
     _dashing = TRUE;
     [heroSprite.physicsBody applyImpulse: CGVectorMake(1000, 0)];
+}
+
+
+-(void) resolveGroundTouch
+{
+    self.timesJumped = 0;
 }
 
 @end

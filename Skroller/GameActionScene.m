@@ -10,6 +10,7 @@
 #import "Monster.h"
 #import "Hero.h"
 
+
 @interface GameActionScene ()
 @property BOOL contentCreated;
 @property Hero* hero;
@@ -34,12 +35,29 @@ static const uint32_t floorCategory    =  0x1 << 2;
     }
 }
 
+- (float)randomFloat {
+    float val = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
+    return val;
+}
+
+-(BOOL) expotentialDistributionSpawnTest:(CFTimeInterval) timeElapsed
+{
+    double lambda = 1;
+    double valueToCross = lambda * (1 - 0.55*timeElapsed);
+    double randomResult = [self randomFloat];
+    return (randomResult >= valueToCross);
+}
+
 - (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast {
-    
+
     self.lastSpawnTimeInterval += timeSinceLast;
-    if (self.lastSpawnTimeInterval > 2) {
-        self.lastSpawnTimeInterval = 0;
-        [self addMonster];
+    if (((int)(60*self.lastSpawnTimeInterval) % 10 == 0))
+    {
+        if ([self expotentialDistributionSpawnTest:self.lastSpawnTimeInterval])
+        {
+            self.lastSpawnTimeInterval = 0;
+            [self addMonster];
+        }
     }
 }
 
@@ -178,12 +196,12 @@ int signum(int n)
     
     [_hero updateDashingState];
     
-    NSLog(@"%@", _monsters);
+//    NSLog(@"%@", _monsters);
     Monster *m;
     for (id key in _monsters)
     {
         m = _monsters[key];
-        if ([m didPassHero]) // to be changed to is Visible because sometimes they will just fall off screen when hit etc
+        if ([m isNoLongerNeeded]) // to be changed to is Visible because sometimes they will just fall off screen when hit etc
         {
             // delete this monster
             [m.sprite removeFromParent];
@@ -227,6 +245,12 @@ int signum(int n)
             [_hero.sprite removeFromParent];
         }
     }
+    if ((firstBody.categoryBitMask & heroCategory) != 0 &&
+        (secondBody.categoryBitMask & floorCategory) != 0)
+    {
+        [_hero resolveGroundTouch];
+    }
+    
 }
 
 @end

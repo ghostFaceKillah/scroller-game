@@ -16,4 +16,5 @@
 -(void)heroDash: (SKSpriteNode *) heroSprite;
 -(BOOL)isDashing;
 -(void)updateDashingState;
+-(void) resolveGroundTouch;
 @end
