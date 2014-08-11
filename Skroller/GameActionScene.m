@@ -7,18 +7,23 @@
 //
 
 #import "GameActionScene.h"
+#import "Monster.h"
 #import "Hero.h"
 
 @interface GameActionScene ()
 @property BOOL contentCreated;
 @property Hero* hero;
-@property SKSpriteNode* monster;
+@property NSMutableDictionary *monsters;
+@property NSMutableArray *monstersToBeGarbaged;
 @property (nonatomic) NSTimeInterval lastSpawnTimeInterval;
 @property (nonatomic) NSTimeInterval lastUpdateTimeInterval;
 @end
 
 @implementation GameActionScene
 
+static const uint32_t heroCategory     =  0x1 << 0;
+static const uint32_t monsterCategory  =  0x1 << 1;
+static const uint32_t floorCategory    =  0x1 << 2;
 
 - (void)didMoveToView:(SKView *)view
 {
@@ -32,7 +37,7 @@
 - (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast {
     
     self.lastSpawnTimeInterval += timeSinceLast;
-    if (self.lastSpawnTimeInterval > 1) {
+    if (self.lastSpawnTimeInterval > 2) {
         self.lastSpawnTimeInterval = 0;
         [self addMonster];
     }
@@ -48,6 +53,7 @@
         self.lastUpdateTimeInterval = currentTime;
     }
     [self updateWithTimeSinceLastUpdate:timeSinceLast];
+
 }
 
 - (void)createSceneContents
@@ -57,6 +63,10 @@
     self.physicsWorld.contactDelegate = self;
     self.backgroundColor = [UIColor colorWithRed:81/255.0f green:228/255.0f blue:255/255.0f alpha:1.0f];
     self.scaleMode = SKSceneScaleModeAspectFit;
+    
+    // create strcutures to hold monster data
+    _monsters = [NSMutableDictionary dictionaryWithCapacity:10];
+    _monstersToBeGarbaged = [NSMutableArray arrayWithCapacity:10];
     
     // create floor node
     SKSpriteNode *floor = [self createFloorSprite];
@@ -69,27 +79,27 @@
     [self addChild:_hero.sprite];
 }
 
++(NSString*)generateRandomString:(int)num {
+    NSMutableString* string = [NSMutableString stringWithCapacity:num];
+    for (int i = 0; i < num; i++) {
+        [string appendFormat:@"%C", (unichar)('a' + arc4random_uniform(25))];
+    }
+    return string;
+}
+
+
 -(void) addMonster
 {
     // create monster node
-    _monster = [SKSpriteNode spriteNodeWithImageNamed:@"monster.png"];
-    _monster.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMinY(self.frame)+20);
-    _monster.texture.filteringMode = SKTextureFilteringNearest;
-    _monster.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_monster.size];
-    _monster.physicsBody.dynamic = NO;
-    _monster.physicsBody.mass = 1;
-    _monster.physicsBody.restitution = 0;
-    _monster.physicsBody.categoryBitMask = monsterCategory;
-    _monster.physicsBody.contactTestBitMask = heroCategory;
-    _monster.physicsBody.collisionBitMask = heroCategory;
-
-    [self addChild:_monster];
+    Monster *monster = [Monster createGoblin];
+    monster.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMinY(self.frame)+50);
+    monster.sprite.name = [GameActionScene generateRandomString:10];
     
-    // move monster node
-    SKAction * actionMove = [SKAction moveTo:CGPointMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame)+20) duration:2];
-    SKAction * actionMoveDone = [SKAction removeFromParent];
-    [_monster runAction:[SKAction sequence:@[actionMove, actionMoveDone]]];
+    // and add it to data structures
+    [self addChild:monster.sprite];
+    [_monsters setObject:monster forKey:monster.sprite.name];
 }
+
 
 -(SKSpriteNode *)createFloorSprite
 {
@@ -117,8 +127,11 @@
     return floor;
 }
 
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    // if left half is touched ->  jump
+    // if right half is touched -> dash
     UITouch * touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
     if (location.x >= CGRectGetMidX(self.frame)) {
@@ -129,7 +142,12 @@
 
 }
 
-int signum(int n) { return (n < 0) ? -1 : (n > 0) ? +1 : 0; }
+
+int signum(int n)
+{
+    return (n < 0) ? -1 : (n > 0) ? +1 : 0;
+}
+
 
 - (void)didSimulatePhysics {
     
@@ -147,7 +165,6 @@ int signum(int n) { return (n < 0) ? -1 : (n > 0) ? +1 : 0; }
             CGVector old_v = _hero.sprite.physicsBody.velocity;
             _hero.sprite.physicsBody.velocity = CGVectorMake(old_v.dx-signum(delta)*k*delta*delta, old_v.dy);
         }
-        
     } else
     {
         // if hero is not dashing return to place linearly speeding up world
@@ -161,13 +178,32 @@ int signum(int n) { return (n < 0) ? -1 : (n > 0) ? +1 : 0; }
     
     [_hero updateDashingState];
     
+    NSLog(@"%@", _monsters);
+    Monster *m;
+    for (id key in _monsters)
+    {
+        m = _monsters[key];
+        if ([m didPassHero]) // to be changed to is Visible because sometimes they will just fall off screen when hit etc
+        {
+            // delete this monster
+            [m.sprite removeFromParent];
+            [_monstersToBeGarbaged addObject:m.sprite.name];
+        } else
+        {
+            [m resolveMovement];
+        }
+    }
+    [_monsters removeObjectsForKeys:_monstersToBeGarbaged];
+    [_monstersToBeGarbaged removeAllObjects];
 }
+
 
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
-    // 1
+    // just some sample code for resolving collisions, will probably be changed later
     SKPhysicsBody *firstBody, *secondBody;
-    
+    // not very nice way to ensure the first guy in collision is hero and the second is monster
+    // copied from SKit docs <-> LOL look at this ugly code and it was actually Apple guys who wrote it
     if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
     {
         firstBody = contact.bodyA;
@@ -178,20 +214,19 @@ int signum(int n) { return (n < 0) ? -1 : (n > 0) ? +1 : 0; }
         firstBody = contact.bodyB;
         secondBody = contact.bodyA;
     }
-    
-    // 2
     if ((firstBody.categoryBitMask & heroCategory) != 0 &&
         (secondBody.categoryBitMask & monsterCategory) != 0)
     {
         if ([_hero isDashing])
         {
-            [secondBody.node removeFromParent];
+         //   [secondBody.node removeFromParent];
+            Monster *m = _monsters[secondBody.node.name];
+            [m resolveHit];
         } else
         {
             [_hero.sprite removeFromParent];
         }
     }
 }
-
 
 @end
