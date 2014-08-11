@@ -12,6 +12,6 @@
 @property SKSpriteNode *sprite;
 +(Monster *)createGoblin;
 -(BOOL) isNoLongerNeeded;
--(void) resolveMovement;
+-(void) resolveMovement: (CGFloat) worldVelocity;
 -(void) resolveHit;
 @end

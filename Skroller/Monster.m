@@ -54,14 +54,14 @@ static const uint32_t deadCategory     =  0x1 << 3;
     return (self.sprite.position.x < 0) || (self.sprite.position.y < 0);
 }
 
--(void) resolveMovement
+-(void) resolveMovement: (CGFloat) worldVelocity
 {
     if (self.isAttacking)
     {
         // if monster is still fresh and has not been killed, make it move forward
         // towards our hero
         CGFloat current_y_speed = self.sprite.physicsBody.velocity.dy;
-        self.sprite.physicsBody.velocity = CGVectorMake(-200, current_y_speed);
+        self.sprite.physicsBody.velocity = CGVectorMake(MIN(-200, worldVelocity), current_y_speed);
     }
 }
 

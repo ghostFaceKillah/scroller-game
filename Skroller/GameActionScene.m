@@ -14,6 +14,7 @@
 @interface GameActionScene ()
 @property BOOL contentCreated;
 @property Hero* hero;
+@property CGFloat worldSpeedup;
 @property NSMutableDictionary *monsters;
 @property NSMutableArray *monstersToBeGarbaged;
 @property (nonatomic) NSTimeInterval lastSpawnTimeInterval;
@@ -36,11 +37,13 @@ static const uint32_t floorCategory    =  0x1 << 2;
 }
 
 - (float)randomFloat {
+    // draw a random float from [0,1]
     float val = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
     return val;
 }
 
--(BOOL) expotentialDistributionSpawnTest:(CFTimeInterval) timeElapsed
+-(BOOL) spawnTest:(CFTimeInterval) timeElapsed
+// we could try to move this code to Monster class
 {
     double lambda = 1;
     double valueToCross = lambda * (1 - 0.55*timeElapsed);
@@ -48,18 +51,20 @@ static const uint32_t floorCategory    =  0x1 << 2;
     return (randomResult >= valueToCross);
 }
 
-- (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast {
-
+- (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast
+// we could try to move this code to Monster class
+{
     self.lastSpawnTimeInterval += timeSinceLast;
     if (((int)(60*self.lastSpawnTimeInterval) % 10 == 0))
     {
-        if ([self expotentialDistributionSpawnTest:self.lastSpawnTimeInterval])
+        if ([self spawnTest:self.lastSpawnTimeInterval])
         {
             self.lastSpawnTimeInterval = 0;
             [self addMonster];
         }
     }
 }
+
 
 - (void)update:(NSTimeInterval)currentTime {
     // Handle time delta.
@@ -74,6 +79,7 @@ static const uint32_t floorCategory    =  0x1 << 2;
 
 }
 
+
 - (void)createSceneContents
 {
     // General scene setup
@@ -81,6 +87,7 @@ static const uint32_t floorCategory    =  0x1 << 2;
     self.physicsWorld.contactDelegate = self;
     self.backgroundColor = [UIColor colorWithRed:81/255.0f green:228/255.0f blue:255/255.0f alpha:1.0f];
     self.scaleMode = SKSceneScaleModeAspectFit;
+     _worldSpeedup = 0;
     
     // create strcutures to hold monster data
     _monsters = [NSMutableDictionary dictionaryWithCapacity:10];
@@ -178,6 +185,7 @@ int signum(int n)
         // quick physics refresher: spring equation is F = -(1/2) * x * k
         // where F is spring's elastic force, x is displacement and k is elasticity coefficient
         if (_hero.sprite.position.x != CGRectGetMinX(self.frame)+20) {
+            _worldSpeedup = 0;
             CGFloat delta = _hero.sprite.position.x - CGRectGetMinX(self.frame)-20;
             CGFloat k =  0.03;
             CGVector old_v = _hero.sprite.physicsBody.velocity;
@@ -190,7 +198,8 @@ int signum(int n)
             CGFloat delta = _hero.sprite.position.x - CGRectGetMinX(self.frame)-20;
             CGVector old_v = _hero.sprite.physicsBody.velocity;
             CGFloat speedup = 5;
-            _hero.sprite.physicsBody.velocity = CGVectorMake(-signum(delta)*speedup*MIN(100,abs(delta)), old_v.dy);
+            _worldSpeedup = -signum(delta)*speedup*MIN(100,abs(delta));
+            _hero.sprite.physicsBody.velocity = CGVectorMake(_worldSpeedup, old_v.dy);
         }
     }
     
@@ -208,7 +217,7 @@ int signum(int n)
             [_monstersToBeGarbaged addObject:m.sprite.name];
         } else
         {
-            [m resolveMovement];
+            [m resolveMovement: _worldSpeedup];
         }
     }
     [_monsters removeObjectsForKeys:_monstersToBeGarbaged];
@@ -243,6 +252,7 @@ int signum(int n)
         } else
         {
             [_hero.sprite removeFromParent];
+            // game over code
         }
     }
     if ((firstBody.categoryBitMask & heroCategory) != 0 &&
