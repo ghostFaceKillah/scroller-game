@@ -128,14 +128,30 @@ static const uint32_t floorCategory    =  0x1 << 2;
 
 -(SKSpriteNode *)createFloorSprite
 {
-    SKSpriteNode *floor = [SKSpriteNode spriteNodeWithImageNamed:@"floor.png"];
+    SKSpriteNode *floor = [SKSpriteNode spriteNodeWithImageNamed:@"floor_move_01.png"];
 
     // manage floor textures
     NSMutableArray *floorTextures = [NSMutableArray arrayWithCapacity:2];
-    SKTexture *f1 = [SKTexture textureWithImageNamed:@"floor.png"];
-    SKTexture *f2 = [SKTexture textureWithImageNamed:@"floor_two.png"];
-    [floorTextures addObject:f1];
-    [floorTextures addObject:f2];
+//    SKTexture *f = [SKTexture textureWithImageNamed:@"floor.png"];
+//    SKTexture *f2 = [SKTexture textureWithImageNamed:@"floor_two.png"];
+//    [floorTextures addObject:f1];
+//    [floorTextures addObject:f2];
+    
+    
+    NSString *filename;
+    for (int i = 0; i < 64; ++i)
+    {
+        if (i <9)
+        {
+            filename = [NSString stringWithFormat:@"%@%d%@", @"floor_move_0", i+1, @".png"];
+        } else
+        {
+            filename = [NSString stringWithFormat:@"%@%d%@", @"floor_move_", i+1, @".png"];
+        }
+        SKTexture *f = [SKTexture textureWithImageNamed:filename];
+        f.filteringMode = SKTextureFilteringNearest;
+        [floorTextures addObject:f];
+    }
     
     // floor physics
     floor.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:floor.size];
@@ -145,7 +161,7 @@ static const uint32_t floorCategory    =  0x1 << 2;
     floor.physicsBody.collisionBitMask = heroCategory;
     
     // floor animation
-    SKAction *animation = [SKAction animateWithTextures:floorTextures timePerFrame: 0.2];
+    SKAction *animation = [SKAction animateWithTextures:floorTextures timePerFrame: 0.0075];
     SKAction *animate = [SKAction repeatActionForever:animation];
     [floor runAction:animate];
     
