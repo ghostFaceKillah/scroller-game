@@ -30,6 +30,7 @@
 //    GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(2000,1666)];
      GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(300,200)];
     SKView *spriteView = (SKView *) self.view;
+    spriteView.ignoresSiblingOrder = TRUE;
     [spriteView presentScene: hello];
 }
 

@@ -67,7 +67,6 @@ static const uint32_t deadCategory     =  0x1 << 3;
 
 - (float)randomFloat {
     float val = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
-    NSLog(@"%f", val);
     return val;
 }
 
