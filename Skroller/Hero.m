@@ -79,6 +79,12 @@ static const uint32_t floorCategory    =  0x1 << 2;
 }
 
 
+-(void)heroDash: (SKSpriteNode *) heroSprite
+{
+    [heroSprite.physicsBody applyImpulse: CGVectorMake(500, 0)];
+}
+
+
 -(void) resolveGroundTouch
 {
     self.timesJumped = 0;

@@ -27,6 +27,14 @@
 
 @implementation GameActionScene
 
+// to do
+
+// clean code
+// cut duration of dash when player hits a monster
+// implement menu
+
+
+
 static const uint32_t heroCategory     =  0x1 << 0;
 static const uint32_t monsterCategory  =  0x1 << 1;
 static const uint32_t floorCategory    =  0x1 << 2;
@@ -252,7 +260,7 @@ static const uint32_t floorCategory    =  0x1 << 2;
     UITouch * touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
     if (location.x >= CGRectGetMidX(self.frame)) {
-    // [_hero heroDash:_hero.sprite];
+    [_hero heroDash:_hero.sprite];
         _timeSinceLastDash = 0;
     } else {
       [_hero heroJump:_hero.sprite];
@@ -269,14 +277,36 @@ int signum(int n)
 
 - (void)didSimulatePhysics
 {
+    if (_hero.sprite.physicsBody.velocity.dx >= 0)
+    {
+        // if hero is dashing use spring equation
+        // imagine a spring holding our hero's back
+        // the other side is attached to vertical line where hero should belong
+        // quick physics refresher: spring equation is F = -(1/2) * x * k
+        // where F is spring's elastic force, x is displacement and k is elasticity coefficient
+        if (_hero.sprite.position.x != CGRectGetMinX(self.frame)+20) {
+            _worldSpeedup = 0;
+            CGFloat delta = _hero.sprite.position.x - CGRectGetMinX(self.frame)-20;
+            CGFloat k =  0.03;
+            CGVector old_v = _hero.sprite.physicsBody.velocity;
+            _hero.sprite.physicsBody.velocity = CGVectorMake(old_v.dx-signum(delta)*k*delta*delta, old_v.dy);
+        }
+    } else
+    {
+        // if hero is not dashing return to place linearly speeding up world
+        if (_hero.sprite.position.x != CGRectGetMinX(self.frame)+20) {
+            CGFloat delta = _hero.sprite.position.x - CGRectGetMinX(self.frame)-20;
+            CGVector old_v = _hero.sprite.physicsBody.velocity;
+            CGFloat speedupCoeff = 5;
+            _worldSpeedup = -signum(delta)*speedupCoeff*MIN(100,abs(delta));
+            _hero.sprite.physicsBody.velocity = CGVectorMake(_worldSpeedup, old_v.dy);
+        }
+    }
+    
     CGFloat dashTime = 0.3;
     CGFloat dashDecayTime = 0.4;
     CGFloat speedCoeff = 750;
-    if (_hero.sprite.position.x != CGRectGetMinX(self.frame)+20 )
-    {
-        CGFloat old_y = _hero.sprite.position.y;
-        _hero.sprite.position = CGPointMake(CGRectGetMinX(self.frame)+20, old_y);
-    }
+ 
     if (_timeSinceLastDash <= dashTime)
     {
         _worldSpeedup = -speedCoeff;
@@ -347,6 +377,7 @@ int signum(int n)
          //   [secondBody.node removeFromParent];
             Monster *m = _monsters[secondBody.node.name];
             [m resolveHit];
+            _timeSinceLastDash += 10;
         } else
         {
             [_hero.sprite removeFromParent];
