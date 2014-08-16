@@ -13,8 +13,5 @@
 +(Hero *)createHero;
 +(void)animateSprite :(SKSpriteNode *)sprite :(NSArray *)arrayOfTextures :(NSTimeInterval )time;
 -(void)heroJump : (SKSpriteNode *)hero;
--(void)heroDash: (SKSpriteNode *) heroSprite;
--(BOOL)isDashing;
--(void)updateDashingState;
 -(void) resolveGroundTouch;
 @end

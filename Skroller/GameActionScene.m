@@ -19,8 +19,10 @@
 @property NSMutableDictionary *monsters;
 @property NSMutableSet *clouds;
 @property NSMutableArray *monstersToBeGarbaged;
+@property BOOL heroIsDashing;
 @property (nonatomic) NSTimeInterval lastSpawnTimeInterval;
 @property (nonatomic) NSTimeInterval lastUpdateTimeInterval;
+@property (nonatomic) NSTimeInterval timeSinceLastDash;
 @end
 
 @implementation GameActionScene
@@ -80,6 +82,7 @@ static const uint32_t floorCategory    =  0x1 << 2;
     // If we drop below 60fps, we still want everything to move the same distance.
     CFTimeInterval timeSinceLast = currentTime - self.lastUpdateTimeInterval;
     self.lastUpdateTimeInterval = currentTime;
+    _timeSinceLastDash += timeSinceLast;
     if (timeSinceLast > 1) { // more than a second since last update
         timeSinceLast = 1.0 / 60.0;
         self.lastUpdateTimeInterval = currentTime;
@@ -97,6 +100,7 @@ static const uint32_t floorCategory    =  0x1 << 2;
     self.backgroundColor = [UIColor colorWithRed:81/255.0f green:228/255.0f blue:255/255.0f alpha:1.0f];
     self.scaleMode = SKSceneScaleModeAspectFit;
      _worldSpeedup = 0;
+    _heroIsDashing = FALSE;
     
     // create strcutures to hold monster data
     _monsters = [NSMutableDictionary dictionaryWithCapacity:10];
@@ -180,6 +184,7 @@ static const uint32_t floorCategory    =  0x1 << 2;
     
 }
 
+
 -(SKSpriteNode *)createCloud
 {
     SKSpriteNode *cloud = [SKSpriteNode spriteNodeWithImageNamed:@"cloud_prototype.png"];
@@ -191,6 +196,7 @@ static const uint32_t floorCategory    =  0x1 << 2;
     [cloud runAction:[SKAction sequence:@[move, die]]];
     return cloud;
 }
+
 
 -(SKSpriteNode *)createFloorSprite
 {
@@ -219,7 +225,6 @@ static const uint32_t floorCategory    =  0x1 << 2;
         [floorTextures addObject:f];
     }
     
-    
     // floor physics
     floor.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:floor.size];
     floor.physicsBody.dynamic = false;
@@ -247,7 +252,8 @@ static const uint32_t floorCategory    =  0x1 << 2;
     UITouch * touch = [touches anyObject];
     CGPoint location = [touch locationInNode:self];
     if (location.x >= CGRectGetMidX(self.frame)) {
-      [_hero heroDash:_hero.sprite];
+    // [_hero heroDash:_hero.sprite];
+        _timeSinceLastDash = 0;
     } else {
       [_hero heroJump:_hero.sprite];
     }
@@ -263,35 +269,28 @@ int signum(int n)
 
 - (void)didSimulatePhysics
 {
-    
-    // see if we need to correct hero's x due to collisions or dash
-    if (_hero.isDashing)
+    CGFloat dashTime = 0.3;
+    CGFloat dashDecayTime = 0.4;
+    CGFloat speedCoeff = 750;
+    if (_hero.sprite.position.x != CGRectGetMinX(self.frame)+20 )
     {
-        // if hero is dashing use spring equation
-        // imagine a spring holding our hero's back
-        // the other side is attached to vertical line where hero should belong
-        // quick physics refresher: spring equation is F = -(1/2) * x * k
-        // where F is spring's elastic force, x is displacement and k is elasticity coefficient
-        if (_hero.sprite.position.x != CGRectGetMinX(self.frame)+20) {
-            _worldSpeedup = 0;
-            CGFloat delta = _hero.sprite.position.x - CGRectGetMinX(self.frame)-20;
-            CGFloat k =  0.03;
-            CGVector old_v = _hero.sprite.physicsBody.velocity;
-            _hero.sprite.physicsBody.velocity = CGVectorMake(old_v.dx-signum(delta)*k*delta*delta, old_v.dy);
-        }
+        CGFloat old_y = _hero.sprite.position.y;
+        _hero.sprite.position = CGPointMake(CGRectGetMinX(self.frame)+20, old_y);
+    }
+    if (_timeSinceLastDash <= dashTime)
+    {
+        _worldSpeedup = -speedCoeff;
+        _heroIsDashing = TRUE;
+    } else if (_timeSinceLastDash <= dashDecayTime)
+    {
+        _worldSpeedup = -( (speedCoeff/(dashTime-dashDecayTime ))*_timeSinceLastDash + (speedCoeff/(dashDecayTime-dashTime))*dashDecayTime );
+        _heroIsDashing = TRUE;
     } else
     {
-        // if hero is not dashing return to place linearly speeding up world
-        if (_hero.sprite.position.x != CGRectGetMinX(self.frame)+20) {
-            CGFloat delta = _hero.sprite.position.x - CGRectGetMinX(self.frame)-20;
-            CGVector old_v = _hero.sprite.physicsBody.velocity;
-            CGFloat speedupCoeff = 5;
-            _worldSpeedup = -signum(delta)*speedupCoeff*MIN(100,abs(delta));
-            _hero.sprite.physicsBody.velocity = CGVectorMake(_worldSpeedup, old_v.dy);
-        }
+        _worldSpeedup = 0;
+        _heroIsDashing = FALSE;
     }
     
-    [_hero updateDashingState];
     Monster *m;
     for (id key in _monsters)
     {
@@ -310,13 +309,16 @@ int signum(int n)
     [_monstersToBeGarbaged removeAllObjects];
     
     _floor.speed = 1 - 0.001666*_worldSpeedup;
-//    NSLog(@"%f", _floor.speed);
+    //    NSLog(@"%f", _floor.speed);
     
-    SKSpriteNode *cloud = (SKSpriteNode *)[self childNodeWithName:@"cloud"];
-    if (cloud)
+    
+    for (SKSpriteNode *sprite in self.children)
     {
-    cloud.speed = 1 - 0.001666*_worldSpeedup;
-    };
+        if ([sprite.name isEqualToString:@"cloud"])
+        {
+            sprite.speed = 1 - 0.001666*_worldSpeedup;
+        }
+    }
     
 }
 
@@ -340,7 +342,7 @@ int signum(int n)
     if ((firstBody.categoryBitMask & heroCategory) != 0 &&
         (secondBody.categoryBitMask & monsterCategory) != 0)
     {
-        if ([_hero isDashing])
+        if (_heroIsDashing)
         {
          //   [secondBody.node removeFromParent];
             Monster *m = _monsters[secondBody.node.name];

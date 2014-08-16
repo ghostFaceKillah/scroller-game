@@ -10,7 +10,6 @@
 @interface Hero()
 @property NSMutableArray* jumpTextures;
 @property NSMutableArray* walkTextures;
-@property BOOL dashing;
 @property int timesJumped;
 @end
 
@@ -64,16 +63,9 @@ static const uint32_t floorCategory    =  0x1 << 2;
     hero.sprite.physicsBody.collisionBitMask = monsterCategory | floorCategory;
     hero.sprite.physicsBody.usesPreciseCollisionDetection = YES;
     
-    // setup state
-    hero.dashing = TRUE;
-    
     return hero;
 }
 
--(BOOL) isDashing
-{
-    return _dashing;
-}
 
 -(void)heroJump: (SKSpriteNode *)heroSprite
 {
@@ -84,23 +76,6 @@ static const uint32_t floorCategory    =  0x1 << 2;
         [heroSprite runAction:sequenceOfTextures];
         heroSprite.physicsBody.velocity = CGVectorMake(0, 500);
     }
-}
-
--(void)updateDashingState
-{
-    if (_dashing)
-    {
-        if (_sprite.physicsBody.velocity.dx <= 0)
-        {
-            _dashing = FALSE;
-        }
-    }
-}
-
--(void)heroDash: (SKSpriteNode *) heroSprite
-{
-    _dashing = TRUE;
-    [heroSprite.physicsBody applyImpulse: CGVectorMake(1000, 0)];
 }
 
 
