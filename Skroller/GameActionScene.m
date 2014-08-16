@@ -30,10 +30,7 @@
 // to do
 
 // clean code
-// cut duration of dash when player hits a monster
 // implement menu
-
-
 
 static const uint32_t heroCategory     =  0x1 << 0;
 static const uint32_t monsterCategory  =  0x1 << 1;
