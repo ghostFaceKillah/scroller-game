@@ -47,6 +47,7 @@ static const uint32_t deadCategory     =  0x1 << 3;
     return monster;
 }
 
+
 -(BOOL) isNoLongerNeeded {
     // calculate if sprite is off-screen (it maybe a redundant method now, as we
     // are reimplementing possibly existing method (isVisible etc.)

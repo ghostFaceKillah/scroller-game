@@ -72,6 +72,10 @@
 		CB1313B3199D86F900556DD4 /* mount_move_62.png in Resources */ = {isa = PBXBuildFile; fileRef = CB131373199D86F900556DD4 /* mount_move_62.png */; };
 		CB1313B4199D86F900556DD4 /* mount_move_63.png in Resources */ = {isa = PBXBuildFile; fileRef = CB131374199D86F900556DD4 /* mount_move_63.png */; };
 		CB1313B5199D86F900556DD4 /* mount_move_64.png in Resources */ = {isa = PBXBuildFile; fileRef = CB131375199D86F900556DD4 /* mount_move_64.png */; };
+		CB5582A719A0EE87008A45C1 /* menu_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5582A519A0EE87008A45C1 /* menu_placeholder.png */; };
+		CB5582A819A0EE87008A45C1 /* start_button_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5582A619A0EE87008A45C1 /* start_button_placeholder.png */; };
+		CB5582AB19A2AF61008A45C1 /* SpriteFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5582AA19A2AF61008A45C1 /* SpriteFactory.m */; };
+		CB5582B119A33D03008A45C1 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5582B019A33D03008A45C1 /* Constants.m */; };
 		CB8CC45D1971490B00DF0104 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8CC45C1971490B00DF0104 /* Foundation.framework */; };
 		CB8CC45F1971490B00DF0104 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8CC45E1971490B00DF0104 /* CoreGraphics.framework */; };
 		CB8CC4611971490B00DF0104 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8CC4601971490B00DF0104 /* UIKit.framework */; };
@@ -245,6 +249,12 @@
 		CB131373199D86F900556DD4 /* mount_move_62.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mount_move_62.png; sourceTree = "<group>"; };
 		CB131374199D86F900556DD4 /* mount_move_63.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mount_move_63.png; sourceTree = "<group>"; };
 		CB131375199D86F900556DD4 /* mount_move_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mount_move_64.png; sourceTree = "<group>"; };
+		CB5582A519A0EE87008A45C1 /* menu_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_placeholder.png; sourceTree = "<group>"; };
+		CB5582A619A0EE87008A45C1 /* start_button_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start_button_placeholder.png; sourceTree = "<group>"; };
+		CB5582A919A2AF61008A45C1 /* SpriteFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteFactory.h; sourceTree = "<group>"; };
+		CB5582AA19A2AF61008A45C1 /* SpriteFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteFactory.m; sourceTree = "<group>"; };
+		CB5582AF19A33D03008A45C1 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		CB5582B019A33D03008A45C1 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		CB8CC4591971490B00DF0104 /* Skroller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skroller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB8CC45C1971490B00DF0104 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CB8CC45E1971490B00DF0104 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -484,8 +494,12 @@
 				CB8CC4711971490B00DF0104 /* Main_iPad.storyboard */,
 				CB8CC4741971490B00DF0104 /* ScrollerGameViewController.h */,
 				CB8CC4751971490B00DF0104 /* ScrollerGameViewController.m */,
+				CB5582AF19A33D03008A45C1 /* Constants.h */,
+				CB5582B019A33D03008A45C1 /* Constants.m */,
 				CBCEC3541971548C00960425 /* GameActionScene.h */,
 				CBCEC3551971548C00960425 /* GameActionScene.m */,
+				CB5582A919A2AF61008A45C1 /* SpriteFactory.h */,
+				CB5582AA19A2AF61008A45C1 /* SpriteFactory.m */,
 				FAEE84D51975CE6D00A9F183 /* Hero.h */,
 				FAEE84D61975CE6D00A9F183 /* Hero.m */,
 				CB0475FD199793F600BB975E /* Monster.h */,
@@ -537,6 +551,8 @@
 		CBCEC35E19715EDB00960425 /* sprites */ = {
 			isa = PBXGroup;
 			children = (
+				CB5582A519A0EE87008A45C1 /* menu_placeholder.png */,
+				CB5582A619A0EE87008A45C1 /* start_button_placeholder.png */,
 				CB131335199D86F900556DD4 /* mount */,
 				CBD1EC37199CE4D700BB3F80 /* cloud_prototype.png */,
 				CBD1EC35199CCD7100BB3F80 /* mountains_prototype.png */,
@@ -739,11 +755,13 @@
 				CBCEC3681971A64400960425 /* floor.png in Resources */,
 				CB1313A8199D86F900556DD4 /* mount_move_51.png in Resources */,
 				FAEE84DB1977C74000A9F183 /* hero_jump_1.png in Resources */,
+				CB5582A819A0EE87008A45C1 /* start_button_placeholder.png in Resources */,
 				CB8CC4701971490B00DF0104 /* Main_iPhone.storyboard in Resources */,
 				CB13138A199D86F900556DD4 /* mount_move_21.png in Resources */,
 				CBD1EC2D199BD99500BB3F80 /* floor_move_57.png in Resources */,
 				CBD1EC03199BD99500BB3F80 /* floor_move_15.png in Resources */,
 				CBD1EC1F199BD99500BB3F80 /* floor_move_43.png in Resources */,
+				CB5582A719A0EE87008A45C1 /* menu_placeholder.png in Resources */,
 				CBD1EC19199BD99500BB3F80 /* floor_move_37.png in Resources */,
 				CB13137B199D86F900556DD4 /* mount_move_06.png in Resources */,
 				CB1313AC199D86F900556DD4 /* mount_move_55.png in Resources */,
@@ -871,6 +889,8 @@
 				CB8CC4761971490B00DF0104 /* ScrollerGameViewController.m in Sources */,
 				CBCEC3561971548C00960425 /* GameActionScene.m in Sources */,
 				CB8CC4691971490B00DF0104 /* main.m in Sources */,
+				CB5582AB19A2AF61008A45C1 /* SpriteFactory.m in Sources */,
+				CB5582B119A33D03008A45C1 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

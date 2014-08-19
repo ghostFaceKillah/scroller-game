@@ -9,32 +9,36 @@
 #import "GameActionScene.h"
 #import "Monster.h"
 #import "Hero.h"
+#import "Constants.h"
+#import "SpriteFactory.h"
 
 
 @interface GameActionScene ()
+
+// just state variables
 @property BOOL contentCreated;
+@property BOOL heroIsDashing;
+@property NSString *mode;
+
+// structs for holding all the sprites
 @property Hero* hero;
 @property SKSpriteNode *floor;
-@property CGFloat worldSpeedup;
 @property NSMutableDictionary *monsters;
 @property NSMutableSet *clouds;
 @property NSMutableArray *monstersToBeGarbaged;
-@property BOOL heroIsDashing;
+
+// for accounting if game is in dashing state and for monster spawnining
 @property (nonatomic) NSTimeInterval lastSpawnTimeInterval;
 @property (nonatomic) NSTimeInterval lastUpdateTimeInterval;
 @property (nonatomic) NSTimeInterval timeSinceLastDash;
+
+// speedup due to dashing etc.
+@property CGFloat worldSpeedup;
+
 @end
 
+
 @implementation GameActionScene
-
-// to do
-
-// clean code
-// implement menu
-
-static const uint32_t heroCategory     =  0x1 << 0;
-static const uint32_t monsterCategory  =  0x1 << 1;
-static const uint32_t floorCategory    =  0x1 << 2;
 
 - (void)didMoveToView:(SKView *)view
 {
@@ -46,27 +50,19 @@ static const uint32_t floorCategory    =  0x1 << 2;
 }
 
 
-- (float)randomFloat
-{
-    // draw a random float from [0,1]
-    float val = ((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX);
-    return val;
-}
-
-
 -(BOOL) spawnTest:(CFTimeInterval) timeElapsed
-// we could try to move this code to Monster class
 {
-    double lambda = 1;
-    double valueToCross = lambda * (1 - 0.55*timeElapsed);
-    double randomResult = [self randomFloat];
+    // check if we should spawn a monster
+    // probability of spawning a monster instantly rises linearly
+    double valueToCross = (1 - 0.55*timeElapsed);
+    double randomResult = [Constants randomFloat];
     return (randomResult >= valueToCross);
 }
 
 
 - (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast
-// we could try to move this code to Monster class
 {
+    // check once in a while if we would like to spawn a monster
     self.lastSpawnTimeInterval += timeSinceLast;
     if (((int)(60*self.lastSpawnTimeInterval) % 10 == 0))
     {
@@ -74,21 +70,38 @@ static const uint32_t floorCategory    =  0x1 << 2;
         {
             self.lastSpawnTimeInterval = 0;
             [self addMonster];
-            SKSpriteNode *cloudey = [self createCloud];
+            SKSpriteNode *cloudey = [SpriteFactory createCloud];
+            cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
             [self addChild:cloudey];
         }
     }
 }
 
 
+-(void) addMonster
+{
+    // a wrapper for handling all the monster data structures
+    
+    // create monster node
+    Monster *monster = [Monster createGoblin];
+    monster.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMinY(self.frame)+50);
+    monster.sprite.name = [GameActionScene generateRandomString:10];
+    
+    // and add it to data structures
+    [self addChild:monster.sprite];
+    [_monsters setObject:monster forKey:monster.sprite.name];
+}
+
 - (void)update:(NSTimeInterval)currentTime
 {
     // Handle time delta.
-    // If we drop below 60fps, we still want everything to move the same distance.
+    // If we drop below 60fps, we would still like things to happen
+    // at approximately the same rate
     CFTimeInterval timeSinceLast = currentTime - self.lastUpdateTimeInterval;
     self.lastUpdateTimeInterval = currentTime;
     _timeSinceLastDash += timeSinceLast;
-    if (timeSinceLast > 1) { // more than a second since last update
+    if (timeSinceLast > 1) {
+        // more than a second since last update
         timeSinceLast = 1.0 / 60.0;
         self.lastUpdateTimeInterval = currentTime;
     }
@@ -106,30 +119,36 @@ static const uint32_t floorCategory    =  0x1 << 2;
     self.scaleMode = SKSceneScaleModeAspectFit;
      _worldSpeedup = 0;
     _heroIsDashing = FALSE;
+    _mode = @"startMenu";
     
     // create strcutures to hold monster data
     _monsters = [NSMutableDictionary dictionaryWithCapacity:10];
     _monstersToBeGarbaged = [NSMutableArray arrayWithCapacity:10];
     
     // create floor node
-    _floor = [self createFloorSprite];
+    _floor = [SpriteFactory createFloorSprite];
     _floor.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMinY(self.frame)+10);
     [self addChild: _floor];
     
     // create landscape
-    SKSpriteNode *mountains = [self createMountains];
+    SKSpriteNode *mountains = [SpriteFactory createMountains];
     mountains.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMinY(self.frame)+20);
-//    mountains.texture.filteringMode = SKTextureFilteringNearest;
     [self addChild:mountains];
     
     // create smiling cloud
-    SKSpriteNode *cloud = [self createCloud];
+    SKSpriteNode *cloud = [SpriteFactory createCloud];
     [self addChild:cloud];
+    cloud.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
     
     // create and setup hero node
     _hero = [Hero createHero];
     _hero.sprite.position = CGPointMake(CGRectGetMinX(self.frame)+20, CGRectGetMinY(self.frame)+135);
     [self addChild:_hero.sprite];
+    
+    // create menu
+    SKSpriteNode *menu = [SpriteFactory createStartMenu];
+    menu.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    [self addChild:menu];
 }
 
 
@@ -142,125 +161,31 @@ static const uint32_t floorCategory    =  0x1 << 2;
 }
 
 
--(void) addMonster
-{
-    // create monster node
-    Monster *monster = [Monster createGoblin];
-    monster.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMinY(self.frame)+50);
-    monster.sprite.name = [GameActionScene generateRandomString:10];
-    
-    // and add it to data structures
-    [self addChild:monster.sprite];
-    [_monsters setObject:monster forKey:monster.sprite.name];
-}
-
-
--(SKSpriteNode *)createMountains
-{
-    SKSpriteNode *fuji = [SKSpriteNode spriteNodeWithImageNamed:@"mountains_prototype.png"];
-    
-    
-    NSMutableArray *mountainTextures = [NSMutableArray arrayWithCapacity:64];
-    
-    NSString *filename;
-    for (int i = 0; i < 64; ++i)
-    {
-        if (i <9)
-        {
-            filename = [NSString stringWithFormat:@"%@%d%@", @"mount_move_0", i+1, @".png"];
-        } else
-        {
-            filename = [NSString stringWithFormat:@"%@%d%@", @"mount_move_", i+1, @".png"];
-        }
-        SKTexture *f = [SKTexture textureWithImageNamed:filename];
-        f.filteringMode = SKTextureFilteringNearest;
-        [mountainTextures addObject:f];
-    }
-    
-    fuji.zPosition = -10;
-    
-    // mountain animation
-    SKAction *animation = [SKAction animateWithTextures:mountainTextures timePerFrame: 0.1];
-    SKAction *animate = [SKAction repeatActionForever:animation];
-    [fuji runAction:animate];
-    
-    return fuji;
-    
-    
-}
-
-
--(SKSpriteNode *)createCloud
-{
-    SKSpriteNode *cloud = [SKSpriteNode spriteNodeWithImageNamed:@"cloud_prototype.png"];
-    cloud.zPosition = -10;
-    cloud.name = @"cloud";
-    cloud.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
-    SKAction *move = [SKAction moveToX:-cloud.size.width duration:2+4*[self randomFloat]];
-    SKAction *die = [SKAction removeFromParent];
-    [cloud runAction:[SKAction sequence:@[move, die]]];
-    return cloud;
-}
-
-
--(SKSpriteNode *)createFloorSprite
-{
-    SKSpriteNode *floor = [SKSpriteNode spriteNodeWithImageNamed:@"floor_move_01.png"];
-
-    // manage floor textures
-    NSMutableArray *floorTextures = [NSMutableArray arrayWithCapacity:64];
-//    SKTexture *f = [SKTexture textureWithImageNamed:@"floor.png"];
-//    SKTexture *f2 = [SKTexture textureWithImageNamed:@"floor_two.png"];
-//    [floorTextures addObject:f1];
-//    [floorTextures addObject:f2];
-    
-    
-    NSString *filename;
-    for (int i = 0; i < 64; ++i)
-    {
-        if (i <9)
-        {
-            filename = [NSString stringWithFormat:@"%@%d%@", @"floor_move_0", i+1, @".png"];
-        } else
-        {
-            filename = [NSString stringWithFormat:@"%@%d%@", @"floor_move_", i+1, @".png"];
-        }
-        SKTexture *f = [SKTexture textureWithImageNamed:filename];
-        f.filteringMode = SKTextureFilteringNearest;
-        [floorTextures addObject:f];
-    }
-    
-    // floor physics
-    floor.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:floor.size];
-    floor.physicsBody.dynamic = false;
-    floor.physicsBody.categoryBitMask = floorCategory;
-    floor.physicsBody.contactTestBitMask = heroCategory;
-    floor.physicsBody.collisionBitMask = heroCategory;
-//    
-//    floor.zPosition = -10;
-//    
-//    NSLog(@"%f", floor.zPosition);
-    
-    // floor animation
-    SKAction *animation = [SKAction animateWithTextures:floorTextures timePerFrame: 0.0075];
-    SKAction *animate = [SKAction repeatActionForever:animation];
-    [floor runAction:animate];
-    
-    return floor;
-}
-
-
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    // if left half is touched ->  jump
-    // if right half is touched -> dash
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInNode:self];
-    if (location.x >= CGRectGetMidX(self.frame)) {
-    [_hero heroDash:_hero.sprite];
-        _timeSinceLastDash = 0;
-    } else {
-      [_hero heroJump:_hero.sprite];
+    // handle menu mode and game mode touch events
+    if ([_mode isEqualToString:@"startMenu"])
+    {
+        for (UITouch *touch in touches) {
+            SKNode *n = [self nodeAtPoint:[touch locationInNode:self]];
+            if ([n.name isEqual:@"start"])
+            {
+                // start game
+                NSLog(@"%@", @"start touched");
+            }
+        }
+    } else if ([_mode isEqualToString:@"gameplay"])
+    {
+        // if left half is touched ->  jump
+        // if right half is touched -> dash
+        UITouch * touch = [touches anyObject];
+        CGPoint location = [touch locationInNode:self];
+        if (location.x >= CGRectGetMidX(self.frame)) {
+        [_hero heroDash:_hero.sprite];
+            _timeSinceLastDash = 0;
+        } else {
+          [_hero heroJump:_hero.sprite];
+        }
     }
 
 }
@@ -271,8 +196,7 @@ int signum(int n)
     return (n < 0) ? -1 : (n > 0) ? +1 : 0;
 }
 
-
-- (void)didSimulatePhysics
+-(void)resolveHeroMovement
 {
     if (_hero.sprite.physicsBody.velocity.dx >= 0)
     {
@@ -299,30 +223,40 @@ int signum(int n)
             _hero.sprite.physicsBody.velocity = CGVectorMake(_worldSpeedup, old_v.dy);
         }
     }
-    
+}
+
+-(void)updateDashingState
+{
     CGFloat dashTime = 0.3;
     CGFloat dashDecayTime = 0.4;
     CGFloat speedCoeff = 750;
- 
+    
     if (_timeSinceLastDash <= dashTime)
     {
         _worldSpeedup = -speedCoeff;
         _heroIsDashing = TRUE;
     } else if (_timeSinceLastDash <= dashDecayTime)
     {
-        _worldSpeedup = -( (speedCoeff/(dashTime-dashDecayTime ))*_timeSinceLastDash + (speedCoeff/(dashDecayTime-dashTime))*dashDecayTime );
+        // decay linearly from speed coeff to zero in time from t_0 = dashTime to t_1 = dashDecayTime
+        _worldSpeedup =
+            -( (speedCoeff/(dashTime-dashDecayTime ))*_timeSinceLastDash + (speedCoeff/(dashDecayTime-dashTime))*dashDecayTime);
         _heroIsDashing = TRUE;
     } else
     {
         _worldSpeedup = 0;
         _heroIsDashing = FALSE;
     }
-    
+}
+
+
+-(void)garbageCollectMonsters
+{
     Monster *m;
     for (id key in _monsters)
     {
         m = _monsters[key];
-        if ([m isNoLongerNeeded]) // to be changed to is Visible because sometimes they will just fall off screen when hit etc
+        if ([m isNoLongerNeeded])
+        // to be changed to is Visible because sometimes they will just fall off screen when hit etc
         {
             // delete this monster
             [m.sprite removeFromParent];
@@ -334,10 +268,13 @@ int signum(int n)
     }
     [_monsters removeObjectsForKeys:_monstersToBeGarbaged];
     [_monstersToBeGarbaged removeAllObjects];
-    
+}
+
+
+-(void) handleWorldSpeedup
+{
     _floor.speed = 1 - 0.001666*_worldSpeedup;
     //    NSLog(@"%f", _floor.speed);
-    
     
     for (SKSpriteNode *sprite in self.children)
     {
@@ -350,12 +287,22 @@ int signum(int n)
 }
 
 
+- (void)didSimulatePhysics
+{
+    [self resolveHeroMovement];
+    [self updateDashingState];
+    [self garbageCollectMonsters];
+    [self handleWorldSpeedup];
+}
+
+
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
     // just some sample code for resolving collisions, will probably be changed later
     SKPhysicsBody *firstBody, *secondBody;
     // not very nice way to ensure the first guy in collision is hero and the second is monster
-    // copied from SKit docs <-> LOL look at this ugly code and it was actually Apple guys who wrote it
+    // copied from SKit docs
+    // LOL look at this ugly code and it was actually Apple guys who wrote it
     if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
     {
         firstBody = contact.bodyA;

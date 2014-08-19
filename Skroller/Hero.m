@@ -74,7 +74,7 @@ static const uint32_t floorCategory    =  0x1 << 2;
         self.timesJumped += 1;
         SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.15];
         [heroSprite runAction:sequenceOfTextures];
-        heroSprite.physicsBody.velocity = CGVectorMake(0, 500);
+        heroSprite.physicsBody.velocity = CGVectorMake(0, 530);
     }
 }
 
