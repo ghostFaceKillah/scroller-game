@@ -18,6 +18,7 @@
 // just state variables
 @property BOOL contentCreated;
 @property BOOL heroIsDashing;
+@property BOOL shouldSpawnMonsters;
 @property NSString *mode;
 
 // structs for holding all the sprites
@@ -26,6 +27,8 @@
 @property NSMutableDictionary *monsters;
 @property NSMutableSet *clouds;
 @property NSMutableArray *monstersToBeGarbaged;
+@property SKSpriteNode *menu;
+@property SKSpriteNode *menuHolder;
 
 // for accounting if game is in dashing state and for monster spawnining
 @property (nonatomic) NSTimeInterval lastSpawnTimeInterval;
@@ -69,7 +72,10 @@
         if ([self spawnTest:self.lastSpawnTimeInterval])
         {
             self.lastSpawnTimeInterval = 0;
-            [self addMonster];
+            if (_shouldSpawnMonsters)
+            {
+                [self addMonster];
+            }
             SKSpriteNode *cloudey = [SpriteFactory createCloud];
             cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
             [self addChild:cloudey];
@@ -81,7 +87,6 @@
 -(void) addMonster
 {
     // a wrapper for handling all the monster data structures
-    
     // create monster node
     Monster *monster = [Monster createGoblin];
     monster.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMinY(self.frame)+50);
@@ -100,7 +105,8 @@
     CFTimeInterval timeSinceLast = currentTime - self.lastUpdateTimeInterval;
     self.lastUpdateTimeInterval = currentTime;
     _timeSinceLastDash += timeSinceLast;
-    if (timeSinceLast > 1) {
+    if (timeSinceLast > 1)
+    {
         // more than a second since last update
         timeSinceLast = 1.0 / 60.0;
         self.lastUpdateTimeInterval = currentTime;
@@ -146,15 +152,26 @@
     [self addChild:_hero.sprite];
     
     // create menu
+    SKSpriteNode *menuHolder = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(200, 10)];
+    menuHolder.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame));
+    menuHolder.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:menuHolder.size];
+    menuHolder.physicsBody.dynamic = FALSE;
+    [self addChild:menuHolder];
     SKSpriteNode *menu = [SpriteFactory createStartMenu];
     menu.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     [self addChild:menu];
+    [menu.physicsBody applyImpulse:CGVectorMake(7, 0)];
+    _menuHolder = menuHolder;
+    
+    SKPhysicsJointLimit *menuLink = [SKPhysicsJointLimit jointWithBodyA:menuHolder.physicsBody bodyB:menu.physicsBody anchorA:menuHolder.position anchorB:menu.position];
+    [self.physicsWorld addJoint:menuLink];
 }
 
 
 +(NSString*)generateRandomString:(int)num {
     NSMutableString* string = [NSMutableString stringWithCapacity:num];
-    for (int i = 0; i < num; i++) {
+    for (int i = 0; i < num; i++)
+    {
         [string appendFormat:@"%C", (unichar)('a' + arc4random_uniform(25))];
     }
     return string;
@@ -166,12 +183,19 @@
     // handle menu mode and game mode touch events
     if ([_mode isEqualToString:@"startMenu"])
     {
-        for (UITouch *touch in touches) {
+        for (UITouch *touch in touches)
+        {
             SKNode *n = [self nodeAtPoint:[touch locationInNode:self]];
             if ([n.name isEqual:@"start"])
             {
                 // start game
                 NSLog(@"%@", @"start touched");
+                _mode = @"gameplay";
+                // move menu up
+                SKAction *moveUp = [SKAction moveToY:500 duration:0.5];
+                [_menuHolder runAction:moveUp];
+                // start spawning monsters
+                _shouldSpawnMonsters = TRUE;
             }
         }
     } else if ([_mode isEqualToString:@"gameplay"])
@@ -180,10 +204,12 @@
         // if right half is touched -> dash
         UITouch * touch = [touches anyObject];
         CGPoint location = [touch locationInNode:self];
-        if (location.x >= CGRectGetMidX(self.frame)) {
+        if (location.x >= CGRectGetMidX(self.frame))
+        {
         [_hero heroDash:_hero.sprite];
             _timeSinceLastDash = 0;
-        } else {
+        } else
+        {
           [_hero heroJump:_hero.sprite];
         }
     }

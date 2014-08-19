@@ -7,6 +7,7 @@
 //
 
 #import "Hero.h"
+#import "Constants.h"
 @interface Hero()
 @property NSMutableArray* jumpTextures;
 @property NSMutableArray* walkTextures;
@@ -14,10 +15,6 @@
 @end
 
 @implementation Hero
-
-static const uint32_t heroCategory     =  0x1 << 0;
-static const uint32_t monsterCategory  =  0x1 << 1;
-static const uint32_t floorCategory    =  0x1 << 2;
 
 +(void)animateSprite :(SKSpriteNode *)sprite :(NSArray *)arrayOfTextures :(NSTimeInterval )time
 {

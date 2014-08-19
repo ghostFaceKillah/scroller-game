@@ -53,6 +53,12 @@
     startButton.position = CGPointMake(4, 40);
     startButton.name = @"start";
     startButton.zPosition = 110;
+    menu.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:menu.size];
+    menu.physicsBody.dynamic = TRUE;
+    menu.physicsBody.mass = 1;
+    menu.physicsBody.categoryBitMask = menuCategory;
+    menu.physicsBody.contactTestBitMask = 0;
+    menu.physicsBody.collisionBitMask = 0;
     
     return menu;
 }
