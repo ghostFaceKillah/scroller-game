@@ -59,7 +59,24 @@
     menu.physicsBody.categoryBitMask = menuCategory;
     menu.physicsBody.contactTestBitMask = 0;
     menu.physicsBody.collisionBitMask = 0;
-    
+    return menu;
+}
+
++(SKSpriteNode *) createGameOverMenu
+{
+    SKSpriteNode *menu = [SKSpriteNode spriteNodeWithImageNamed:@"game_over_menu_placeholder.png"];
+    menu.zPosition = 1100;
+    SKSpriteNode *tryAgainButton = [SKSpriteNode spriteNodeWithImageNamed:@"try_again_button_placeholder.png"];
+    [menu addChild:tryAgainButton];
+    tryAgainButton.position = CGPointMake(4, 40);
+    tryAgainButton.name = @"tryAgain";
+    tryAgainButton.zPosition = 1110;
+    menu.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:menu.size];
+    menu.physicsBody.dynamic = TRUE;
+    menu.physicsBody.mass = 1;
+    menu.physicsBody.categoryBitMask = menuCategory;
+    menu.physicsBody.contactTestBitMask = 0;
+    menu.physicsBody.collisionBitMask = 0;
     return menu;
 }
 

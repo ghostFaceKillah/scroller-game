@@ -76,6 +76,8 @@
 		CB5582A819A0EE87008A45C1 /* start_button_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5582A619A0EE87008A45C1 /* start_button_placeholder.png */; };
 		CB5582AB19A2AF61008A45C1 /* SpriteFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5582AA19A2AF61008A45C1 /* SpriteFactory.m */; };
 		CB5582B119A33D03008A45C1 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5582B019A33D03008A45C1 /* Constants.m */; };
+		CB83D63319A5167C00F0B988 /* game_over_menu_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = CB83D63119A5167C00F0B988 /* game_over_menu_placeholder.png */; };
+		CB83D63419A5167C00F0B988 /* try_again_button_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = CB83D63219A5167C00F0B988 /* try_again_button_placeholder.png */; };
 		CB8CC45D1971490B00DF0104 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8CC45C1971490B00DF0104 /* Foundation.framework */; };
 		CB8CC45F1971490B00DF0104 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8CC45E1971490B00DF0104 /* CoreGraphics.framework */; };
 		CB8CC4611971490B00DF0104 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8CC4601971490B00DF0104 /* UIKit.framework */; };
@@ -255,6 +257,8 @@
 		CB5582AA19A2AF61008A45C1 /* SpriteFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteFactory.m; sourceTree = "<group>"; };
 		CB5582AF19A33D03008A45C1 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		CB5582B019A33D03008A45C1 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		CB83D63119A5167C00F0B988 /* game_over_menu_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_over_menu_placeholder.png; sourceTree = "<group>"; };
+		CB83D63219A5167C00F0B988 /* try_again_button_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = try_again_button_placeholder.png; sourceTree = "<group>"; };
 		CB8CC4591971490B00DF0104 /* Skroller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skroller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB8CC45C1971490B00DF0104 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CB8CC45E1971490B00DF0104 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -551,6 +555,8 @@
 		CBCEC35E19715EDB00960425 /* sprites */ = {
 			isa = PBXGroup;
 			children = (
+				CB83D63119A5167C00F0B988 /* game_over_menu_placeholder.png */,
+				CB83D63219A5167C00F0B988 /* try_again_button_placeholder.png */,
 				CB5582A519A0EE87008A45C1 /* menu_placeholder.png */,
 				CB5582A619A0EE87008A45C1 /* start_button_placeholder.png */,
 				CB131335199D86F900556DD4 /* mount */,
@@ -725,6 +731,7 @@
 				CB131382199D86F900556DD4 /* mount_move_13.png in Resources */,
 				CBD1EC38199CE4D700BB3F80 /* cloud_prototype.png in Resources */,
 				FAEE84DC1977C74000A9F183 /* hero_jump_2.png in Resources */,
+				CB83D63319A5167C00F0B988 /* game_over_menu_placeholder.png in Resources */,
 				CB131378199D86F900556DD4 /* mount_move_03.png in Resources */,
 				CB131377199D86F900556DD4 /* mount_move_02.png in Resources */,
 				CBD1EC32199BD99500BB3F80 /* floor_move_62.png in Resources */,
@@ -846,6 +853,7 @@
 				CB1313B4199D86F900556DD4 /* mount_move_63.png in Resources */,
 				CB131394199D86F900556DD4 /* mount_move_31.png in Resources */,
 				CBD1EC27199BD99500BB3F80 /* floor_move_51.png in Resources */,
+				CB83D63419A5167C00F0B988 /* try_again_button_placeholder.png in Resources */,
 				CBD1EC10199BD99500BB3F80 /* floor_move_28.png in Resources */,
 				CB13138B199D86F900556DD4 /* mount_move_22.png in Resources */,
 				CB131385199D86F900556DD4 /* mount_move_16.png in Resources */,

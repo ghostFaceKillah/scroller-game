@@ -12,6 +12,7 @@
 @interface SpriteFactory : NSObject
 +(SKSpriteNode *)createMountains;
 +(SKSpriteNode *)createStartMenu;
++(SKSpriteNode *) createGameOverMenu;
 +(SKSpriteNode *)createCloud;
 +(SKSpriteNode *)createFloorSprite;
 @end

@@ -29,6 +29,7 @@
 @property NSMutableArray *monstersToBeGarbaged;
 @property SKSpriteNode *menu;
 @property SKSpriteNode *menuHolder;
+@property SKSpriteNode *gameOverMenuHolder;
 
 // for accounting if game is in dashing state and for monster spawnining
 @property (nonatomic) NSTimeInterval lastSpawnTimeInterval;
@@ -131,27 +132,48 @@
     _monsters = [NSMutableDictionary dictionaryWithCapacity:10];
     _monstersToBeGarbaged = [NSMutableArray arrayWithCapacity:10];
     
-    // create floor node
+    [self initLandscape];
+    [self initFloor];
+    [self makeCloud];
+    [self makeHero];
+    [self initStartMenu];
+    [self initGameOverMenu];
+}
+
+-(void) initFloor
+{
     _floor = [SpriteFactory createFloorSprite];
     _floor.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMinY(self.frame)+10);
-    [self addChild: _floor];
-    
-    // create landscape
+    [self addChild:_floor];
+}
+
+
+-(void) initLandscape
+{
     SKSpriteNode *mountains = [SpriteFactory createMountains];
     mountains.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMinY(self.frame)+20);
     [self addChild:mountains];
-    
-    // create smiling cloud
+}
+
+
+-(void) makeCloud
+{
     SKSpriteNode *cloud = [SpriteFactory createCloud];
     [self addChild:cloud];
     cloud.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
-    
-    // create and setup hero node
+}
+
+
+-(void) makeHero
+{
     _hero = [Hero createHero];
     _hero.sprite.position = CGPointMake(CGRectGetMinX(self.frame)+20, CGRectGetMinY(self.frame)+135);
     [self addChild:_hero.sprite];
-    
-    // create menu
+}
+
+
+-(void) initStartMenu
+{
     SKSpriteNode *menuHolder = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(200, 10)];
     menuHolder.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame));
     menuHolder.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:menuHolder.size];
@@ -160,11 +182,27 @@
     SKSpriteNode *menu = [SpriteFactory createStartMenu];
     menu.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     [self addChild:menu];
-    [menu.physicsBody applyImpulse:CGVectorMake(7, 0)];
+    [menu.physicsBody applyImpulse:CGVectorMake(2, 0)];
     _menuHolder = menuHolder;
-    
     SKPhysicsJointLimit *menuLink = [SKPhysicsJointLimit jointWithBodyA:menuHolder.physicsBody bodyB:menu.physicsBody anchorA:menuHolder.position anchorB:menu.position];
     [self.physicsWorld addJoint:menuLink];
+}
+
+
+-(void) initGameOverMenu
+{
+    _gameOverMenuHolder = [SKSpriteNode spriteNodeWithColor:[UIColor greenColor] size:CGSizeMake(200, 10)];
+    _gameOverMenuHolder.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame));
+    _gameOverMenuHolder.physicsBody =
+    _gameOverMenuHolder.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_gameOverMenuHolder.size];
+    _gameOverMenuHolder.physicsBody.dynamic = FALSE;
+    [self addChild:_gameOverMenuHolder];
+    SKSpriteNode *gameOverMenu = [SpriteFactory createGameOverMenu];
+    gameOverMenu.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    [self addChild:gameOverMenu];
+    SKPhysicsJointLimit *gameOverMenuLink = [SKPhysicsJointLimit jointWithBodyA:_gameOverMenuHolder.physicsBody bodyB:gameOverMenu.physicsBody anchorA:_gameOverMenuHolder.position anchorB:gameOverMenu.position];
+    [self.physicsWorld addJoint:gameOverMenuLink];
+    _gameOverMenuHolder.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMaxY(self.frame)+200);
 }
 
 
@@ -212,6 +250,26 @@
         {
           [_hero heroJump:_hero.sprite];
         }
+    } else if ([_mode isEqualToString:@"gameOver"])
+    {
+        for (UITouch *touch in touches)
+        {
+            SKNode *n = [self nodeAtPoint:[touch locationInNode:self]];
+            if ([n.name isEqual:@"tryAgain"])
+            {
+                // restart game
+                _mode = @"gameplay";
+                // recreate hero
+                _hero = [Hero createHero];
+                _hero.sprite.position = CGPointMake(CGRectGetMinX(self.frame)+20, CGRectGetMinY(self.frame)+135);
+                [self addChild:_hero.sprite];
+                // move menu up
+                SKAction *moveUp = [SKAction moveToY:500 duration:0.5];
+                [_gameOverMenuHolder runAction:moveUp];
+                // start spawning monsters
+                _shouldSpawnMonsters = TRUE;
+            }
+        }
     }
 
 }
@@ -236,7 +294,13 @@ int signum(int n)
             CGFloat delta = _hero.sprite.position.x - CGRectGetMinX(self.frame)-20;
             CGFloat k =  0.03;
             CGVector old_v = _hero.sprite.physicsBody.velocity;
-            _hero.sprite.physicsBody.velocity = CGVectorMake(old_v.dx-signum(delta)*k*delta*delta, old_v.dy);
+            if (_heroIsDashing)
+            {
+                _hero.sprite.physicsBody.velocity = CGVectorMake(old_v.dx-signum(delta)*k*delta*delta, 0);
+            } else
+            {
+                _hero.sprite.physicsBody.velocity = CGVectorMake(old_v.dx-signum(delta)*k*delta*delta, old_v.dy);
+            }
         }
     } else
     {
@@ -350,8 +414,13 @@ int signum(int n)
             _timeSinceLastDash += 10;
         } else
         {
-            [_hero.sprite removeFromParent];
             // game over code
+            [_hero.sprite removeFromParent];
+            SKAction *moveDown = [SKAction moveToY:CGRectGetMaxY(self.frame) duration:0.5];
+            [_gameOverMenuHolder runAction:moveDown];
+            _shouldSpawnMonsters = FALSE;
+            _mode = @"gameOver";
+            
         }
     }
     if ((firstBody.categoryBitMask & heroCategory) != 0 &&
