@@ -10,9 +10,9 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface SpriteFactory : NSObject
-+(SKSpriteNode *)createMountains;
-+(SKSpriteNode *)createStartMenu;
++(SKSpriteNode *) createMountains;
++(SKSpriteNode *) createStartMenu;
 +(SKSpriteNode *) createGameOverMenu;
-+(SKSpriteNode *)createCloud;
-+(SKSpriteNode *)createFloorSprite;
++(SKSpriteNode *) createCloud;
++(SKSpriteNode *) createFloorSprite;
 @end

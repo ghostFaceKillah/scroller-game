@@ -7,11 +7,16 @@
 //
 
 #import "GameActionScene.h"
-#import "Monster.h"
+#import "Goblin.h"
 #import "Hero.h"
 #import "Constants.h"
 #import "SpriteFactory.h"
-
+#import "Birdie.h"
+#import "Hightower.h"
+#import "Bomb.h"
+#import "TowerLowerPart.h"
+#import "TowerUpperPart.h"
+#import "Baloon.h"
 
 @interface GameActionScene ()
 
@@ -58,7 +63,7 @@
 {
     // check if we should spawn a monster
     // probability of spawning a monster instantly rises linearly
-    double valueToCross = (1 - 0.55*timeElapsed);
+    double valueToCross = (1 - 0.65 * timeElapsed);
     double randomResult = [Constants randomFloat];
     return (randomResult >= valueToCross);
 }
@@ -75,25 +80,109 @@
             self.lastSpawnTimeInterval = 0;
             if (_shouldSpawnMonsters)
             {
-                [self addMonster];
+//                CGFloat temp = [Constants randomFloat];
+//                
+//                if (temp < 0.4)
+//                {
+//                    [self addGoblin];
+//                } else if (temp < 0.5)
+//                {
+//                    [self addBirdie];
+//                } else if (temp < 0.6)
+//                {
+//                    [self addHightower];
+//                } else if (temp <0.7)
+//                {
+//                    [self addBomb];
+//                } else if (temp < 0.8)
+//                {
+//                    [self addTwoPartTower];
+//                } else if (temp < 0.9)
+//                {
+//                    [self addBaloon];
+//                }
             }
             SKSpriteNode *cloudey = [SpriteFactory createCloud];
             cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
-            [self addChild:cloudey];
+            if ([Constants randomFloat] > 0.5)
+            {
+                [self addChild:cloudey];
+            }
         }
     }
 }
 
-
--(void) addMonster
+-(void) addBaloon
 {
-    // a wrapper for handling all the monster data structures
-    // create monster node
-    Monster *monster = [Monster createGoblin];
+    Baloon *monster = [Baloon spawn];
+    monster.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMaxY(self.frame)-20);
+    monster.sprite.name = [GameActionScene generateRandomString:10];
+    
+    // and add it to the data structures
+    [self addChild:monster.sprite];
+    [_monsters setObject:monster forKey:monster.sprite.name];
+}
+
+-(void) addTwoPartTower
+{
+    TowerLowerPart *monster = [TowerLowerPart spawn];
     monster.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMinY(self.frame)+50);
     monster.sprite.name = [GameActionScene generateRandomString:10];
     
-    // and add it to data structures
+    TowerUpperPart *attacker = [TowerUpperPart spawn];
+    attacker.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMinY(self.frame) + 90);
+    attacker.sprite.name = [GameActionScene generateRandomString:10];
+    
+    // and add it to the data structures
+    [self addChild:monster.sprite];
+    [self addChild:attacker.sprite];
+    [_monsters setObject:monster forKey:monster.sprite.name];
+    [_monsters setObject:attacker forKey:attacker.sprite.name];
+}
+
+-(void) addBomb
+{
+    Bomb *monster = [Bomb spawn];
+    monster.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMinY(self.frame)+50);
+    monster.sprite.name = [GameActionScene generateRandomString:10];
+    
+    // and add it to the data structures
+    [self addChild:monster.sprite];
+    [_monsters setObject:monster forKey:monster.sprite.name];
+}
+
+-(void) addHightower
+{
+    Hightower *monster = [Hightower spawn];
+    monster.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMinY(self.frame)+50);
+    monster.sprite.name = [GameActionScene generateRandomString:10];
+    
+    // and add it to the data structures
+    [self addChild:monster.sprite];
+    [_monsters setObject:monster forKey:monster.sprite.name];
+}
+
+-(void) addBirdie
+{
+    // wrapper for adding a monster birdie to the scene
+    
+    Birdie *birdie = [Birdie spawn: _hero];
+    birdie.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMaxY(self.frame)-10);
+    birdie.sprite.name = [GameActionScene generateRandomString:10];
+    
+    [self addChild:birdie.sprite];
+    [_monsters setObject:birdie forKey:birdie.sprite.name];
+}
+
+-(void) addGoblin
+{
+    // a wrapper for handling all the monster data structures
+    // create monster node
+    Goblin *monster = [Goblin spawn];
+    monster.sprite.position = CGPointMake(CGRectGetMaxX(self.frame)-20, CGRectGetMinY(self.frame)+50);
+    monster.sprite.name = [GameActionScene generateRandomString:10];
+    
+    // and add it to the data structures
     [self addChild:monster.sprite];
     [_monsters setObject:monster forKey:monster.sprite.name];
 }
@@ -296,7 +385,7 @@ int signum(int n)
             CGVector old_v = _hero.sprite.physicsBody.velocity;
             if (_heroIsDashing)
             {
-                _hero.sprite.physicsBody.velocity = CGVectorMake(old_v.dx-signum(delta)*k*delta*delta, 0);
+                _hero.sprite.physicsBody.velocity = CGVectorMake(old_v.dx-signum(delta)*k*delta*delta, MAX(0, old_v.dy) );
             } else
             {
                 _hero.sprite.physicsBody.velocity = CGVectorMake(old_v.dx-signum(delta)*k*delta*delta, old_v.dy);
@@ -339,14 +428,14 @@ int signum(int n)
 }
 
 
--(void)garbageCollectMonsters
+-(void) updateMonstersState
 {
     Monster *m;
     for (id key in _monsters)
     {
         m = _monsters[key];
+        // garbage collect uneeded monsters
         if ([m isNoLongerNeeded])
-        // to be changed to is Visible because sometimes they will just fall off screen when hit etc
         {
             // delete this monster
             [m.sprite removeFromParent];
@@ -381,7 +470,7 @@ int signum(int n)
 {
     [self resolveHeroMovement];
     [self updateDashingState];
-    [self garbageCollectMonsters];
+    [self updateMonstersState];
     [self handleWorldSpeedup];
 }
 
@@ -421,6 +510,13 @@ int signum(int n)
             _shouldSpawnMonsters = FALSE;
             _mode = @"gameOver";
             
+            Monster *m;
+            for (id key in _monsters)
+            {
+                m = _monsters[key];
+                [m.sprite removeFromParent];
+            }
+            [_monsters removeAllObjects];
         }
     }
     if ((firstBody.categoryBitMask & heroCategory) != 0 &&
@@ -430,5 +526,6 @@ int signum(int n)
     }
     
 }
+
 
 @end

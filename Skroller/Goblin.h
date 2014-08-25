@@ -1,17 +1,17 @@
 //
-//  Monster.h
+//  Goblin.h
 //  Skroller
 //
-//  Created by Michał Garmulewicz on 10.08.2014.
+//  Created by Michał Garmulewicz on 21.08.2014.
 //  Copyright (c) 2014 com.mike-dev. All rights reserved.
 //
 
-#import <SpriteKit/SpriteKit.h>
+#import "Monster.h"
 
-@interface Monster : NSObject
+@interface Goblin : Monster
 @property SKSpriteNode *sprite;
 @property NSString *monsterName;
-+(Monster *) spawn;
++(Goblin *) spawn;
 -(BOOL) isNoLongerNeeded;
 -(void) resolveMovement: (CGFloat) worldVelocity;
 -(void) resolveHit;

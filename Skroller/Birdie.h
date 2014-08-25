@@ -1,17 +1,18 @@
 //
-//  Monster.h
+//  Birdie.h
 //  Skroller
 //
-//  Created by Michał Garmulewicz on 10.08.2014.
+//  Created by Michał Garmulewicz on 21.08.2014.
 //  Copyright (c) 2014 com.mike-dev. All rights reserved.
 //
 
-#import <SpriteKit/SpriteKit.h>
+#import "Monster.h"
+#import "Hero.h"
 
-@interface Monster : NSObject
+@interface Birdie : Monster
 @property SKSpriteNode *sprite;
 @property NSString *monsterName;
-+(Monster *) spawn;
++(Birdie *) spawn: (Hero*) hero;
 -(BOOL) isNoLongerNeeded;
 -(void) resolveMovement: (CGFloat) worldVelocity;
 -(void) resolveHit;
