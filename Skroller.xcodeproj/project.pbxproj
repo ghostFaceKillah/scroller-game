@@ -93,6 +93,7 @@
 		CB8CC4811971490B00DF0104 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8CC4601971490B00DF0104 /* UIKit.framework */; };
 		CB8CC4891971490B00DF0104 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC4871971490B00DF0104 /* InfoPlist.strings */; };
 		CB8CC48B1971490B00DF0104 /* SkrollerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC48A1971490B00DF0104 /* SkrollerTests.m */; };
+		CB8DC27E19ACADBF001FA1A9 /* Platform.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8DC27D19ACADBF001FA1A9 /* Platform.m */; };
 		CBB01F201992C5080020BC9D /* monster.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB01F1F1992C5080020BC9D /* monster.png */; };
 		CBCEC3561971548C00960425 /* GameActionScene.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCEC3551971548C00960425 /* GameActionScene.m */; };
 		CBCEC3581971570A00960425 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBCEC3571971570A00960425 /* SpriteKit.framework */; };
@@ -292,6 +293,8 @@
 		CB8CC4861971490B00DF0104 /* SkrollerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SkrollerTests-Info.plist"; sourceTree = "<group>"; };
 		CB8CC4881971490B00DF0104 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CB8CC48A1971490B00DF0104 /* SkrollerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkrollerTests.m; sourceTree = "<group>"; };
+		CB8DC27C19ACADBF001FA1A9 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
+		CB8DC27D19ACADBF001FA1A9 /* Platform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Platform.m; sourceTree = "<group>"; };
 		CBB01F1F1992C5080020BC9D /* monster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monster.png; sourceTree = "<group>"; };
 		CBCEC3541971548C00960425 /* GameActionScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameActionScene.h; sourceTree = "<group>"; };
 		CBCEC3551971548C00960425 /* GameActionScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameActionScene.m; sourceTree = "<group>"; };
@@ -545,6 +548,8 @@
 				CB8CC4711971490B00DF0104 /* Main_iPad.storyboard */,
 				CB0475FD199793F600BB975E /* Monster.h */,
 				CB0475FE199793F600BB975E /* Monster.m */,
+				CB8DC27C19ACADBF001FA1A9 /* Platform.h */,
+				CB8DC27D19ACADBF001FA1A9 /* Platform.m */,
 				CB8CC46B1971490B00DF0104 /* ScrollerGameAppDelegate.h */,
 				CB8CC46C1971490B00DF0104 /* ScrollerGameAppDelegate.m */,
 				CB8CC4741971490B00DF0104 /* ScrollerGameViewController.h */,
@@ -960,6 +965,7 @@
 				CBD2328619A8F25B00C18545 /* Bomb.m in Sources */,
 				CBFCBA8019A61951003B6733 /* Birdie.m in Sources */,
 				CB8CC4761971490B00DF0104 /* ScrollerGameViewController.m in Sources */,
+				CB8DC27E19ACADBF001FA1A9 /* Platform.m in Sources */,
 				CBCEC3561971548C00960425 /* GameActionScene.m in Sources */,
 				CB8CC4691971490B00DF0104 /* main.m in Sources */,
 				CBDDB4FD19AA3E950007F6B7 /* Baloon.m in Sources */,

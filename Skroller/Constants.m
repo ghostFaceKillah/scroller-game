@@ -17,4 +17,20 @@
     return val;
 }
 
+
++(NSString*)generateRandomString:(int)num {
+    NSMutableString* string = [NSMutableString stringWithCapacity:num];
+    for (int i = 0; i < num; i++)
+    {
+        [string appendFormat:@"%C", (unichar)('a' + arc4random_uniform(25))];
+    }
+    return string;
+}
+
++(int) signum:(int) n
+{
+    return (n < 0) ? -1 : (n > 0) ? +1 : 0;
+}
+
+
 @end

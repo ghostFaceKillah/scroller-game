@@ -27,7 +27,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(300,200)];
+//    GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(300,200)];
+    GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(400,300)];
     SKView *spriteView = (SKView *) self.view;
     spriteView.ignoresSiblingOrder = TRUE;
     [spriteView presentScene: hello];

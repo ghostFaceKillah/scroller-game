@@ -8,11 +8,25 @@
 
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
+#import "GameActionScene.h"
 
 @interface SpriteFactory : NSObject
++(SpriteFactory *) createSpriteFactory: (GameActionScene *) receiver;
 +(SKSpriteNode *) createMountains;
 +(SKSpriteNode *) createStartMenu;
 +(SKSpriteNode *) createGameOverMenu;
 +(SKSpriteNode *) createCloud;
-+(SKSpriteNode *) createFloorSprite;
+-(void) addBaloon;
+-(void) addBomb;
+-(void) addBirdie;
+-(void) addGoblin;
+-(void) addHightower;
+-(void) addTwoPartTower;
+-(void) initGameOverMenu;
+-(void) initLandscape;
+-(void) initStaticFloor;
+-(void) makeCloud;
+-(void) makeHero;
+-(void) initStartMenu;
+-(void) initPlatform;
 @end

@@ -7,6 +7,13 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "Hero.h"
 
 @interface GameActionScene : SKScene <SKPhysicsContactDelegate>
+@property NSMutableDictionary *monsters;
+@property SKSpriteNode *gameOverMenuHolder;
+@property NSMutableArray *platforms;
+@property SKSpriteNode *menuHolder;
+@property SKSpriteNode *floor;
+@property Hero* hero;
 @end
