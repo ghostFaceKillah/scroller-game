@@ -20,7 +20,6 @@ static const uint32_t heroCategory     =  0x1 << 0;
 static const uint32_t monsterCategory  =  0x1 << 1;
 static const uint32_t floorCategory    =  0x1 << 2;
 static const uint32_t menuCategory     =  0x1 << 3;
-static const uint32_t upTowerCategory  =  0x1 << 4;
-static const uint32_t lowTowerCategory =  0x1 << 5;
+static const uint32_t arrowCategory  =  0x1 << 4;
 
 

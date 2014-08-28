@@ -8,6 +8,8 @@
 
 #import "Hero.h"
 #import "Constants.h"
+#import "GameActionScene.h"
+
 @interface Hero()
 @property NSMutableArray* jumpTextures;
 @property NSMutableArray* walkTextures;
@@ -86,5 +88,32 @@
 {
     self.timesJumped = 0;
 }
+
+
+
+-(void) shootBow: (SKSpriteNode *) heroSprite :(CGPoint) targetLocation :(SKScene *) caller
+{
+    SKSpriteNode *arrow = [SKSpriteNode spriteNodeWithImageNamed:@"arrow.png"];
+    arrow.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:arrow.size];
+    arrow.physicsBody.dynamic = TRUE;
+    arrow.physicsBody.mass = 0.1;
+    arrow.physicsBody.restitution = 0;
+    arrow.physicsBody.friction = 0;
+    arrow.physicsBody.allowsRotation = TRUE;
+    arrow.physicsBody.categoryBitMask = arrowCategory;
+    arrow.physicsBody.contactTestBitMask = monsterCategory | floorCategory;
+    arrow.physicsBody.collisionBitMask = monsterCategory | floorCategory;
+    arrow.physicsBody.usesPreciseCollisionDetection = YES;
+    [caller addChild:arrow];
+    arrow.position = heroSprite.position;
+    
+    CGFloat x = targetLocation.x - heroSprite.position.x;
+    CGFloat y = targetLocation.y - heroSprite.position.y;
+    arrow.zRotation = atan(y/x);
+    CGFloat norm = sqrt(x*x + y*y);
+    CGFloat scale = 150;
+    [arrow.physicsBody applyImpulse:CGVectorMake(scale*x/norm, scale*y/norm)];
+}
+
 
 @end

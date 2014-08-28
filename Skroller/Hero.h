@@ -7,12 +7,14 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+//#import "GameActionScene.h"
 
 @interface Hero : NSObject
 @property SKSpriteNode * sprite;
 +(Hero *)createHero;
-+(void)animateSprite :(SKSpriteNode *)sprite :(NSArray *)arrayOfTextures :(NSTimeInterval )time;
--(void)heroJump : (SKSpriteNode *)hero;
--(void)heroDash: (SKSpriteNode *) heroSprite;
++(void) animateSprite :(SKSpriteNode *)sprite :(NSArray *)arrayOfTextures :(NSTimeInterval )time;
+-(void) heroJump : (SKSpriteNode *)hero;
+-(void) heroDash: (SKSpriteNode *) heroSprite;
 -(void) resolveGroundTouch;
+-(void) shootBow: (SKSpriteNode *) heroSprite :(CGPoint) targetLocation : (SKScene *) caller;
 @end

@@ -114,7 +114,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 +(SKSpriteNode *)createMountains
 {
     SKSpriteNode *fuji = [SKSpriteNode spriteNodeWithImageNamed:@"mountains_prototype.png"];
-    
+    fuji.name = @"mountains";
     
     NSMutableArray *mountainTextures = [NSMutableArray arrayWithCapacity:64];
     
@@ -180,8 +180,18 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     return menu;
 }
 
+-(void) initSwordSwitch
+{
+    SKSpriteNode *swordSwitch = [SKSpriteNode spriteNodeWithImageNamed:@"sword_switch.png"];
+    swordSwitch.texture.filteringMode = SKTextureFilteringLinear;
+    swordSwitch.zPosition = 1100;
+    swordSwitch.name = @"swordSwitch";
+    swordSwitch.position = CGPointMake(CGRectGetMinX(_receiver.frame) + swordSwitch.size.width/2 + 5,
+                                       CGRectGetMaxY(_receiver.frame) - swordSwitch.size.height/2 - 5);
+    [_receiver addChild:swordSwitch];
+}
 
-+(SKSpriteNode *)createCloud
++(SKSpriteNode *) createCloud
 {
     SKSpriteNode *cloud = [SKSpriteNode spriteNodeWithImageNamed:@"cloud_prototype.png"];
     cloud.zPosition = -10;
@@ -195,14 +205,20 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 
 -(void) initStaticFloor
 {
-    Platform *floor = [Platform spawn];
-    floor.sprite.position = CGPointMake(CGRectGetMinX(_receiver.frame) + floor.sprite.size.width/2,
-                                        CGRectGetMinY(_receiver.frame)+10);
-    floor.heightAboveAbyss = CGRectGetMinY(_receiver.frame)+10;
-
+    Platform *floor = [Platform getLongPlatform];
+    floor.heightAboveAbyss = 17;
     
-    [_receiver.platforms addObject:floor];
-    [_receiver addChild:floor.sprite];
+    int i = 0;
+    
+    for (SKSpriteNode *current in floor.parts)
+    {
+        
+        current.position = CGPointMake(CGRectGetMinX(_receiver.frame) +
+                                       current.size.width/2 +
+                                       i * current.size.width, floor.heightAboveAbyss);
+        [_receiver addChild:current];
+        i++;
+    }
     [_receiver.platforms addObject:floor];
 }
 
@@ -210,23 +226,27 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 -(void) initPlatform
 {
     Platform *floor = [Platform spawn];
-    Platform *lastTile = [_receiver.platforms lastObject];
-    floor.heightAboveAbyss = lastTile.heightAboveAbyss + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
+    Platform *lastPlatform = [_receiver.platforms lastObject];
+    floor.heightAboveAbyss = lastPlatform.heightAboveAbyss + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
+    
     while (floor.heightAboveAbyss <= CGRectGetMinY(_receiver.frame) ||
            floor.heightAboveAbyss >= CGRectGetMaxY(_receiver.frame) - 30)
     {
-        floor.heightAboveAbyss = lastTile.heightAboveAbyss + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
+        floor.heightAboveAbyss = lastPlatform.heightAboveAbyss + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
     }
-    floor.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame) + floor.sprite.size.width/2,
+    
+    SKSpriteNode *current;
+    for (int i = 0; i < floor.length; i++)
+    {
+        current = floor.parts[i];
+        current.position = CGPointMake(CGRectGetMaxX(_receiver.frame) +
+                                       current.size.width/2 +
+                                       i * current.size.width,
                                        floor.heightAboveAbyss);
-    SKAction *moveLeft = [SKAction moveBy:CGVectorMake(-900, 0) duration:3];
-    [floor.sprite runAction:moveLeft];
-    
-    
+        [current runAction:floor.moveLeft];
+        [_receiver addChild:current];
+    }
     [_receiver.platforms addObject:floor];
-    [_receiver addChild:floor.sprite];
-    [_receiver.platforms addObject:floor];
-    
 }
 
 

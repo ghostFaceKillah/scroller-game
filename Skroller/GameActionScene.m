@@ -23,6 +23,9 @@
 @property BOOL shouldSpawnMonsters;
 @property NSString *mode;
 
+// heroines are using sword or bow?
+@property BOOL swordActive;
+
 // structs for holding all the sprites
 @property NSMutableArray *monstersToBeGarbaged;
 @property SKSpriteNode *menu;
@@ -83,11 +86,11 @@
             self.lastSpawnTimeInterval = 0;
             if (_shouldSpawnMonsters)
             {
-//                CGFloat temp = [Constants randomFloat];
-//                
-//                if (temp < 0.4)
-//                {
-//                    [_factory addGoblin];
+                CGFloat temp = [Constants randomFloat];
+                
+                if (temp < 0.4)
+                {
+                    [_factory addGoblin];
 //                } else if (temp < 0.5)
 //                {
 //                    [_factory addBirdie];
@@ -103,7 +106,7 @@
 //                } else if (temp < 0.9)
 //                {
 //                    [_factory addBaloon];
-//                }
+                }
             }
             SKSpriteNode *cloudey = [SpriteFactory createCloud];
             cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
@@ -159,6 +162,7 @@
     [_factory makeHero];
     [_factory initStartMenu];
     [_factory initGameOverMenu];
+    [_factory initSwordSwitch];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -179,23 +183,48 @@
                 [_menuHolder runAction:moveUp];
                 // start spawning monsters
                 _shouldSpawnMonsters = TRUE;
+                // start platforming move
                 Platform *platform = [_platforms lastObject];
-                [platform.sprite runAction:[SKAction moveBy:CGVectorMake(-600, 0) duration:2]];
+                for (SKSpriteNode *current in platform.parts)
+                {
+                    [current runAction:platform.moveLeft];
+                }
             }
         }
     } else if ([_mode isEqualToString:@"gameplay"])
     {
+        BOOL switchTouched = FALSE;
+        for (UITouch *touch in touches)
+        {
+            SKNode *n = [self nodeAtPoint:[touch locationInNode:self]];
+            if ([n.name isEqual:@"swordSwitch"])
+            {
+                // start game
+                _swordActive = !_swordActive;
+                switchTouched = TRUE;
+            }
+        }
         // if left half is touched ->  jump
         // if right half is touched -> dash
-        UITouch * touch = [touches anyObject];
-        CGPoint location = [touch locationInNode:self];
-        if (location.x >= CGRectGetMidX(self.frame))
+        if (!switchTouched)
         {
-        [_hero heroDash:_hero.sprite];
-            _timeSinceLastDash = 0;
-        } else
-        {
-          [_hero heroJump:_hero.sprite];
+            UITouch * touch = [touches anyObject];
+            CGPoint location = [touch locationInNode:self];
+            if (location.x >= CGRectGetMidX(self.frame))
+            {
+                if (_swordActive)
+                {
+                    [_hero heroDash:_hero.sprite];
+                    _timeSinceLastDash = 0;
+                } else
+                {
+                    //shoot freaking bow
+                    [_hero shootBow:_hero.sprite :location :self];
+                }
+            } else
+            {
+              [_hero heroJump:_hero.sprite];
+            }
         }
     } else if ([_mode isEqualToString:@"gameOver"])
     {
@@ -308,22 +337,28 @@
     //    NSLog(@"%f", _floor.speed);
     for (SKSpriteNode *sprite in self.children)
     {
-        if ([sprite.name isEqualToString:@"cloud"])
+        if ([sprite.name isEqualToString:@"cloud"] || [sprite.name isEqualToString:@"mountains"])
         {
             sprite.speed = 1 - 0.001666*_worldSpeedup;
         }
     }
     for (Platform *platform in self.platforms)
     {
-        platform.sprite.speed = 1 - 0.001666*_worldSpeedup;
+        for (SKSpriteNode *tile in platform.parts)
+        {
+            tile.speed = 1 - 0.001666*_worldSpeedup;
+        }
     }
 }
 
 
 -(void) handlePlatforming
 {
-    Platform *lastTile = [self.platforms lastObject];
-    if (lastTile.sprite.position.x + lastTile.sprite.size.width/2 + lastTile.gapToNextTile <= self.frame.size.width)
+  // see if we have to spawn a new platform, cause end of this one approaches
+    Platform *lastPlatform = [self.platforms lastObject];
+    SKSpriteNode *lastTile = [lastPlatform.parts lastObject];
+    if (lastTile.position.x + lastTile.size.width/2 + 
+        lastPlatform.gapToNextTile <= self.frame.size.width)
     {
         [_factory initPlatform];
     }

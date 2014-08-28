@@ -72,6 +72,9 @@
 		CB1313B3199D86F900556DD4 /* mount_move_62.png in Resources */ = {isa = PBXBuildFile; fileRef = CB131373199D86F900556DD4 /* mount_move_62.png */; };
 		CB1313B4199D86F900556DD4 /* mount_move_63.png in Resources */ = {isa = PBXBuildFile; fileRef = CB131374199D86F900556DD4 /* mount_move_63.png */; };
 		CB1313B5199D86F900556DD4 /* mount_move_64.png in Resources */ = {isa = PBXBuildFile; fileRef = CB131375199D86F900556DD4 /* mount_move_64.png */; };
+		CB1837B719AF352B0022A366 /* floor_tile.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1837B619AF352B0022A366 /* floor_tile.png */; };
+		CB1837B919AF7A070022A366 /* sword_switch.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1837B819AF7A070022A366 /* sword_switch.png */; };
+		CB1837BB19AF8CF10022A366 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1837BA19AF8CF10022A366 /* arrow.png */; };
 		CB5582A719A0EE87008A45C1 /* menu_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5582A519A0EE87008A45C1 /* menu_placeholder.png */; };
 		CB5582A819A0EE87008A45C1 /* start_button_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5582A619A0EE87008A45C1 /* start_button_placeholder.png */; };
 		CB5582AB19A2AF61008A45C1 /* SpriteFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5582AA19A2AF61008A45C1 /* SpriteFactory.m */; };
@@ -265,6 +268,9 @@
 		CB131373199D86F900556DD4 /* mount_move_62.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mount_move_62.png; sourceTree = "<group>"; };
 		CB131374199D86F900556DD4 /* mount_move_63.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mount_move_63.png; sourceTree = "<group>"; };
 		CB131375199D86F900556DD4 /* mount_move_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mount_move_64.png; sourceTree = "<group>"; };
+		CB1837B619AF352B0022A366 /* floor_tile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = floor_tile.png; sourceTree = "<group>"; };
+		CB1837B819AF7A070022A366 /* sword_switch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_switch.png; sourceTree = "<group>"; };
+		CB1837BA19AF8CF10022A366 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		CB5582A519A0EE87008A45C1 /* menu_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_placeholder.png; sourceTree = "<group>"; };
 		CB5582A619A0EE87008A45C1 /* start_button_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start_button_placeholder.png; sourceTree = "<group>"; };
 		CB5582A919A2AF61008A45C1 /* SpriteFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteFactory.h; sourceTree = "<group>"; };
@@ -607,9 +613,12 @@
 		CBCEC35E19715EDB00960425 /* sprites */ = {
 			isa = PBXGroup;
 			children = (
+				CB1837BA19AF8CF10022A366 /* arrow.png */,
+				CB1837B819AF7A070022A366 /* sword_switch.png */,
 				CBDDB4FE19AA3F000007F6B7 /* baloon_placeholder.png */,
 				CBD2328F19A9F79700C18545 /* tower_down_placeholder.png */,
 				CBD2329019A9F79700C18545 /* tower_up_placeholder.png */,
+				CB1837B619AF352B0022A366 /* floor_tile.png */,
 				CBD2328719A8F2DD00C18545 /* bomb_placeholder.png */,
 				CBD2328219A8DC6900C18545 /* hightower_placeholder.png */,
 				CBFCBA7919A602BF003B6733 /* birdie_placeholder.png */,
@@ -786,9 +795,11 @@
 				CBD1EC26199BD99500BB3F80 /* floor_move_50.png in Resources */,
 				CB1313A4199D86F900556DD4 /* mount_move_47.png in Resources */,
 				CBD1EC00199BD99500BB3F80 /* floor_move_12.png in Resources */,
+				CB1837B919AF7A070022A366 /* sword_switch.png in Resources */,
 				CB131382199D86F900556DD4 /* mount_move_13.png in Resources */,
 				CBD1EC38199CE4D700BB3F80 /* cloud_prototype.png in Resources */,
 				FAEE84DC1977C74000A9F183 /* hero_jump_2.png in Resources */,
+				CB1837B719AF352B0022A366 /* floor_tile.png in Resources */,
 				CB83D63319A5167C00F0B988 /* game_over_menu_placeholder.png in Resources */,
 				CB131378199D86F900556DD4 /* mount_move_03.png in Resources */,
 				CB131377199D86F900556DD4 /* mount_move_02.png in Resources */,
@@ -926,6 +937,7 @@
 				CB1313A9199D86F900556DD4 /* mount_move_52.png in Resources */,
 				CBD1EC29199BD99500BB3F80 /* floor_move_53.png in Resources */,
 				CBD1EC0F199BD99500BB3F80 /* floor_move_27.png in Resources */,
+				CB1837BB19AF8CF10022A366 /* arrow.png in Resources */,
 				CB131384199D86F900556DD4 /* mount_move_15.png in Resources */,
 				CB1313B5199D86F900556DD4 /* mount_move_64.png in Resources */,
 				CB131386199D86F900556DD4 /* mount_move_17.png in Resources */,

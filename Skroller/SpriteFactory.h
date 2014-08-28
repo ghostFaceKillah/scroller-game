@@ -29,4 +29,5 @@
 -(void) makeHero;
 -(void) initStartMenu;
 -(void) initPlatform;
+-(void) initSwordSwitch;
 @end
