@@ -11,6 +11,7 @@
 #import "SpriteFactory.h"
 #import "Monster.h"
 #import "Platform.h"
+#import "Hero.h"
 
 
 @interface GameActionScene ()
@@ -29,6 +30,7 @@
 // structs for holding all the sprites
 @property NSMutableArray *monstersToBeGarbaged;
 @property SKSpriteNode *menu;
+@property NSMutableArray *arrowsToBeGarbaged;
 
 
 // for accounting if game is in dashing state and for monster spawnining
@@ -86,10 +88,10 @@
             self.lastSpawnTimeInterval = 0;
             if (_shouldSpawnMonsters)
             {
-                CGFloat temp = [Constants randomFloat];
+//                CGFloat temp = [Constants randomFloat];
                 
-                if (temp < 0.4)
-                {
+//                if (temp < 0.4)
+//                {
                     [_factory addGoblin];
 //                } else if (temp < 0.5)
 //                {
@@ -106,7 +108,7 @@
 //                } else if (temp < 0.9)
 //                {
 //                    [_factory addBaloon];
-                }
+//                }
             }
             SKSpriteNode *cloudey = [SpriteFactory createCloud];
             cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
@@ -155,6 +157,8 @@
 
     //create structures to hold landscape data
     _platforms = [NSMutableArray arrayWithCapacity:10];
+    _arrows = [NSMutableArray array];
+    _arrowsToBeGarbaged = [NSMutableArray array];
     
     [_factory initLandscape];
     [_factory initStaticFloor];
@@ -210,7 +214,7 @@
         {
             UITouch * touch = [touches anyObject];
             CGPoint location = [touch locationInNode:self];
-            if (location.x >= CGRectGetMidX(self.frame))
+            if (location.x >= CGRectGetMinX(self.frame) + 0.35 * (CGRectGetMidX(self.frame) - CGRectGetMinX(self.frame)))
             {
                 if (_swordActive)
                 {
@@ -364,6 +368,19 @@
     }
 }
 
+-(void) garbageCollectArrows
+{
+    for (SKSpriteNode *arrow in _arrows)
+    {
+        if ((arrow.position.x < 0) || (arrow.position.y < 0) || arrow.position.x > self.frame.size.width + 10)
+        {
+            [_arrowsToBeGarbaged addObject:arrow];
+        }
+    }
+    [_arrows removeObjectsInArray:_arrowsToBeGarbaged];
+    [self removeChildrenInArray:_arrowsToBeGarbaged];
+    [_arrowsToBeGarbaged removeAllObjects];
+}
 
 - (void)didSimulatePhysics
 {
@@ -372,6 +389,7 @@
     [self updateMonstersState];
     [self handleWorldSpeedup];
     [self handlePlatforming];
+    [self garbageCollectArrows];
 }
 
 
@@ -424,6 +442,18 @@
     {
         [_hero resolveGroundTouch];
     }
+    
+    if ((firstBody.categoryBitMask & monsterCategory) != 0 &&
+        (secondBody.categoryBitMask & arrowCategory) != 0)
+    {
+        Monster *m = _monsters[firstBody.node.name];
+        [m resolveHit];
+//      // we will later add that some arrows stay in the target :)
+//        [secondBody.node removeFromParent];
+//        [m.sprite addChild:secondBody.node];
+        secondBody.categoryBitMask = 0;
+    }
+
     
 }
 

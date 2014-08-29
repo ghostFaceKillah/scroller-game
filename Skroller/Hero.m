@@ -91,7 +91,7 @@
 
 
 
--(void) shootBow: (SKSpriteNode *) heroSprite :(CGPoint) targetLocation :(SKScene *) caller
+-(void) shootBow: (SKSpriteNode *) heroSprite :(CGPoint) targetLocation :(GameActionScene *) caller
 {
     SKSpriteNode *arrow = [SKSpriteNode spriteNodeWithImageNamed:@"arrow.png"];
     arrow.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:arrow.size];
@@ -105,6 +105,7 @@
     arrow.physicsBody.collisionBitMask = monsterCategory | floorCategory;
     arrow.physicsBody.usesPreciseCollisionDetection = YES;
     [caller addChild:arrow];
+    [caller.arrows addObject:arrow];
     arrow.position = heroSprite.position;
     
     CGFloat x = targetLocation.x - heroSprite.position.x;
