@@ -29,22 +29,31 @@
 {
     Hero *hero = [[Hero alloc] init];
     hero.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"running_placeholder_one.png"];
+//    hero.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"killer.png"];
   
     // load textures
-    hero.walkTextures = [NSMutableArray arrayWithCapacity:2];
     SKTexture *f1 = [SKTexture textureWithImageNamed:@"running_placeholder_one.png"];
-    [hero.walkTextures addObject:f1];
     SKTexture *f2 = [SKTexture textureWithImageNamed:@"running_placeholder_two.png"];
-    [hero.walkTextures addObject:f2];
-    for (SKTexture *t in hero.walkTextures) {t.filteringMode = SKTextureFilteringNearest;}
-
-    hero.jumpTextures = [NSMutableArray arrayWithCapacity:3];
     SKTexture *f3 = [SKTexture textureWithImageNamed:@"hero_jump_1.png"];
-    [hero.jumpTextures addObject:f3];
     SKTexture *f4 = [SKTexture textureWithImageNamed:@"hero_jump_2.png"];
-    [hero.jumpTextures addObject:f4];
     SKTexture *f5 = [SKTexture textureWithImageNamed:@"hero_jump_3.png"];
+
+//    SKTexture *f1 = [SKTexture textureWithImageNamed:@"killer.png"];
+//    SKTexture *f2 = [SKTexture textureWithImageNamed:@"killer.png"];
+//    SKTexture *f3 = [SKTexture textureWithImageNamed:@"killer.png"];
+//    SKTexture *f4 = [SKTexture textureWithImageNamed:@"killer.png"];
+//    SKTexture *f5 = [SKTexture textureWithImageNamed:@"killer.png"];
+
+    hero.walkTextures = [NSMutableArray arrayWithCapacity:2];
+    hero.jumpTextures = [NSMutableArray arrayWithCapacity:3];
+    
+    [hero.walkTextures addObject:f1];
+    [hero.walkTextures addObject:f2];
+    [hero.jumpTextures addObject:f3];
+    [hero.jumpTextures addObject:f4];
     [hero.jumpTextures addObject:f5];
+
+    for (SKTexture *t in hero.walkTextures) {t.filteringMode = SKTextureFilteringNearest;}
     for (SKTexture *t in hero.jumpTextures) {t.filteringMode = SKTextureFilteringNearest;}
     
     // create hero node
