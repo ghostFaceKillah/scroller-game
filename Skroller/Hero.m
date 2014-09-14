@@ -28,12 +28,14 @@
 +(Hero *)createHero
 {
     Hero *hero = [[Hero alloc] init];
-    hero.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"running_placeholder_one.png"];
+    hero.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"girl_one_run_frame1.png"];
 //    hero.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"killer.png"];
   
     // load textures
-    SKTexture *f1 = [SKTexture textureWithImageNamed:@"running_placeholder_one.png"];
-    SKTexture *f2 = [SKTexture textureWithImageNamed:@"running_placeholder_two.png"];
+    SKTexture *running_1 = [SKTexture textureWithImageNamed:@"girl_one_run_frame1.png"];
+    SKTexture *running_2 = [SKTexture textureWithImageNamed:@"girl_one_run_frame2.png"];
+    SKTexture *running_3 = [SKTexture textureWithImageNamed:@"girl_one_run_frame3.png"];
+    SKTexture *running_4 = [SKTexture textureWithImageNamed:@"girl_one_run_frame4.png"];
     SKTexture *f3 = [SKTexture textureWithImageNamed:@"hero_jump_1.png"];
     SKTexture *f4 = [SKTexture textureWithImageNamed:@"hero_jump_2.png"];
     SKTexture *f5 = [SKTexture textureWithImageNamed:@"hero_jump_3.png"];
@@ -44,11 +46,13 @@
 //    SKTexture *f4 = [SKTexture textureWithImageNamed:@"killer.png"];
 //    SKTexture *f5 = [SKTexture textureWithImageNamed:@"killer.png"];
 
-    hero.walkTextures = [NSMutableArray arrayWithCapacity:2];
+    hero.walkTextures = [NSMutableArray arrayWithCapacity:4];
     hero.jumpTextures = [NSMutableArray arrayWithCapacity:3];
     
-    [hero.walkTextures addObject:f1];
-    [hero.walkTextures addObject:f2];
+    [hero.walkTextures addObject:running_1];
+    [hero.walkTextures addObject:running_2];
+    [hero.walkTextures addObject:running_3];
+    [hero.walkTextures addObject:running_4];
     [hero.jumpTextures addObject:f3];
     [hero.jumpTextures addObject:f4];
     [hero.jumpTextures addObject:f5];
