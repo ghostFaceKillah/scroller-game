@@ -35,6 +35,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 }
 
 
+
 -(void) addBomb
 {
     Bomb *monster = [Bomb spawn];
@@ -205,17 +206,21 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 
 -(void) initStaticFloor
 {
-    Platform *floor = [Platform getLongPlatform];
+//    Platform *floor = [Platform getLongPlatform];
+    
+    Platform *floor = [Platform spawn];
     floor.heightAboveAbyss = 17;
     
     int i = 0;
     
+    SKSpriteNode *last = floor.parts[0];
     for (SKSpriteNode *current in floor.parts)
     {
         
         current.position = CGPointMake(CGRectGetMinX(_receiver.frame) +
                                        current.size.width/2 +
-                                       i * current.size.width, floor.heightAboveAbyss);
+                                       last.size.width +
+                                       (i-1) * current.size.width, floor.heightAboveAbyss);
         [_receiver addChild:current];
         i++;
     }
@@ -236,12 +241,14 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     }
     
     SKSpriteNode *current;
+    SKSpriteNode *last = floor.parts[0];
     for (int i = 0; i < floor.length; i++)
     {
         current = floor.parts[i];
         current.position = CGPointMake(CGRectGetMaxX(_receiver.frame) +
                                        current.size.width/2 +
-                                       i * current.size.width,
+                                       last.size.width +
+                                       (i-1) * current.size.width,
                                        floor.heightAboveAbyss);
         [current runAction:floor.moveLeft];
         [_receiver addChild:current];

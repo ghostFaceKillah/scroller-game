@@ -83,6 +83,10 @@
 		CB63D4DA19C588290012FD66 /* girl_one_run_frame2.png in Resources */ = {isa = PBXBuildFile; fileRef = CB63D4D619C588290012FD66 /* girl_one_run_frame2.png */; };
 		CB63D4DB19C588290012FD66 /* girl_one_run_frame3.png in Resources */ = {isa = PBXBuildFile; fileRef = CB63D4D719C588290012FD66 /* girl_one_run_frame3.png */; };
 		CB63D4DC19C588290012FD66 /* girl_one_run_frame4.png in Resources */ = {isa = PBXBuildFile; fileRef = CB63D4D819C588290012FD66 /* girl_one_run_frame4.png */; };
+		CB63D4E019C58F5B0012FD66 /* school_platform_beg.png in Resources */ = {isa = PBXBuildFile; fileRef = CB63D4DD19C58F5B0012FD66 /* school_platform_beg.png */; };
+		CB63D4E119C58F5B0012FD66 /* school_platform_end.png in Resources */ = {isa = PBXBuildFile; fileRef = CB63D4DE19C58F5B0012FD66 /* school_platform_end.png */; };
+		CB63D4E219C58F5B0012FD66 /* school_platform_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = CB63D4DF19C58F5B0012FD66 /* school_platform_mid.png */; };
+		CB63D4E419C59B610012FD66 /* sky.png in Resources */ = {isa = PBXBuildFile; fileRef = CB63D4E319C59B610012FD66 /* sky.png */; };
 		CB68877B19B12D7F00E1B1D0 /* killer.png in Resources */ = {isa = PBXBuildFile; fileRef = CB68877A19B12D7F00E1B1D0 /* killer.png */; };
 		CB83D63319A5167C00F0B988 /* game_over_menu_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = CB83D63119A5167C00F0B988 /* game_over_menu_placeholder.png */; };
 		CB83D63419A5167C00F0B988 /* try_again_button_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = CB83D63219A5167C00F0B988 /* try_again_button_placeholder.png */; };
@@ -286,6 +290,10 @@
 		CB63D4D619C588290012FD66 /* girl_one_run_frame2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl_one_run_frame2.png; sourceTree = "<group>"; };
 		CB63D4D719C588290012FD66 /* girl_one_run_frame3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl_one_run_frame3.png; sourceTree = "<group>"; };
 		CB63D4D819C588290012FD66 /* girl_one_run_frame4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl_one_run_frame4.png; sourceTree = "<group>"; };
+		CB63D4DD19C58F5B0012FD66 /* school_platform_beg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = school_platform_beg.png; sourceTree = "<group>"; };
+		CB63D4DE19C58F5B0012FD66 /* school_platform_end.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = school_platform_end.png; sourceTree = "<group>"; };
+		CB63D4DF19C58F5B0012FD66 /* school_platform_mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = school_platform_mid.png; sourceTree = "<group>"; };
+		CB63D4E319C59B610012FD66 /* sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky.png; sourceTree = "<group>"; };
 		CB68877A19B12D7F00E1B1D0 /* killer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = killer.png; sourceTree = "<group>"; };
 		CB83D63119A5167C00F0B988 /* game_over_menu_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_over_menu_placeholder.png; sourceTree = "<group>"; };
 		CB83D63219A5167C00F0B988 /* try_again_button_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = try_again_button_placeholder.png; sourceTree = "<group>"; };
@@ -623,6 +631,10 @@
 		CBCEC35E19715EDB00960425 /* sprites */ = {
 			isa = PBXGroup;
 			children = (
+				CB63D4E319C59B610012FD66 /* sky.png */,
+				CB63D4DD19C58F5B0012FD66 /* school_platform_beg.png */,
+				CB63D4DE19C58F5B0012FD66 /* school_platform_end.png */,
+				CB63D4DF19C58F5B0012FD66 /* school_platform_mid.png */,
 				CB63D4D519C588290012FD66 /* girl_one_run_frame1.png */,
 				CB63D4D619C588290012FD66 /* girl_one_run_frame2.png */,
 				CB63D4D719C588290012FD66 /* girl_one_run_frame3.png */,
@@ -883,10 +895,12 @@
 				CBD1EBFF199BD99500BB3F80 /* floor_move_11.png in Resources */,
 				CBD1EC15199BD99500BB3F80 /* floor_move_33.png in Resources */,
 				CB131392199D86F900556DD4 /* mount_move_29.png in Resources */,
+				CB63D4E219C58F5B0012FD66 /* school_platform_mid.png in Resources */,
 				CBD1EC16199BD99500BB3F80 /* floor_move_34.png in Resources */,
 				CBFCBA7A19A602BF003B6733 /* birdie_placeholder.png in Resources */,
 				CB1313B0199D86F900556DD4 /* mount_move_59.png in Resources */,
 				CBD1EBFA199BD99500BB3F80 /* floor_move_06.png in Resources */,
+				CB63D4E419C59B610012FD66 /* sky.png in Resources */,
 				CBD1EC25199BD99500BB3F80 /* floor_move_49.png in Resources */,
 				CB1313A3199D86F900556DD4 /* mount_move_46.png in Resources */,
 				CB1313A0199D86F900556DD4 /* mount_move_43.png in Resources */,
@@ -923,9 +937,11 @@
 				CB131397199D86F900556DD4 /* mount_move_34.png in Resources */,
 				CBD1EC2E199BD99500BB3F80 /* floor_move_58.png in Resources */,
 				FAEE84DD1977C74000A9F183 /* hero_jump_3.png in Resources */,
+				CB63D4E119C58F5B0012FD66 /* school_platform_end.png in Resources */,
 				CBD1EC18199BD99500BB3F80 /* floor_move_36.png in Resources */,
 				CBCEC36119715EDB00960425 /* running_placeholder_one.png in Resources */,
 				CBD1EC2A199BD99500BB3F80 /* floor_move_54.png in Resources */,
+				CB63D4E019C58F5B0012FD66 /* school_platform_beg.png in Resources */,
 				CB13139C199D86F900556DD4 /* mount_move_39.png in Resources */,
 				CB13138C199D86F900556DD4 /* mount_move_23.png in Resources */,
 				CB131388199D86F900556DD4 /* mount_move_19.png in Resources */,

@@ -91,7 +91,7 @@
                 
 //                if (temp < 0.4)
 //                {
-//                    [_factory addGoblin];
+                    [_factory addGoblin];
 //                } else if (temp < 0.5)
 //                {
 //                    [_factory addBirdie];
@@ -148,6 +148,13 @@
     _heroIsDashing = FALSE;
     _mode = @"startMenu";
     _factory = [SpriteFactory createSpriteFactory:self];
+    
+    // create bg image
+    SKSpriteNode *background =[SKSpriteNode spriteNodeWithImageNamed:@"sky"];
+    background.texture.filteringMode = SKTextureFilteringNearest;
+    background.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    background.zPosition = - 10000;
+    [self addChild:background];
     
     // create strcutures to hold monster data
     _monsters = [NSMutableDictionary dictionaryWithCapacity:10];

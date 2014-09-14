@@ -13,9 +13,16 @@
 
 const CGFloat GAP_SCALE = 100;
 
-+(SKSpriteNode *) getSingleTile
++(SKSpriteNode *) getSingleTile : (BOOL) isFirst : (BOOL) isLast
 {
-    SKSpriteNode *tile = [SKSpriteNode spriteNodeWithImageNamed:@"floor_tile.png"];
+    SKSpriteNode *tile;
+    if (isFirst) {
+        tile = [SKSpriteNode spriteNodeWithImageNamed:@"school_platform_beg.png"];
+    } else if (isLast) {
+        tile = [SKSpriteNode spriteNodeWithImageNamed:@"school_platform_end.png"];
+    } else {
+        tile = [SKSpriteNode spriteNodeWithImageNamed:@"school_platform_mid.png"];
+    }
     tile.texture.filteringMode = SKTextureFilteringNearest;
 
     tile.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:tile.size];
@@ -38,13 +45,13 @@ const CGFloat GAP_SCALE = 100;
     platform.length = arc4random_uniform(10) + 5;
     platform.parts = [NSMutableArray array];
 
-    SKSpriteNode *current = [Platform getSingleTile];
+    SKSpriteNode *current = [Platform getSingleTile: FALSE: FALSE];
     platform.moveLeft = [SKAction moveByX:(-platform.length*current.size.width - 1000) y:0
                                   duration:((platform.length*current.size.width + 1000)/(300))];
     
     for (int i = 0; i < platform.length; i++)
     {
-        current = [Platform getSingleTile];
+        current = [Platform getSingleTile: (i==0): (i==platform.length - 1)];
         [platform.parts addObject:current];
     }
     
@@ -63,13 +70,13 @@ const CGFloat GAP_SCALE = 100;
     platform.length = 200;
     platform.parts = [NSMutableArray array];
     
-    SKSpriteNode *current = [Platform getSingleTile];
+    SKSpriteNode *current = [Platform getSingleTile: FALSE: FALSE];
     platform.moveLeft = [SKAction moveByX:(-platform.length*current.size.width - 1000) y:0
                                  duration:((platform.length*current.size.width + 1000)/(300))];
     
     for (int i = 0; i < platform.length; i++)
     {
-        current = [Platform getSingleTile];
+        current = [Platform getSingleTile: (i==0): (i==platform.length - 1)];
         [platform.parts addObject:current];
     }
     
