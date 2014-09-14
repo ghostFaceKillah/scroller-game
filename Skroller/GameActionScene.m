@@ -37,8 +37,9 @@
 @property (nonatomic) NSTimeInterval lastUpdateTimeInterval;
 @property (nonatomic) NSTimeInterval timeSinceLastDash;
 
-// for platforming accounting
+// for platforming and background accounting
 @property (nonatomic) NSTimeInterval lastPlatformSpawnInterval;
+@property (nonatomic) NSTimeInterval lastBackgroundSpawnInterval;
 
 // speedup due to dashing etc.
 @property CGFloat worldSpeedup;
@@ -73,6 +74,7 @@
     // check once in a while if we would like to spawn a monster
     self.lastSpawnTimeInterval += timeSinceLast;
     self.lastPlatformSpawnInterval += timeSinceLast;
+    self.lastBackgroundSpawnInterval += timeSinceLast;
 //    if (self.lastPlatformSpawnInterval > 1.1)
 //    {   if (self.shouldSpawnMonsters)
 //        {
@@ -80,6 +82,7 @@
 //            self.lastPlatformSpawnInterval = 0;
 //        }
 //    }
+    
     if (((int)(60*self.lastSpawnTimeInterval) % 10 == 0))
     {
         if ([self spawnTest:self.lastSpawnTimeInterval])
@@ -127,6 +130,7 @@
     CFTimeInterval timeSinceLast = currentTime - self.lastUpdateTimeInterval;
     self.lastUpdateTimeInterval = currentTime;
     _timeSinceLastDash += timeSinceLast;
+    
     if (timeSinceLast > 1)
     {
         // more than a second since last update
@@ -148,6 +152,7 @@
     _heroIsDashing = FALSE;
     _mode = @"startMenu";
     _factory = [SpriteFactory createSpriteFactory:self];
+    self.lastBackgroundSpawnInterval = 10;
     
     // create bg image
     SKSpriteNode *background =[SKSpriteNode spriteNodeWithImageNamed:@"sky"];
@@ -166,7 +171,7 @@
     _arrows = [NSMutableArray array];
     _arrowsToBeGarbaged = [NSMutableArray array];
     
-    [_factory initLandscape];
+    [_factory createLandscape :100];
     [_factory initStaticFloor];
     [_factory makeCloud];
     [_factory makeHero];
@@ -374,6 +379,16 @@
     }
 }
 
+-(void) handleBackground
+{
+ // see if we have to spawn another copy of the background image
+    if (self.lastBackgroundSpawnInterval > 3.75)
+    {
+        [_factory createLandscape : 500];
+        self.lastBackgroundSpawnInterval = 0;
+    }
+}
+
 -(void) garbageCollectArrows
 {
     for (SKSpriteNode *arrow in _arrows)
@@ -396,6 +411,7 @@
     [self handleWorldSpeedup];
     [self handlePlatforming];
     [self garbageCollectArrows];
+    [self handleBackground];
 }
 
 

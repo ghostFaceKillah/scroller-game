@@ -112,36 +112,18 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     [_receiver.monsters setObject:monster forKey:monster.sprite.name];
 }
 
-+(SKSpriteNode *)createMountains
++(SKSpriteNode *)createFarBackground
 {
-    SKSpriteNode *fuji = [SKSpriteNode spriteNodeWithImageNamed:@"mountains_prototype.png"];
-    fuji.name = @"mountains";
+    SKSpriteNode *buildings = [SKSpriteNode spriteNodeWithImageNamed:@"background_placeholder.png"];
+    buildings.name = @"buildings";
+    buildings.zPosition = -100;
+    SKAction* moveLeft = [SKAction moveByX:(-10) y:0
+                                 duration:(0.1)];
+    SKAction* move = [SKAction repeatActionForever:moveLeft];
+    [buildings runAction:move];
+
     
-    NSMutableArray *mountainTextures = [NSMutableArray arrayWithCapacity:64];
-    
-    NSString *filename;
-    for (int i = 0; i < 64; ++i)
-    {
-        if (i <9)
-        {
-            filename = [NSString stringWithFormat:@"%@%d%@", @"mount_move_0", i+1, @".png"];
-        } else
-        {
-            filename = [NSString stringWithFormat:@"%@%d%@", @"mount_move_", i+1, @".png"];
-        }
-        SKTexture *f = [SKTexture textureWithImageNamed:filename];
-        f.filteringMode = SKTextureFilteringNearest;
-        [mountainTextures addObject:f];
-    }
-    
-    fuji.zPosition = -10;
-    
-    // mountain animation
-    SKAction *animation = [SKAction animateWithTextures:mountainTextures timePerFrame: 0.1];
-    SKAction *animate = [SKAction repeatActionForever:animation];
-    [fuji runAction:animate];
-    
-    return fuji;
+    return buildings;
 }
 
 
@@ -257,11 +239,11 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 }
 
 
--(void) initLandscape
+-(void) createLandscape : (int) shift
 {
-    SKSpriteNode *mountains = [SpriteFactory createMountains];
-    mountains.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMinY(_receiver.frame)+20);
-    [_receiver addChild:mountains];
+    SKSpriteNode *buildings = [SpriteFactory createFarBackground];
+    buildings.position = CGPointMake(CGRectGetMidX(_receiver.frame)+shift, CGRectGetMinY(_receiver.frame)+50);
+    [_receiver addChild:buildings];
 }
 
 

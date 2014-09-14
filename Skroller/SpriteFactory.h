@@ -12,7 +12,7 @@
 
 @interface SpriteFactory : NSObject
 +(SpriteFactory *) createSpriteFactory: (GameActionScene *) receiver;
-+(SKSpriteNode *) createMountains;
++(SKSpriteNode *) createFarBackground;
 +(SKSpriteNode *) createStartMenu;
 +(SKSpriteNode *) createGameOverMenu;
 +(SKSpriteNode *) createCloud;
@@ -23,7 +23,7 @@
 -(void) addHightower;
 -(void) addTwoPartTower;
 -(void) initGameOverMenu;
--(void) initLandscape;
+-(void) createLandscape : (int) shift;
 -(void) initStaticFloor;
 -(void) makeCloud;
 -(void) makeHero;
