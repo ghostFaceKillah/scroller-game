@@ -154,13 +154,6 @@
     _factory = [SpriteFactory createSpriteFactory:self];
     self.lastBackgroundSpawnInterval = 10;
     
-    // create bg image
-    SKSpriteNode *background =[SKSpriteNode spriteNodeWithImageNamed:@"sky"];
-    background.texture.filteringMode = SKTextureFilteringNearest;
-    background.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
-    background.zPosition = - 10000;
-    [self addChild:background];
-    
     // create strcutures to hold monster data
     _monsters = [NSMutableDictionary dictionaryWithCapacity:10];
     _monstersToBeGarbaged = [NSMutableArray arrayWithCapacity:10];
