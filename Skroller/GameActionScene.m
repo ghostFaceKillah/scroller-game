@@ -13,7 +13,6 @@
 #import "Platform.h"
 #import "Hero.h"
 
-
 @interface GameActionScene ()
 // factory of sprites for our game
 @property SpriteFactory *factory;
@@ -95,7 +94,7 @@
                 
 //                if (temp < 0.4)
 //                {
-                    [_factory addGoblin];
+//                    [_factory addGoblin];
 //                } else if (temp < 0.5)
 //                {
 //                    [_factory addBirdie];
