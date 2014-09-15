@@ -16,14 +16,21 @@ const CGFloat GAP_SCALE = 100;
 +(SKSpriteNode *) getSingleTile : (BOOL) isFirst : (BOOL) isLast
 {
     SKSpriteNode *tile;
+    SKSpriteNode *background;
     if (isFirst) {
         tile = [SKSpriteNode spriteNodeWithImageNamed:@"school_platform_beg.png"];
+        background = [SKSpriteNode spriteNodeWithImageNamed:@"school_platform_beg_back.png"];
     } else if (isLast) {
         tile = [SKSpriteNode spriteNodeWithImageNamed:@"school_platform_end.png"];
+        background = [SKSpriteNode spriteNodeWithImageNamed:@"school_platform_end_back.png"];
     } else {
         tile = [SKSpriteNode spriteNodeWithImageNamed:@"school_platform_mid.png"];
+        background = [SKSpriteNode spriteNodeWithImageNamed:@"school_platform_mid_back.png"];
     }
+    [tile addChild:background];
+    background.position = CGPointMake(0, tile.size.height/2 + background.size.height/2);
     tile.texture.filteringMode = SKTextureFilteringNearest;
+    background.texture.filteringMode = SKTextureFilteringNearest;
 
     tile.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:tile.size];
     tile.physicsBody.dynamic = NO;

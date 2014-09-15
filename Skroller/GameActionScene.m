@@ -146,7 +146,9 @@
     // General scene setup
     self.physicsWorld.gravity = CGVectorMake(0, -12);
     self.physicsWorld.contactDelegate = self;
-    self.backgroundColor = [UIColor colorWithRed:81/255.0f green:228/255.0f blue:255/255.0f alpha:1.0f];
+//    self.backgroundColor = [UIColor colorWithRed:222/255.0f green:236/255.0f blue:255/255.0f alpha:1.0f];
+    self.backgroundColor = [UIColor colorWithRed:193/255.0f green:218/255.0f blue:255/255.0f alpha:1.0f];
+//    self.backgroundColor = [UIColor colorWithRed:171/255.0f green:194/255.0f blue:247/255.0f alpha:1.0f];
     self.scaleMode = SKSceneScaleModeAspectFit;
      _worldSpeedup = 0;
     _heroIsDashing = FALSE;

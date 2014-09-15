@@ -106,6 +106,9 @@
 		CB8CC4891971490B00DF0104 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB8CC4871971490B00DF0104 /* InfoPlist.strings */; };
 		CB8CC48B1971490B00DF0104 /* SkrollerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC48A1971490B00DF0104 /* SkrollerTests.m */; };
 		CB8DC27E19ACADBF001FA1A9 /* Platform.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8DC27D19ACADBF001FA1A9 /* Platform.m */; };
+		CBAC7B7319C6E31000DAD9DF /* school_platform_beg_back.png in Resources */ = {isa = PBXBuildFile; fileRef = CBAC7B7219C6E31000DAD9DF /* school_platform_beg_back.png */; };
+		CBAC7B7619C6E55800DAD9DF /* school_platform_end_back.png in Resources */ = {isa = PBXBuildFile; fileRef = CBAC7B7419C6E55800DAD9DF /* school_platform_end_back.png */; };
+		CBAC7B7719C6E55800DAD9DF /* school_platform_mid_back.png in Resources */ = {isa = PBXBuildFile; fileRef = CBAC7B7519C6E55800DAD9DF /* school_platform_mid_back.png */; };
 		CBB01F201992C5080020BC9D /* monster.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB01F1F1992C5080020BC9D /* monster.png */; };
 		CBCEC3561971548C00960425 /* GameActionScene.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCEC3551971548C00960425 /* GameActionScene.m */; };
 		CBCEC3581971570A00960425 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBCEC3571971570A00960425 /* SpriteKit.framework */; };
@@ -322,6 +325,9 @@
 		CB8CC48A1971490B00DF0104 /* SkrollerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkrollerTests.m; sourceTree = "<group>"; };
 		CB8DC27C19ACADBF001FA1A9 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		CB8DC27D19ACADBF001FA1A9 /* Platform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Platform.m; sourceTree = "<group>"; };
+		CBAC7B7219C6E31000DAD9DF /* school_platform_beg_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = school_platform_beg_back.png; sourceTree = "<group>"; };
+		CBAC7B7419C6E55800DAD9DF /* school_platform_end_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = school_platform_end_back.png; sourceTree = "<group>"; };
+		CBAC7B7519C6E55800DAD9DF /* school_platform_mid_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = school_platform_mid_back.png; sourceTree = "<group>"; };
 		CBB01F1F1992C5080020BC9D /* monster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monster.png; sourceTree = "<group>"; };
 		CBCEC3541971548C00960425 /* GameActionScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameActionScene.h; sourceTree = "<group>"; };
 		CBCEC3551971548C00960425 /* GameActionScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameActionScene.m; sourceTree = "<group>"; };
@@ -639,7 +645,10 @@
 		CBCEC35E19715EDB00960425 /* sprites */ = {
 			isa = PBXGroup;
 			children = (
+				CBAC7B7419C6E55800DAD9DF /* school_platform_end_back.png */,
+				CBAC7B7519C6E55800DAD9DF /* school_platform_mid_back.png */,
 				CB63D4E319C59B610012FD66 /* sky.png */,
+				CBAC7B7219C6E31000DAD9DF /* school_platform_beg_back.png */,
 				CB63D4DD19C58F5B0012FD66 /* school_platform_beg.png */,
 				CB63D4DE19C58F5B0012FD66 /* school_platform_end.png */,
 				CB63D4DF19C58F5B0012FD66 /* school_platform_mid.png */,
@@ -901,6 +910,7 @@
 				CB1313B2199D86F900556DD4 /* mount_move_61.png in Resources */,
 				CB63D4D919C588290012FD66 /* girl_one_run_frame1.png in Resources */,
 				CB1313AD199D86F900556DD4 /* mount_move_56.png in Resources */,
+				CBAC7B7319C6E31000DAD9DF /* school_platform_beg_back.png in Resources */,
 				CBD1EC33199BD99500BB3F80 /* floor_move_63.png in Resources */,
 				CBD1EC2C199BD99500BB3F80 /* floor_move_56.png in Resources */,
 				CBD1EBFF199BD99500BB3F80 /* floor_move_11.png in Resources */,
@@ -979,6 +989,7 @@
 				CB83D63419A5167C00F0B988 /* try_again_button_placeholder.png in Resources */,
 				CBD1EC10199BD99500BB3F80 /* floor_move_28.png in Resources */,
 				CB13138B199D86F900556DD4 /* mount_move_22.png in Resources */,
+				CBAC7B7719C6E55800DAD9DF /* school_platform_mid_back.png in Resources */,
 				CB131385199D86F900556DD4 /* mount_move_16.png in Resources */,
 				CB131389199D86F900556DD4 /* mount_move_20.png in Resources */,
 				CB13137E199D86F900556DD4 /* mount_move_09.png in Resources */,
@@ -992,6 +1003,7 @@
 				CBD1EBF8199BD99500BB3F80 /* floor_move_04.png in Resources */,
 				CBD1EC0D199BD99500BB3F80 /* floor_move_25.png in Resources */,
 				CBD1EBFB199BD99500BB3F80 /* floor_move_07.png in Resources */,
+				CBAC7B7619C6E55800DAD9DF /* school_platform_end_back.png in Resources */,
 				CBD1EC24199BD99500BB3F80 /* floor_move_48.png in Resources */,
 				CBB01F201992C5080020BC9D /* monster.png in Resources */,
 				CBCEC36A1971A86D00960425 /* floor_two.png in Resources */,
