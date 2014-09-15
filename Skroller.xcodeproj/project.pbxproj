@@ -198,6 +198,8 @@
 		CBFCBA7D19A61648003B6733 /* Goblin.m in Sources */ = {isa = PBXBuildFile; fileRef = CBFCBA7C19A61648003B6733 /* Goblin.m */; };
 		CBFCBA8019A61951003B6733 /* Birdie.m in Sources */ = {isa = PBXBuildFile; fileRef = CBFCBA7F19A61951003B6733 /* Birdie.m */; };
 		FACB222419C5A3AF00AF979C /* background_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222319C5A3AF00AF979C /* background_placeholder.png */; };
+		FACB222B19C6DFC100AF979C /* LaunchImage640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */; };
+		FACB222C19C6DFC100AF979C /* LaunchImage640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222A19C6DFC100AF979C /* LaunchImage640x960.png */; };
 		FAEE84D71975CE6D00A9F183 /* Hero.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEE84D61975CE6D00A9F183 /* Hero.m */; };
 		FAEE84DB1977C74000A9F183 /* hero_jump_1.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEE84D81977C74000A9F183 /* hero_jump_1.png */; };
 		FAEE84DC1977C74000A9F183 /* hero_jump_2.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEE84D91977C74000A9F183 /* hero_jump_2.png */; };
@@ -423,6 +425,8 @@
 		CBFCBA7E19A61951003B6733 /* Birdie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Birdie.h; sourceTree = "<group>"; };
 		CBFCBA7F19A61951003B6733 /* Birdie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Birdie.m; sourceTree = "<group>"; };
 		FACB222319C5A3AF00AF979C /* background_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background_placeholder.png; sourceTree = "<group>"; };
+		FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage640x1136.png; sourceTree = "<group>"; };
+		FACB222A19C6DFC100AF979C /* LaunchImage640x960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage640x960.png; sourceTree = "<group>"; };
 		FAEE84D51975CE6D00A9F183 /* Hero.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hero.h; sourceTree = "<group>"; };
 		FAEE84D61975CE6D00A9F183 /* Hero.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hero.m; sourceTree = "<group>"; };
 		FAEE84D81977C74000A9F183 /* hero_jump_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hero_jump_1.png; sourceTree = "<group>"; };
@@ -601,6 +605,8 @@
 		CB8CC4631971490B00DF0104 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */,
+				FACB222A19C6DFC100AF979C /* LaunchImage640x960.png */,
 				CBCEC35D19715EDA00960425 /* assets */,
 				CB8CC4641971490B00DF0104 /* Skroller-Info.plist */,
 				CB8CC4651971490B00DF0104 /* InfoPlist.strings */,
@@ -860,6 +866,7 @@
 				CBD2329219A9F79700C18545 /* tower_up_placeholder.png in Resources */,
 				CB1313B3199D86F900556DD4 /* mount_move_62.png in Resources */,
 				CB68877B19B12D7F00E1B1D0 /* killer.png in Resources */,
+				FACB222B19C6DFC100AF979C /* LaunchImage640x1136.png in Resources */,
 				CB131396199D86F900556DD4 /* mount_move_33.png in Resources */,
 				CBD1EC20199BD99500BB3F80 /* floor_move_44.png in Resources */,
 				CB63D4DC19C588290012FD66 /* girl_one_run_frame4.png in Resources */,
@@ -968,6 +975,7 @@
 				CB13139E199D86F900556DD4 /* mount_move_41.png in Resources */,
 				CBD1EC07199BD99500BB3F80 /* floor_move_19.png in Resources */,
 				CB131379199D86F900556DD4 /* mount_move_04.png in Resources */,
+				FACB222C19C6DFC100AF979C /* LaunchImage640x960.png in Resources */,
 				CB131391199D86F900556DD4 /* mount_move_28.png in Resources */,
 				CBD1EBF6199BD99500BB3F80 /* floor_move_02.png in Resources */,
 				CBD2328819A8F2DD00C18545 /* bomb_placeholder.png in Resources */,
@@ -1168,7 +1176,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Skroller/Skroller-Prefix.pch";
 				INFOPLIST_FILE = "Skroller/Skroller-Info.plist";
@@ -1181,7 +1188,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Skroller/Skroller-Prefix.pch";
 				INFOPLIST_FILE = "Skroller/Skroller-Info.plist";
