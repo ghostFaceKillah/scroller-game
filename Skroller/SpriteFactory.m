@@ -195,14 +195,18 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     
     int i = 0;
     
-    SKSpriteNode *last = floor.parts[0];
+//    SKSpriteNode *last = floor.parts[0];
+    
+    SKSpriteNode *middle = floor.parts[1];
+    SKSpriteNode *first = floor.parts[0];
     for (SKSpriteNode *current in floor.parts)
     {
         
         current.position = CGPointMake(CGRectGetMinX(_receiver.frame) +
                                        current.size.width/2 +
-                                       last.size.width +
-                                       (i-1) * current.size.width, floor.heightAboveAbyss);
+                                       first.size.width +
+                                       (i-1) * middle.size.width,
+                                       floor.heightAboveAbyss);
         [_receiver addChild:current];
         i++;
     }
@@ -223,14 +227,15 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     }
     
     SKSpriteNode *current;
-    SKSpriteNode *last = floor.parts[0];
+    SKSpriteNode *middle = floor.parts[1];
+    SKSpriteNode *first = floor.parts[0];
     for (int i = 0; i < floor.length; i++)
     {
         current = floor.parts[i];
         current.position = CGPointMake(CGRectGetMaxX(_receiver.frame) +
                                        current.size.width/2 +
-                                       last.size.width +
-                                       (i-1) * current.size.width,
+                                       first.size.width +
+                                       (i-1) * middle.size.width,
                                        floor.heightAboveAbyss);
         [current runAction:floor.moveLeft];
         [_receiver addChild:current];
