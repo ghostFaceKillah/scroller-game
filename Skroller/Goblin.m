@@ -19,7 +19,7 @@
 {
     // alloc and init monster goblin
     Goblin *monster = [[Goblin alloc] init];
-    monster.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"monster.png"];
+    monster.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"potworek.png"];
     monster.sprite.texture.filteringMode = SKTextureFilteringNearest;
     monster.isAttacking = TRUE;
     
@@ -32,6 +32,11 @@
     monster.sprite.physicsBody.contactTestBitMask = heroCategory | floorCategory;
     monster.sprite.physicsBody.collisionBitMask = heroCategory| floorCategory;
     
+    // setup movement
+    SKAction *moveLeft = [SKAction moveByX:(-1000) y:0
+                        duration:(1000/(300))];
+    [monster.sprite runAction:moveLeft];
+    
     return monster;
 }
 
@@ -43,7 +48,7 @@
         // if monster is still fresh and has not been killed, make it move forward
         // towards our hero
         CGFloat current_y_speed = self.sprite.physicsBody.velocity.dy;
-        self.sprite.physicsBody.velocity = CGVectorMake(MIN(-200, 0.5*worldVelocity), current_y_speed);
+        self.sprite.physicsBody.velocity = CGVectorMake(MIN(-300, 0.5*worldVelocity), current_y_speed);
     }
 }
 
@@ -54,6 +59,7 @@
     self.sprite.physicsBody.categoryBitMask = menuCategory;
     self.sprite.physicsBody.contactTestBitMask = 0;
     self.sprite.physicsBody.collisionBitMask = 0;
+    [self.sprite removeAllActions];
 }
 
 -(BOOL) isNoLongerNeeded {

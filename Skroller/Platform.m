@@ -41,9 +41,38 @@ const CGFloat GAP_SCALE = 100;
     return tile;
 }
 
++(SKSpriteNode *) getCrazyTile: (NSString *) tile_type
+{
+    SKSpriteNode *tile = [SKSpriteNode spriteNodeWithImageNamed:tile_type];
+    tile.texture.filteringMode = SKTextureFilteringNearest;
+    tile.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:tile.size];
+    tile.physicsBody.restitution = 0;
+    tile.physicsBody.dynamic = NO;
+    tile.physicsBody.categoryBitMask = floorCategory;
+    tile.physicsBody.contactTestBitMask = heroCategory | monsterCategory;
+    tile.physicsBody.collisionBitMask = heroCategory | monsterCategory;
+    
+    return tile;
+}
+
 +(Platform *) spawn
 {
     Platform *platform = [[Platform alloc] init];
+    
+    // draw what type of tile it is
+    CGFloat temp = [Constants randomFloat];
+    CGFloat tiles_no = 3;
+    NSString *tile_type;
+    if (temp < 1/tiles_no)
+    {
+        tile_type = @"honey_tile.png";
+    } else if (temp < 2/tiles_no)
+    {
+        tile_type = @"pink_disco_tile.png";
+    } else
+    {
+        tile_type = @"violet_heart_tile.png";
+    }
     
     // setup platform's physics
     
@@ -52,19 +81,26 @@ const CGFloat GAP_SCALE = 100;
     platform.length = arc4random_uniform(10) + 5;
     platform.parts = [NSMutableArray array];
 
-    SKSpriteNode *current = [Platform getSingleTile: FALSE: FALSE];
+    SKSpriteNode *current = [Platform getCrazyTile: tile_type];
     platform.moveLeft = [SKAction moveByX:(-platform.length*current.size.width - 1000) y:0
                                   duration:((platform.length*current.size.width + 1000)/(300))];
     
+//    for (int i = 0; i < platform.length; i++)
+//    {
+//        current = [Platform getSingleTile: (i==0): (i==platform.length - 1)];
+//        [platform.parts addObject:current];
+//    }
+//    
     for (int i = 0; i < platform.length; i++)
     {
-        current = [Platform getSingleTile: (i==0): (i==platform.length - 1)];
+        current = [Platform getCrazyTile: tile_type];
         [platform.parts addObject:current];
     }
     
-    
     return platform;
 }
+
+
 
 +(Platform *) getLongPlatform
 {

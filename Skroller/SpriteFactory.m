@@ -35,7 +35,6 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 }
 
 
-
 -(void) addBomb
 {
     Bomb *monster = [Bomb spawn];
@@ -75,7 +74,8 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     // a wrapper for handling all the monster data structures
     // create monster node
     Goblin *monster = [Goblin spawn];
-    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame)-20, CGRectGetMinY(_receiver.frame)+50);
+    CGFloat y_position = [_receiver getLastTileFloorHeight] + monster.sprite.size.height/2;
+    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame)-20, y_position);
     monster.sprite.name = [Constants generateRandomString:10];
     
     // and add it to the data structures
@@ -126,41 +126,29 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     return buildings;
 }
 
-
-+(SKSpriteNode *) createStartMenu
+-(void) initSky
 {
-    SKSpriteNode *menu = [SKSpriteNode spriteNodeWithImageNamed:@"menu_placeholder.png"];
-    menu.zPosition = 100;
-    SKSpriteNode *startButton = [SKSpriteNode spriteNodeWithImageNamed:@"start_button_placeholder.png"];
-    [menu addChild:startButton];
-    startButton.position = CGPointMake(4, 40);
-    startButton.name = @"start";
-    startButton.zPosition = 110;
-    menu.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:menu.size];
-    menu.physicsBody.dynamic = TRUE;
-    menu.physicsBody.mass = 1;
-    menu.physicsBody.categoryBitMask = menuCategory;
-    menu.physicsBody.contactTestBitMask = 0;
-    menu.physicsBody.collisionBitMask = 0;
-    return menu;
+    SKSpriteNode *sky = [SKSpriteNode spriteNodeWithImageNamed:@"sky.png"];
+    sky.zPosition = -100;
+    sky.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMidY(_receiver.frame));
+    [_receiver addChild:sky];
 }
 
-+(SKSpriteNode *) createGameOverMenu
+
+-(void) initGameOverMenu
 {
     SKSpriteNode *menu = [SKSpriteNode spriteNodeWithImageNamed:@"game_over_menu_placeholder.png"];
     menu.zPosition = 1100;
+    menu.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMaxY(_receiver.frame) + menu.size.height/2);
     SKSpriteNode *tryAgainButton = [SKSpriteNode spriteNodeWithImageNamed:@"try_again_button_placeholder.png"];
     [menu addChild:tryAgainButton];
     tryAgainButton.position = CGPointMake(4, 40);
     tryAgainButton.name = @"tryAgain";
     tryAgainButton.zPosition = 1110;
-    menu.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:menu.size];
-    menu.physicsBody.dynamic = TRUE;
-    menu.physicsBody.mass = 1;
-    menu.physicsBody.categoryBitMask = menuCategory;
-    menu.physicsBody.contactTestBitMask = 0;
-    menu.physicsBody.collisionBitMask = 0;
-    return menu;
+    
+    [_receiver addChild:menu];
+    _receiver.gameOverMenu = menu;
+
 }
 
 -(void) initSwordSwitch
@@ -270,35 +258,17 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 
 -(void) initStartMenu
 {
-    SKSpriteNode *menuHolder = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(200, 10)];
-    menuHolder.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMaxY(_receiver.frame));
-    menuHolder.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:menuHolder.size];
-    menuHolder.physicsBody.dynamic = FALSE;
-    [_receiver addChild:menuHolder];
-    SKSpriteNode *menu = [SpriteFactory createStartMenu];
-    menu.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMidY(_receiver.frame));
+    SKSpriteNode *menu = [SKSpriteNode spriteNodeWithImageNamed:@"menu_placeholder.png"];
+    menu.zPosition = 1100;
+    SKSpriteNode *startButton = [SKSpriteNode spriteNodeWithImageNamed:@"start_button_placeholder.png"];
+    [menu addChild:startButton];
+    startButton.position = CGPointMake(4, 40);
+    startButton.name = @"start";
+    startButton.zPosition = 1100;
     [_receiver addChild:menu];
-    [menu.physicsBody applyImpulse:CGVectorMake(2, 0)];
-    _receiver.menuHolder = menuHolder;
-    SKPhysicsJointLimit *menuLink = [SKPhysicsJointLimit jointWithBodyA:menuHolder.physicsBody bodyB:menu.physicsBody anchorA:menuHolder.position anchorB:menu.position];
-    [_receiver.physicsWorld addJoint:menuLink];
+    menu.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMidY(_receiver.frame));
+    _receiver.startMenu = menu;
 }
 
-
--(void) initGameOverMenu
-{
-    _receiver.gameOverMenuHolder = [SKSpriteNode spriteNodeWithColor:[UIColor greenColor] size:CGSizeMake(200, 10)];
-    _receiver.gameOverMenuHolder.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMaxY(_receiver.frame));
-    _receiver.gameOverMenuHolder.physicsBody =
-    _receiver.gameOverMenuHolder.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_receiver.gameOverMenuHolder.size];
-    _receiver.gameOverMenuHolder.physicsBody.dynamic = FALSE;
-    [_receiver addChild:_receiver.gameOverMenuHolder];
-    SKSpriteNode *gameOverMenu = [SpriteFactory createGameOverMenu];
-    gameOverMenu.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMidY(_receiver.frame));
-    [_receiver addChild:gameOverMenu];
-    SKPhysicsJointLimit *gameOverMenuLink = [SKPhysicsJointLimit jointWithBodyA:_receiver.gameOverMenuHolder.physicsBody bodyB:gameOverMenu.physicsBody anchorA:_receiver.gameOverMenuHolder.position anchorB:gameOverMenu.position];
-    [_receiver.physicsWorld addJoint:gameOverMenuLink];
-    _receiver.gameOverMenuHolder.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMaxY(_receiver.frame)+200);
-}
 
 @end

@@ -12,9 +12,6 @@
 
 @interface SpriteFactory : NSObject
 +(SpriteFactory *) createSpriteFactory: (GameActionScene *) receiver;
-+(SKSpriteNode *) createFarBackground;
-+(SKSpriteNode *) createStartMenu;
-+(SKSpriteNode *) createGameOverMenu;
 +(SKSpriteNode *) createCloud;
 -(void) addBaloon;
 -(void) addBomb;
@@ -30,4 +27,5 @@
 -(void) initStartMenu;
 -(void) initPlatform;
 -(void) initSwordSwitch;
+-(void) initSky;
 @end

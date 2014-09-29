@@ -67,7 +67,7 @@
     hero.sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:hero.sprite.size];
     hero.sprite.physicsBody.dynamic = TRUE;
     hero.sprite.physicsBody.mass = 1;
-    hero.sprite.physicsBody.restitution = 0;
+    hero.sprite.physicsBody.restitution = -10;
     hero.sprite.physicsBody.friction = 0;
     hero.sprite.physicsBody.allowsRotation = FALSE;
     hero.sprite.physicsBody.categoryBitMask = heroCategory;
@@ -79,14 +79,14 @@
 }
 
 
--(void)heroJump: (SKSpriteNode *)heroSprite
+-(void)heroJump
 {
-    if (self.timesJumped <2)
+    if (abs(self.sprite.physicsBody.velocity.dy) < 20 && self.timesJumped <1)
     {
         self.timesJumped += 1;
         SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.15];
-        [heroSprite runAction:sequenceOfTextures];
-        heroSprite.physicsBody.velocity = CGVectorMake(0, 530);
+        [self.sprite runAction:sequenceOfTextures];
+        self.sprite.physicsBody.velocity = CGVectorMake(0, 700);
     }
 }
 
@@ -110,7 +110,7 @@
     arrow.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:arrow.size];
     arrow.physicsBody.dynamic = TRUE;
     arrow.physicsBody.mass = 0.1;
-    arrow.physicsBody.restitution = 0;
+    arrow.physicsBody.restitution = 0.6;
     arrow.physicsBody.friction = 0;
     arrow.physicsBody.allowsRotation = TRUE;
     arrow.physicsBody.categoryBitMask = arrowCategory;

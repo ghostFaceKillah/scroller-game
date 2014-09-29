@@ -13,10 +13,11 @@
 
 @interface GameActionScene : SKScene <SKPhysicsContactDelegate>
 @property NSMutableDictionary *monsters;
-@property SKSpriteNode *gameOverMenuHolder;
+@property SKSpriteNode *gameOverMenu;
 @property NSMutableArray *platforms;
-@property SKSpriteNode *menuHolder;
+@property SKSpriteNode *startMenu;
 @property SKSpriteNode *floor;
 @property NSMutableArray *arrows;
 @property Hero* hero;
+-(CGFloat) getLastTileFloorHeight;
 @end

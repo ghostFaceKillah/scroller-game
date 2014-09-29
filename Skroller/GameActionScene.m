@@ -31,7 +31,6 @@
 @property SKSpriteNode *menu;
 @property NSMutableArray *arrowsToBeGarbaged;
 
-
 // for accounting if game is in dashing state and for monster spawnining
 @property (nonatomic) NSTimeInterval lastSpawnTimeInterval;
 @property (nonatomic) NSTimeInterval lastUpdateTimeInterval;
@@ -48,6 +47,7 @@
 
 
 @implementation GameActionScene
+
 
 - (void)didMoveToView:(SKView *)view
 {
@@ -68,6 +68,30 @@
     return (randomResult >= valueToCross);
 }
 
+-(void) spawnRandomMonster
+{
+    //                CGFloat temp = [Constants randomFloat];
+    //                if (temp < 0.4)
+    //                {
+    [_factory addGoblin];
+    //                } else if (temp < 0.5)
+    //                {
+    //                    [_factory addBirdie];
+    //                } else if (temp < 0.6)
+    //                {
+    //                    [_factory addHightower];
+    //                } else if (temp <0.7)
+    //                {
+    //                    [_factory addBomb];
+    //                } else if (temp < 0.8)
+    //                {
+    //                    [_factory addTwoPartTower];
+    //                } else if (temp < 0.9)
+    //                {
+    //                    [_factory addBaloon];
+    //                }
+
+}
 
 - (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast
 {
@@ -75,13 +99,6 @@
     self.lastSpawnTimeInterval += timeSinceLast;
     self.lastPlatformSpawnInterval += timeSinceLast;
     self.lastBackgroundSpawnInterval += timeSinceLast;
-//    if (self.lastPlatformSpawnInterval > 1.1)
-//    {   if (self.shouldSpawnMonsters)
-//        {
-//            [_factory initPlatform];
-//            self.lastPlatformSpawnInterval = 0;
-//        }
-//    }
     
     if (((int)(60*self.lastSpawnTimeInterval) % 10 == 0))
     {
@@ -90,27 +107,7 @@
             self.lastSpawnTimeInterval = 0;
             if (_shouldSpawnMonsters)
             {
-//                CGFloat temp = [Constants randomFloat];
-                
-//                if (temp < 0.4)
-//                {
-                    [_factory addGoblin];
-//                } else if (temp < 0.5)
-//                {
-//                    [_factory addBirdie];
-//                } else if (temp < 0.6)
-//                {
-//                    [_factory addHightower];
-//                } else if (temp <0.7)
-//                {
-//                    [_factory addBomb];
-//                } else if (temp < 0.8)
-//                {
-//                    [_factory addTwoPartTower];
-//                } else if (temp < 0.9)
-//                {
-//                    [_factory addBaloon];
-//                }
+                [self spawnRandomMonster];
             }
             SKSpriteNode *cloudey = [SpriteFactory createCloud];
             cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
@@ -146,15 +143,13 @@
     // General scene setup
     self.physicsWorld.gravity = CGVectorMake(0, -12);
     self.physicsWorld.contactDelegate = self;
-//    self.backgroundColor = [UIColor colorWithRed:222/255.0f green:236/255.0f blue:255/255.0f alpha:1.0f];
     self.backgroundColor = [UIColor colorWithRed:193/255.0f green:218/255.0f blue:255/255.0f alpha:1.0f];
-//    self.backgroundColor = [UIColor colorWithRed:171/255.0f green:194/255.0f blue:247/255.0f alpha:1.0f];
     self.scaleMode = SKSceneScaleModeAspectFit;
      _worldSpeedup = 0;
     _heroIsDashing = FALSE;
     _mode = @"startMenu";
     _factory = [SpriteFactory createSpriteFactory:self];
-    self.lastBackgroundSpawnInterval = 10;
+    _swordActive = TRUE;
     
     // create strcutures to hold monster data
     _monsters = [NSMutableDictionary dictionaryWithCapacity:10];
@@ -166,13 +161,45 @@
     _arrows = [NSMutableArray array];
     _arrowsToBeGarbaged = [NSMutableArray array];
     
-    [_factory createLandscape :100];
+    [_factory initSky];
     [_factory initStaticFloor];
     [_factory makeCloud];
     [_factory makeHero];
     [_factory initStartMenu];
     [_factory initGameOverMenu];
     [_factory initSwordSwitch];
+}
+
+-(void) startInitializedGame
+{
+    _mode = @"gameplay";
+    // move menu up
+    SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_startMenu.size.width/2 duration:1];
+    [_startMenu runAction:moveUp];
+    // start spawning monsters
+    _shouldSpawnMonsters = TRUE;
+    // start platforming move
+    Platform *platform = [_platforms lastObject];
+    for (SKSpriteNode *current in platform.parts)
+    {
+        [current runAction:platform.moveLeft];
+    }
+}
+
+-(void) restartGameAfterGameover
+{
+    // restart game
+    _mode = @"gameplay";
+    // recreate hero
+    _hero = [Hero createHero];
+    CGFloat y_pos = [self getLastTileFloorHeight] + _hero.sprite.size.height/2;
+    _hero.sprite.position = CGPointMake(CGRectGetMinX(self.frame)+20, y_pos);
+    [self addChild:_hero.sprite];
+    // move menu up
+    SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_gameOverMenu.size.height/2 duration:0.5];
+    [_gameOverMenu runAction:moveUp];
+    // start spawning monsters
+    _shouldSpawnMonsters = TRUE;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -185,20 +212,7 @@
             SKNode *n = [self nodeAtPoint:[touch locationInNode:self]];
             if ([n.name isEqual:@"start"])
             {
-                // start game
-                NSLog(@"%@", @"start touched");
-                _mode = @"gameplay";
-                // move menu up
-                SKAction *moveUp = [SKAction moveToY:500 duration:0.5];
-                [_menuHolder runAction:moveUp];
-                // start spawning monsters
-                _shouldSpawnMonsters = TRUE;
-                // start platforming move
-                Platform *platform = [_platforms lastObject];
-                for (SKSpriteNode *current in platform.parts)
-                {
-                    [current runAction:platform.moveLeft];
-                }
+                [self startInitializedGame];
             }
         }
     } else if ([_mode isEqualToString:@"gameplay"])
@@ -233,7 +247,7 @@
                 }
             } else
             {
-              [_hero heroJump:_hero.sprite];
+              [_hero heroJump];
             }
         }
     } else if ([_mode isEqualToString:@"gameOver"])
@@ -243,17 +257,7 @@
             SKNode *n = [self nodeAtPoint:[touch locationInNode:self]];
             if ([n.name isEqual:@"tryAgain"])
             {
-                // restart game
-                _mode = @"gameplay";
-                // recreate hero
-                _hero = [Hero createHero];
-                _hero.sprite.position = CGPointMake(CGRectGetMinX(self.frame)+20, CGRectGetMinY(self.frame)+135);
-                [self addChild:_hero.sprite];
-                // move menu up
-                SKAction *moveUp = [SKAction moveToY:500 duration:0.5];
-                [_gameOverMenuHolder runAction:moveUp];
-                // start spawning monsters
-                _shouldSpawnMonsters = TRUE;
+                [self restartGameAfterGameover];
             }
         }
     }
@@ -262,7 +266,10 @@
 
 -(void)resolveHeroMovement
 {
-    if (_hero.sprite.physicsBody.velocity.dx >= 0)
+    if (_hero.sprite.position.y < -100)
+    {
+        [self endGame];
+    } else if (_hero.sprite.physicsBody.velocity.dx >= 0)
     {
         // if hero is dashing use spring equation
         // imagine a spring holding our hero's back
@@ -333,7 +340,8 @@
             [_monstersToBeGarbaged addObject:m.sprite.name];
         } else
         {
-            [m resolveMovement: _worldSpeedup];
+//            [m resolveMovement: _worldSpeedup];
+            m.sprite.speed = 1 - 0.001666*_worldSpeedup;
         }
     }
     [_monsters removeObjectsForKeys:_monstersToBeGarbaged];
@@ -406,9 +414,33 @@
     [self handleWorldSpeedup];
     [self handlePlatforming];
     [self garbageCollectArrows];
-    [self handleBackground];
+//    [self handleBackground];
 }
 
+-(void) endGame
+{
+    // game over code
+    [_hero.sprite removeFromParent];
+    SKAction *moveDown = [SKAction moveToY:CGRectGetMidY(self.frame) duration:0.25];
+    [_gameOverMenu runAction:moveDown];
+    _shouldSpawnMonsters = FALSE;
+    _mode = @"gameOver";
+    
+    Monster *m;
+    for (id key in _monsters)
+    {
+        m = _monsters[key];
+        [m.sprite removeFromParent];
+    }
+    [_monsters removeAllObjects];
+}
+
+-(CGFloat) getLastTileFloorHeight
+{
+    Platform *lastPlatform = [self.platforms lastObject];
+    SKSpriteNode *lastTile = [lastPlatform.parts lastObject];
+    return (lastTile.position.y + lastTile.size.height/2);
+}
 
 - (void)didBeginContact:(SKPhysicsContact *)contact
 {
@@ -438,20 +470,7 @@
             _timeSinceLastDash += 10;
         } else
         {
-            // game over code
-            [_hero.sprite removeFromParent];
-            SKAction *moveDown = [SKAction moveToY:CGRectGetMaxY(self.frame) duration:0.5];
-            [_gameOverMenuHolder runAction:moveDown];
-            _shouldSpawnMonsters = FALSE;
-            _mode = @"gameOver";
-            
-            Monster *m;
-            for (id key in _monsters)
-            {
-                m = _monsters[key];
-                [m.sprite removeFromParent];
-            }
-            [_monsters removeAllObjects];
+            [self endGame];
         }
     }
     if ((firstBody.categoryBitMask & heroCategory) != 0 &&

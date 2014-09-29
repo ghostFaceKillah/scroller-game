@@ -13,7 +13,7 @@
 @property SKSpriteNode * sprite;
 +(Hero *)createHero;
 +(void) animateSprite :(SKSpriteNode *)sprite :(NSArray *)arrayOfTextures :(NSTimeInterval )time;
--(void) heroJump : (SKSpriteNode *)hero;
+-(void) heroJump;
 -(void) heroDash: (SKSpriteNode *) heroSprite;
 -(void) resolveGroundTouch;
 -(void) shootBow: (SKSpriteNode *) heroSprite :(CGPoint) targetLocation : (GameActionScene *) caller;
