@@ -12,7 +12,6 @@
 @interface Hero : NSObject
 @property SKSpriteNode * sprite;
 +(Hero *)createHero;
-+(void) animateSprite :(SKSpriteNode *)sprite :(NSArray *)arrayOfTextures :(NSTimeInterval )time;
 -(void) heroJump;
 -(void) heroDash: (SKSpriteNode *) heroSprite;
 -(void) resolveGroundTouch;
