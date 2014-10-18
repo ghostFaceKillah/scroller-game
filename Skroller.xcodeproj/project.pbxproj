@@ -72,6 +72,16 @@
 		CB1313B3199D86F900556DD4 /* mount_move_62.png in Resources */ = {isa = PBXBuildFile; fileRef = CB131373199D86F900556DD4 /* mount_move_62.png */; };
 		CB1313B4199D86F900556DD4 /* mount_move_63.png in Resources */ = {isa = PBXBuildFile; fileRef = CB131374199D86F900556DD4 /* mount_move_63.png */; };
 		CB1313B5199D86F900556DD4 /* mount_move_64.png in Resources */ = {isa = PBXBuildFile; fileRef = CB131375199D86F900556DD4 /* mount_move_64.png */; };
+		CB14EE1219EAC007006CC4FA /* girl0.png in Resources */ = {isa = PBXBuildFile; fileRef = CB14EE0819EAC007006CC4FA /* girl0.png */; };
+		CB14EE1319EAC007006CC4FA /* girl1.png in Resources */ = {isa = PBXBuildFile; fileRef = CB14EE0919EAC007006CC4FA /* girl1.png */; };
+		CB14EE1419EAC007006CC4FA /* girl2.png in Resources */ = {isa = PBXBuildFile; fileRef = CB14EE0A19EAC007006CC4FA /* girl2.png */; };
+		CB14EE1519EAC007006CC4FA /* girl3.png in Resources */ = {isa = PBXBuildFile; fileRef = CB14EE0B19EAC007006CC4FA /* girl3.png */; };
+		CB14EE1619EAC007006CC4FA /* girl4.png in Resources */ = {isa = PBXBuildFile; fileRef = CB14EE0C19EAC007006CC4FA /* girl4.png */; };
+		CB14EE1719EAC007006CC4FA /* girl5.png in Resources */ = {isa = PBXBuildFile; fileRef = CB14EE0D19EAC007006CC4FA /* girl5.png */; };
+		CB14EE1819EAC007006CC4FA /* girl6.png in Resources */ = {isa = PBXBuildFile; fileRef = CB14EE0E19EAC007006CC4FA /* girl6.png */; };
+		CB14EE1919EAC007006CC4FA /* girl7.png in Resources */ = {isa = PBXBuildFile; fileRef = CB14EE0F19EAC007006CC4FA /* girl7.png */; };
+		CB14EE1A19EAC007006CC4FA /* girl8.png in Resources */ = {isa = PBXBuildFile; fileRef = CB14EE1019EAC007006CC4FA /* girl8.png */; };
+		CB14EE1B19EAC007006CC4FA /* girl9.png in Resources */ = {isa = PBXBuildFile; fileRef = CB14EE1119EAC007006CC4FA /* girl9.png */; };
 		CB1837B719AF352B0022A366 /* floor_tile.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1837B619AF352B0022A366 /* floor_tile.png */; };
 		CB1837B919AF7A070022A366 /* sword_switch.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1837B819AF7A070022A366 /* sword_switch.png */; };
 		CB1837BB19AF8CF10022A366 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1837BA19AF8CF10022A366 /* arrow.png */; };
@@ -284,6 +294,16 @@
 		CB131373199D86F900556DD4 /* mount_move_62.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mount_move_62.png; sourceTree = "<group>"; };
 		CB131374199D86F900556DD4 /* mount_move_63.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mount_move_63.png; sourceTree = "<group>"; };
 		CB131375199D86F900556DD4 /* mount_move_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mount_move_64.png; sourceTree = "<group>"; };
+		CB14EE0819EAC007006CC4FA /* girl0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl0.png; sourceTree = "<group>"; };
+		CB14EE0919EAC007006CC4FA /* girl1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl1.png; sourceTree = "<group>"; };
+		CB14EE0A19EAC007006CC4FA /* girl2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl2.png; sourceTree = "<group>"; };
+		CB14EE0B19EAC007006CC4FA /* girl3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl3.png; sourceTree = "<group>"; };
+		CB14EE0C19EAC007006CC4FA /* girl4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl4.png; sourceTree = "<group>"; };
+		CB14EE0D19EAC007006CC4FA /* girl5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl5.png; sourceTree = "<group>"; };
+		CB14EE0E19EAC007006CC4FA /* girl6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl6.png; sourceTree = "<group>"; };
+		CB14EE0F19EAC007006CC4FA /* girl7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl7.png; sourceTree = "<group>"; };
+		CB14EE1019EAC007006CC4FA /* girl8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl8.png; sourceTree = "<group>"; };
+		CB14EE1119EAC007006CC4FA /* girl9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl9.png; sourceTree = "<group>"; };
 		CB1837B619AF352B0022A366 /* floor_tile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = floor_tile.png; sourceTree = "<group>"; };
 		CB1837B819AF7A070022A366 /* sword_switch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sword_switch.png; sourceTree = "<group>"; };
 		CB1837BA19AF8CF10022A366 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
@@ -535,6 +555,16 @@
 		CB41832E19CC41E000526176 /* blond_girl */ = {
 			isa = PBXGroup;
 			children = (
+				CB14EE0819EAC007006CC4FA /* girl0.png */,
+				CB14EE0919EAC007006CC4FA /* girl1.png */,
+				CB14EE0A19EAC007006CC4FA /* girl2.png */,
+				CB14EE0B19EAC007006CC4FA /* girl3.png */,
+				CB14EE0C19EAC007006CC4FA /* girl4.png */,
+				CB14EE0D19EAC007006CC4FA /* girl5.png */,
+				CB14EE0E19EAC007006CC4FA /* girl6.png */,
+				CB14EE0F19EAC007006CC4FA /* girl7.png */,
+				CB14EE1019EAC007006CC4FA /* girl8.png */,
+				CB14EE1119EAC007006CC4FA /* girl9.png */,
 				CB41832F19CC41E000526176 /* girl_one_run_frame1.png */,
 				CB41833019CC41E000526176 /* girl_one_run_frame2.png */,
 				CB41833119CC41E000526176 /* girl_one_run_frame3.png */,
@@ -877,10 +907,12 @@
 				CB1313A7199D86F900556DD4 /* mount_move_50.png in Resources */,
 				CB131380199D86F900556DD4 /* mount_move_11.png in Resources */,
 				CBD1EC0A199BD99500BB3F80 /* floor_move_22.png in Resources */,
+				CB14EE1A19EAC007006CC4FA /* girl8.png in Resources */,
 				CB8CC4731971490B00DF0104 /* Main_iPad.storyboard in Resources */,
 				CB13137F199D86F900556DD4 /* mount_move_10.png in Resources */,
 				CBD1EC06199BD99500BB3F80 /* floor_move_18.png in Resources */,
 				CBD1EC36199CCD7100BB3F80 /* mountains_prototype.png in Resources */,
+				CB14EE1219EAC007006CC4FA /* girl0.png in Resources */,
 				CB131395199D86F900556DD4 /* mount_move_32.png in Resources */,
 				CBD1EC34199BD99500BB3F80 /* floor_move_64.png in Resources */,
 				CBD2329119A9F79700C18545 /* tower_down_placeholder.png in Resources */,
@@ -889,6 +921,7 @@
 				CB41833319CC41E000526176 /* girl_one_run_frame1.png in Resources */,
 				CB68877B19B12D7F00E1B1D0 /* killer.png in Resources */,
 				FACB222B19C6DFC100AF979C /* LaunchImage640x1136.png in Resources */,
+				CB14EE1519EAC007006CC4FA /* girl3.png in Resources */,
 				CB131396199D86F900556DD4 /* mount_move_33.png in Resources */,
 				CBD1EC20199BD99500BB3F80 /* floor_move_44.png in Resources */,
 				CBDDB4FF19AA3F000007F6B7 /* baloon_placeholder.png in Resources */,
@@ -907,6 +940,7 @@
 				CB41833D19CC41EF00526176 /* violet_heart_tile.png in Resources */,
 				CB5582A819A0EE87008A45C1 /* start_button_placeholder.png in Resources */,
 				CB8CC4701971490B00DF0104 /* Main_iPhone.storyboard in Resources */,
+				CB14EE1619EAC007006CC4FA /* girl4.png in Resources */,
 				CB13138A199D86F900556DD4 /* mount_move_21.png in Resources */,
 				FACB222419C5A3AF00AF979C /* background_placeholder.png in Resources */,
 				CBD1EC2D199BD99500BB3F80 /* floor_move_57.png in Resources */,
@@ -926,6 +960,7 @@
 				CBD1EC08199BD99500BB3F80 /* floor_move_20.png in Resources */,
 				CB13138E199D86F900556DD4 /* mount_move_25.png in Resources */,
 				CB8CC4671971490B00DF0104 /* InfoPlist.strings in Resources */,
+				CB14EE1719EAC007006CC4FA /* girl5.png in Resources */,
 				CB131399199D86F900556DD4 /* mount_move_36.png in Resources */,
 				CB13138D199D86F900556DD4 /* mount_move_24.png in Resources */,
 				CB1313B2199D86F900556DD4 /* mount_move_61.png in Resources */,
@@ -950,9 +985,12 @@
 				CBD1EBFD199BD99500BB3F80 /* floor_move_09.png in Resources */,
 				CBD1EC1B199BD99500BB3F80 /* floor_move_39.png in Resources */,
 				CBD1EBF7199BD99500BB3F80 /* floor_move_03.png in Resources */,
+				CB14EE1419EAC007006CC4FA /* girl2.png in Resources */,
 				CB1313A2199D86F900556DD4 /* mount_move_45.png in Resources */,
 				CBD1EC14199BD99500BB3F80 /* floor_move_32.png in Resources */,
 				CBD1EC1C199BD99500BB3F80 /* floor_move_40.png in Resources */,
+				CB14EE1319EAC007006CC4FA /* girl1.png in Resources */,
+				CB14EE1819EAC007006CC4FA /* girl6.png in Resources */,
 				CBD1EC0E199BD99500BB3F80 /* floor_move_26.png in Resources */,
 				CB131376199D86F900556DD4 /* mount_move_01.png in Resources */,
 				CB13139A199D86F900556DD4 /* mount_move_37.png in Resources */,
@@ -969,6 +1007,7 @@
 				CBD1EBF5199BD99500BB3F80 /* floor_move_01.png in Resources */,
 				CBD1EBF9199BD99500BB3F80 /* floor_move_05.png in Resources */,
 				CBD1EC2B199BD99500BB3F80 /* floor_move_55.png in Resources */,
+				CB14EE1919EAC007006CC4FA /* girl7.png in Resources */,
 				CB131383199D86F900556DD4 /* mount_move_14.png in Resources */,
 				CBD1EC23199BD99500BB3F80 /* floor_move_47.png in Resources */,
 				CB13137D199D86F900556DD4 /* mount_move_08.png in Resources */,
@@ -983,6 +1022,7 @@
 				CBD1EC18199BD99500BB3F80 /* floor_move_36.png in Resources */,
 				CBD1EC2A199BD99500BB3F80 /* floor_move_54.png in Resources */,
 				CB63D4E019C58F5B0012FD66 /* school_platform_beg.png in Resources */,
+				CB14EE1B19EAC007006CC4FA /* girl9.png in Resources */,
 				CB13139C199D86F900556DD4 /* mount_move_39.png in Resources */,
 				CB13138C199D86F900556DD4 /* mount_move_23.png in Resources */,
 				CB131388199D86F900556DD4 /* mount_move_19.png in Resources */,
