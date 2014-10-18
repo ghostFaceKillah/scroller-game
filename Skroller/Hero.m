@@ -61,7 +61,7 @@
     for (SKTexture *t in hero.jumpTextures) {t.filteringMode = SKTextureFilteringNearest;}
     
     // create hero node
-    [Hero animateSprite: hero.sprite : hero.walkTextures : 0.08 ];
+    [SpriteFactory animateSprite: hero.sprite : hero.walkTextures : 0.08 ];
     
     // setup physics
     hero.sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:hero.sprite.size];
