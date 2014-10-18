@@ -9,6 +9,7 @@
 #import "Hero.h"
 #import "Constants.h"
 #import "GameActionScene.h"
+#import "SpriteFactory.h"
 
 @interface Hero()
 @property NSMutableArray* jumpTextures;
@@ -17,13 +18,6 @@
 @end
 
 @implementation Hero
-
-+(void)animateSprite :(SKSpriteNode *)sprite :(NSArray *)arrayOfTextures :(NSTimeInterval )time
-{
-    SKAction *animation = [SKAction animateWithTextures:arrayOfTextures timePerFrame: time];
-    SKAction *animate = [SKAction repeatActionForever:animation];
-    [sprite runAction:animate];
-}
 
 +(Hero *)createHero
 {

@@ -34,6 +34,13 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     return factory;
 }
 
++(void)animateSprite :(SKSpriteNode *)sprite :(NSMutableArray *)arrayOfTextures :(NSTimeInterval )time
+{
+    SKAction *animation = [SKAction animateWithTextures:arrayOfTextures timePerFrame: time];
+    SKAction *animate = [SKAction repeatActionForever:animation];
+    [sprite runAction:animate];
+}
+
 
 -(void) addBomb
 {

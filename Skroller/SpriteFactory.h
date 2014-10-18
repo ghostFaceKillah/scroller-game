@@ -12,6 +12,7 @@
 
 @interface SpriteFactory : NSObject
 +(SpriteFactory *) createSpriteFactory: (GameActionScene *) receiver;
++(void) animateSprite :(SKSpriteNode *)sprite :(NSMutableArray *)arrayOfTextures :(NSTimeInterval )time;
 +(SKSpriteNode *) createCloud;
 -(void) addBaloon;
 -(void) addBomb;

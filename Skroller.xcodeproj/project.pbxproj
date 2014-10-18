@@ -208,6 +208,8 @@
 		CBFCBA7A19A602BF003B6733 /* birdie_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = CBFCBA7919A602BF003B6733 /* birdie_placeholder.png */; };
 		CBFCBA7D19A61648003B6733 /* Goblin.m in Sources */ = {isa = PBXBuildFile; fileRef = CBFCBA7C19A61648003B6733 /* Goblin.m */; };
 		CBFCBA8019A61951003B6733 /* Birdie.m in Sources */ = {isa = PBXBuildFile; fileRef = CBFCBA7F19A61951003B6733 /* Birdie.m */; };
+		FA9B906019EAAD4F00E310AA /* respawn.atlas in Resources */ = {isa = PBXBuildFile; fileRef = FA9B905F19EAAD4F00E310AA /* respawn.atlas */; };
+		FA9B906219EABE8600E310AA /* move.atlas in Resources */ = {isa = PBXBuildFile; fileRef = FA9B906119EABE8600E310AA /* move.atlas */; };
 		FACB222419C5A3AF00AF979C /* background_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222319C5A3AF00AF979C /* background_placeholder.png */; };
 		FACB222B19C6DFC100AF979C /* LaunchImage640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */; };
 		FACB222C19C6DFC100AF979C /* LaunchImage640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222A19C6DFC100AF979C /* LaunchImage640x960.png */; };
@@ -446,6 +448,8 @@
 		CBFCBA7C19A61648003B6733 /* Goblin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Goblin.m; sourceTree = "<group>"; };
 		CBFCBA7E19A61951003B6733 /* Birdie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Birdie.h; sourceTree = "<group>"; };
 		CBFCBA7F19A61951003B6733 /* Birdie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Birdie.m; sourceTree = "<group>"; };
+		FA9B905F19EAAD4F00E310AA /* respawn.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = respawn.atlas; sourceTree = "<group>"; };
+		FA9B906119EABE8600E310AA /* move.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = move.atlas; sourceTree = "<group>"; };
 		FACB222319C5A3AF00AF979C /* background_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background_placeholder.png; sourceTree = "<group>"; };
 		FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage640x1136.png; sourceTree = "<group>"; };
 		FACB222A19C6DFC100AF979C /* LaunchImage640x960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage640x960.png; sourceTree = "<group>"; };
@@ -691,6 +695,7 @@
 		CBCEC35D19715EDA00960425 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				FA9B905E19EAAD4F00E310AA /* goblin */,
 				CB3023F219D43493000C6E87 /* potworek.png */,
 				CBCEC35E19715EDB00960425 /* sprites */,
 			);
@@ -807,6 +812,16 @@
 				CBD1EBF4199BD99500BB3F80 /* floor_move_64.png */,
 			);
 			path = floor_textures;
+			sourceTree = "<group>";
+		};
+		FA9B905E19EAAD4F00E310AA /* goblin */ = {
+			isa = PBXGroup;
+			children = (
+				FA9B906119EABE8600E310AA /* move.atlas */,
+				FA9B905F19EAAD4F00E310AA /* respawn.atlas */,
+			);
+			name = goblin;
+			path = sprites/goblin;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -980,6 +995,7 @@
 				CB63D4E419C59B610012FD66 /* sky.png in Resources */,
 				CBD1EC25199BD99500BB3F80 /* floor_move_49.png in Resources */,
 				CB1313A3199D86F900556DD4 /* mount_move_46.png in Resources */,
+				FA9B906219EABE8600E310AA /* move.atlas in Resources */,
 				CB1313A0199D86F900556DD4 /* mount_move_43.png in Resources */,
 				CB13139D199D86F900556DD4 /* mount_move_40.png in Resources */,
 				CBD1EBFD199BD99500BB3F80 /* floor_move_09.png in Resources */,
@@ -1053,6 +1069,7 @@
 				CB41833519CC41E000526176 /* girl_one_run_frame3.png in Resources */,
 				CBAC7B7719C6E55800DAD9DF /* school_platform_mid_back.png in Resources */,
 				CB131385199D86F900556DD4 /* mount_move_16.png in Resources */,
+				FA9B906019EAAD4F00E310AA /* respawn.atlas in Resources */,
 				CB131389199D86F900556DD4 /* mount_move_20.png in Resources */,
 				CB13137E199D86F900556DD4 /* mount_move_09.png in Resources */,
 				CB1313A9199D86F900556DD4 /* mount_move_52.png in Resources */,
