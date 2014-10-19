@@ -29,7 +29,7 @@
     NSMutableArray *spawnTextures = [NSMutableArray arrayWithCapacity:1];
     SKTextureAtlas *goblinSpawnAtlas = [SKTextureAtlas atlasNamed:@"respawn"];
     
-    int amount = goblinSpawnAtlas.textureNames.count -1;
+    NSUInteger amount = goblinSpawnAtlas.textureNames.count -1;
     for (int i=0; i <= amount; i++) {
     NSString *textureName = [NSString stringWithFormat:@"spawn%d", i];
     SKTexture *temp = [goblinSpawnAtlas textureNamed:textureName];
@@ -52,7 +52,7 @@
     NSMutableArray *moveTextures = [NSMutableArray arrayWithCapacity:1];
     SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"move"];
     
-    int amount2 = goblinMoveAtlas.textureNames.count;
+    NSUInteger amount2 = goblinMoveAtlas.textureNames.count;
     for (int i=1; i <= amount2; i+=2) {
         NSString *textureName = [NSString stringWithFormat:@"%d", i];
         SKTexture *temp = [goblinMoveAtlas textureNamed:textureName];
