@@ -14,6 +14,7 @@
 @interface Hero()
 @property NSMutableArray* jumpTextures;
 @property NSMutableArray* walkTextures;
+@property NSMutableArray* attackTextures;
 @property int timesJumped;
 @end
 
@@ -39,9 +40,13 @@
     SKTexture *f3 = [SKTexture textureWithImageNamed:@"hero_jump_1.png"];
     SKTexture *f4 = [SKTexture textureWithImageNamed:@"hero_jump_2.png"];
     SKTexture *f5 = [SKTexture textureWithImageNamed:@"hero_jump_3.png"];
-
+    SKTexture *attack_1 = [SKTexture textureWithImageNamed:@"attack_1.png"];
+    SKTexture *attack_2 = [SKTexture textureWithImageNamed:@"attack_2.png"];
+    SKTexture *attack_3 = [SKTexture textureWithImageNamed:@"attack_3.png"];
+    
     hero.walkTextures = [NSMutableArray arrayWithCapacity:10];
     hero.jumpTextures = [NSMutableArray arrayWithCapacity:3];
+    hero.attackTextures = [NSMutableArray arrayWithCapacity:3];
     
     [hero.walkTextures addObject:running_0];
     [hero.walkTextures addObject:running_1];
@@ -56,12 +61,18 @@
     [hero.jumpTextures addObject:f3];
     [hero.jumpTextures addObject:f4];
     [hero.jumpTextures addObject:f5];
+    [hero.attackTextures addObject:attack_1];
+    [hero.attackTextures addObject:attack_2];
+    [hero.attackTextures addObject:attack_3];
 
     for (SKTexture *t in hero.walkTextures) {t.filteringMode = SKTextureFilteringNearest;}
     for (SKTexture *t in hero.jumpTextures) {t.filteringMode = SKTextureFilteringNearest;}
+    for (SKTexture *t in hero.attackTextures) {t.filteringMode = SKTextureFilteringNearest;}
     
     // create hero node
-    [SpriteFactory animateSprite: hero.sprite : hero.walkTextures : 0.08 ];
+    SKAction *walk = [SKAction animateWithTextures:hero.walkTextures timePerFrame: 0.08];
+    SKAction *loop = [SKAction repeatActionForever:walk];
+    [hero.sprite runAction:loop];
     
     // setup physics
     hero.sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:hero.sprite.size];
@@ -93,6 +104,11 @@
 
 -(void)heroDash: (SKSpriteNode *) heroSprite
 {
+    SKAction *walk = [SKAction animateWithTextures:_walkTextures timePerFrame: 0.08 resize:YES restore:NO];
+    SKAction *loop = [SKAction repeatActionForever:walk];
+    SKAction *dash_animation = [SKAction animateWithTextures:_attackTextures timePerFrame: 0.15 resize:YES restore:NO];
+    SKAction *sequence = [SKAction sequence:@[dash_animation, loop]];
+    [self.sprite runAction:sequence];
     [heroSprite.physicsBody applyImpulse: CGVectorMake(500, 0)];
 }
 
@@ -101,7 +117,6 @@
 {
     self.timesJumped = 0;
 }
-
 
 
 -(void) shootBow: (SKSpriteNode *) heroSprite :(CGPoint) targetLocation :(GameActionScene *) caller

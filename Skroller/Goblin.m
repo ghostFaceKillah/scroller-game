@@ -62,7 +62,7 @@
     NSMutableArray *moveTextures = [NSMutableArray arrayWithCapacity:1];
     SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"move"];
     
-    int amount2 = goblinMoveAtlas.textureNames.count;
+    NSUInteger amount2 = goblinMoveAtlas.textureNames.count;
     for (int i=1; i <= amount2; i++) {
         NSString *textureName = [NSString stringWithFormat:@"%d", i];
         SKTexture *temp = [goblinMoveAtlas textureNamed:textureName];
