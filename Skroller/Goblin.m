@@ -12,8 +12,6 @@
 
 @interface Goblin()
 @property BOOL isAttacking;
-@property NSMutableArray *spawnTextures;
-//@property NSMutableArray *moveTextures;
 @property NSMutableArray *deathTextures;
 @end
 
@@ -25,26 +23,57 @@
     Goblin *monster = [[Goblin alloc] init];
     monster.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"1.png"];
     monster.sprite.texture.filteringMode = SKTextureFilteringNearest;
-    monster.isAttacking = TRUE;
     
     //load spawn textures
     
-//        SKTextureAtlas *goblinSpawnAtlas = [SKTextureAtlas atlasNamed:@"respawn"];
+    NSMutableArray *spawnTextures = [NSMutableArray arrayWithCapacity:1];
+    SKTextureAtlas *goblinSpawnAtlas = [SKTextureAtlas atlasNamed:@"respawn"];
     
-//        int amount = goblinSpawnAtlas.textureNames.count -1;
-//        for (int i=0; i <= amount; i++) {
-//        NSString *textureName = [NSString stringWithFormat:@"respawn200%d", i];
-//        SKTexture *temp = [goblinSpawnAtlas textureNamed:textureName];
-//        temp.filteringMode = SKTextureFilteringNearest;
-//        [monster.spawnTextures addObject:temp];
-//    }
+    int amount = goblinSpawnAtlas.textureNames.count -1;
+    for (int i=0; i <= amount; i++) {
+    NSString *textureName = [NSString stringWithFormat:@"spawn%d", i];
+    SKTexture *temp = [goblinSpawnAtlas textureNamed:textureName];
+    temp.filteringMode = SKTextureFilteringNearest;
+    [spawnTextures addObject:temp];
+    }
     
     //animate spawn
     
-//    [SpriteFactory animateSprite:monster.sprite :monster.spawnTextures :0.1];
+    SKAction *spawnAnimation = [SKAction animateWithTextures:spawnTextures timePerFrame:0.01];
+    
+    SKAction *moveDown = [SKAction moveByX:0 y:0
+                                  duration:(250/(500))];
+    SKAction *combo = [SKAction group:@[spawnAnimation,moveDown]];
+    
+//    [monster.sprite runAction:combo];
+    
+    //load move textures
+    
+    NSMutableArray *moveTextures = [NSMutableArray arrayWithCapacity:1];
+    SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"move"];
+    
+    int amount2 = goblinMoveAtlas.textureNames.count;
+    for (int i=1; i <= amount2; i+=2) {
+        NSString *textureName = [NSString stringWithFormat:@"%d", i];
+        SKTexture *temp = [goblinMoveAtlas textureNamed:textureName];
+        temp.filteringMode = SKTextureFilteringNearest;
+        [moveTextures addObject:temp];
+    }
     
     
-
+    SKAction *animation = [SKAction animateWithTextures:moveTextures timePerFrame:0.09];
+    SKAction *animate = [SKAction repeatActionForever:animation];
+    
+    SKAction *moveLeft = [SKAction moveByX:(-400) y:0
+                                  duration:(1000/(500))];
+    SKAction *wait = [SKAction waitForDuration:1];
+    SKAction *combo2 = [SKAction group:@[wait,animate,moveLeft]];
+    
+//    [monster.sprite runAction:combo2];
+    SKAction *finalAnim = [SKAction sequence:@[combo,combo2]];
+    
+    [monster.sprite runAction:finalAnim];
+    
     
     // setup gobbo's physics
     monster.sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:monster.sprite.size];
@@ -55,32 +84,7 @@
     monster.sprite.physicsBody.contactTestBitMask = heroCategory | floorCategory;
     monster.sprite.physicsBody.collisionBitMask = heroCategory| floorCategory;
     
-    // setup movement
-    
-    //load move textures
-    
-    NSMutableArray *moveTextures = [NSMutableArray arrayWithCapacity:1];
-    SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"move"];
-    
-    int amount2 = goblinMoveAtlas.textureNames.count;
-    for (int i=1; i <= amount2; i++) {
-        NSString *textureName = [NSString stringWithFormat:@"%d", i];
-        SKTexture *temp = [goblinMoveAtlas textureNamed:textureName];
-        temp.filteringMode = SKTextureFilteringNearest;
-        [moveTextures addObject:temp];
-    }
-
-    
-//    [SpriteFactory animateSprite:monster.sprite :moveTextures :0.01];
-    
-    SKAction *animation = [SKAction animateWithTextures:moveTextures timePerFrame:0.09];
-    SKAction *animate = [SKAction repeatActionForever:animation];
-    
-    SKAction *moveLeft = [SKAction moveByX:(-1000) y:0
-                        duration:(1000/(300))];
-    SKAction *combo = [SKAction group:@[animate,moveLeft]];
-    
-   [monster.sprite runAction:combo];
+    monster.isAttacking = TRUE;
     
     return monster;
 }
@@ -94,6 +98,8 @@
         // towards our hero
         CGFloat current_y_speed = self.sprite.physicsBody.velocity.dy;
         self.sprite.physicsBody.velocity = CGVectorMake(MIN(-300, 0.5*worldVelocity), current_y_speed);
+        
+        
     }
 }
 
@@ -108,10 +114,11 @@
 }
 
 -(BOOL) isNoLongerNeeded {
-    // calculate if sprite is off-screen (it maybe a redundant method now, as we
+    // calculate if sprite is off-screen (it may be a redundant method now, as we
     // are reimplementing possibly existing method (isVisible etc.)
     // but we will probably need this later when we would like to handle custom vanishing behaviour
     return (self.sprite.position.x < 0) || (self.sprite.position.y < 0);
 }
 
 @end
+//
