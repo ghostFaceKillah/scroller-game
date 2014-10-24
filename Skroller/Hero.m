@@ -14,7 +14,7 @@
 @interface Hero()
 @property NSMutableArray* jumpTextures;
 @property NSMutableArray* walkTextures;
-@property NSMutableArray* attackTextures;
+@property NSMutableArray* attack1Textures;
 @property int timesJumped;
 @end
 
@@ -27,47 +27,39 @@
 //    hero.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"killer.png"];
   
     // load textures
-    SKTexture *running_0 = [SKTexture textureWithImageNamed:@"girl0.png"];
-    SKTexture *running_1 = [SKTexture textureWithImageNamed:@"girl1.png"];
-    SKTexture *running_2 = [SKTexture textureWithImageNamed:@"girl2.png"];
-    SKTexture *running_3 = [SKTexture textureWithImageNamed:@"girl3.png"];
-    SKTexture *running_4 = [SKTexture textureWithImageNamed:@"girl4.png"];
-    SKTexture *running_5 = [SKTexture textureWithImageNamed:@"girl5.png"];
-    SKTexture *running_6 = [SKTexture textureWithImageNamed:@"girl6.png"];
-    SKTexture *running_7 = [SKTexture textureWithImageNamed:@"girl7.png"];
-    SKTexture *running_8 = [SKTexture textureWithImageNamed:@"girl8.png"];
-    SKTexture *running_9 = [SKTexture textureWithImageNamed:@"girl9.png"];
-    SKTexture *f3 = [SKTexture textureWithImageNamed:@"hero_jump_1.png"];
-    SKTexture *f4 = [SKTexture textureWithImageNamed:@"hero_jump_2.png"];
-    SKTexture *f5 = [SKTexture textureWithImageNamed:@"hero_jump_3.png"];
-    SKTexture *attack_1 = [SKTexture textureWithImageNamed:@"attack_1.png"];
-    SKTexture *attack_2 = [SKTexture textureWithImageNamed:@"attack_2.png"];
-    SKTexture *attack_3 = [SKTexture textureWithImageNamed:@"attack_3.png"];
     
-    hero.walkTextures = [NSMutableArray arrayWithCapacity:10];
-    hero.jumpTextures = [NSMutableArray arrayWithCapacity:3];
-    hero.attackTextures = [NSMutableArray arrayWithCapacity:3];
+    hero.walkTextures = [NSMutableArray arrayWithCapacity:1];
+    SKTextureAtlas *blondieMoveAtlas = [SKTextureAtlas atlasNamed:@"blondeHeroineMove"];
     
-    [hero.walkTextures addObject:running_0];
-    [hero.walkTextures addObject:running_1];
-    [hero.walkTextures addObject:running_2];
-    [hero.walkTextures addObject:running_3];
-    [hero.walkTextures addObject:running_4];
-    [hero.walkTextures addObject:running_5];
-    [hero.walkTextures addObject:running_6];
-    [hero.walkTextures addObject:running_7];
-    [hero.walkTextures addObject:running_8];
-    [hero.walkTextures addObject:running_9];
-    [hero.jumpTextures addObject:f3];
-    [hero.jumpTextures addObject:f4];
-    [hero.jumpTextures addObject:f5];
-    [hero.attackTextures addObject:attack_1];
-    [hero.attackTextures addObject:attack_2];
-    [hero.attackTextures addObject:attack_3];
+    NSInteger amount = blondieMoveAtlas.textureNames.count -1;
+    for (NSInteger i = 0; i <= amount; i++) {
+        NSString *textureName = [NSString stringWithFormat:@"girl%ld", (long)i];
+        SKTexture *temp = [blondieMoveAtlas textureNamed:textureName];
+        temp.filteringMode = SKTextureFilteringNearest;
+        [hero.walkTextures addObject:temp];
+    }
+    
+    hero.jumpTextures = [NSMutableArray arrayWithCapacity:1];
+    SKTextureAtlas *blondieJumpAtlas = [SKTextureAtlas atlasNamed:@"blondeHeroineJump"];
+    
+    NSInteger amount2 = blondieJumpAtlas.textureNames.count;
+    for (NSInteger i = 1; i <= amount2; i++) {
+        NSString *textureName = [NSString stringWithFormat:@"jumpPlaceholder%ld", (long)i];
+        SKTexture *temp = [blondieJumpAtlas textureNamed:textureName];
+        temp.filteringMode = SKTextureFilteringNearest;
+        [hero.jumpTextures addObject:temp];
+    }
 
-    for (SKTexture *t in hero.walkTextures) {t.filteringMode = SKTextureFilteringNearest;}
-    for (SKTexture *t in hero.jumpTextures) {t.filteringMode = SKTextureFilteringNearest;}
-    for (SKTexture *t in hero.attackTextures) {t.filteringMode = SKTextureFilteringNearest;}
+    hero.attack1Textures = [NSMutableArray arrayWithCapacity:1];
+    SKTextureAtlas *blondieAttack1Atlas = [SKTextureAtlas atlasNamed:@"blondeHeroineAttack1"];
+    
+    NSInteger amount3 = blondieAttack1Atlas.textureNames.count;
+    for (NSInteger i = 1; i <= amount3; i++) {
+        NSString *textureName = [NSString stringWithFormat:@"attack%ld", (long)i];
+        SKTexture *temp = [blondieAttack1Atlas textureNamed:textureName];
+        temp.filteringMode = SKTextureFilteringNearest;
+        [hero.attack1Textures addObject:temp];
+    }
     
     // create hero node
     SKAction *walk = [SKAction animateWithTextures:hero.walkTextures timePerFrame: 0.08];
@@ -106,7 +98,7 @@
 {
     SKAction *walk = [SKAction animateWithTextures:_walkTextures timePerFrame: 0.08 resize:YES restore:NO];
     SKAction *loop = [SKAction repeatActionForever:walk];
-    SKAction *dash_animation = [SKAction animateWithTextures:_attackTextures timePerFrame: 0.15 resize:YES restore:NO];
+    SKAction *dash_animation = [SKAction animateWithTextures:_attack1Textures timePerFrame: 0.15 resize:YES restore:NO];
     SKAction *sequence = [SKAction sequence:@[dash_animation, loop]];
     [self.sprite runAction:sequence];
     [heroSprite.physicsBody applyImpulse: CGVectorMake(500, 0)];
