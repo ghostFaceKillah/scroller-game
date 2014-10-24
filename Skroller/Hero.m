@@ -37,15 +37,20 @@
     SKTexture *running_7 = [SKTexture textureWithImageNamed:@"girl7.png"];
     SKTexture *running_8 = [SKTexture textureWithImageNamed:@"girl8.png"];
     SKTexture *running_9 = [SKTexture textureWithImageNamed:@"girl9.png"];
-    SKTexture *f3 = [SKTexture textureWithImageNamed:@"hero_jump_1.png"];
-    SKTexture *f4 = [SKTexture textureWithImageNamed:@"hero_jump_2.png"];
-    SKTexture *f5 = [SKTexture textureWithImageNamed:@"hero_jump_3.png"];
+    SKTexture *jump_1 = [SKTexture textureWithImageNamed:@"jump_01.png"];
+    SKTexture *jump_2 = [SKTexture textureWithImageNamed:@"jump_02.png"];
+    SKTexture *jump_3 = [SKTexture textureWithImageNamed:@"jump_03.png"];
+    SKTexture *jump_4 = [SKTexture textureWithImageNamed:@"jump_04.png"];
+    SKTexture *jump_5 = [SKTexture textureWithImageNamed:@"jump_05.png"];
+    SKTexture *jump_6 = [SKTexture textureWithImageNamed:@"jump_06.png"];
+    SKTexture *jump_7 = [SKTexture textureWithImageNamed:@"jump_07.png"];
+    SKTexture *jump_8 = [SKTexture textureWithImageNamed:@"jump_08.png"];
     SKTexture *attack_1 = [SKTexture textureWithImageNamed:@"attack_1.png"];
     SKTexture *attack_2 = [SKTexture textureWithImageNamed:@"attack_2.png"];
     SKTexture *attack_3 = [SKTexture textureWithImageNamed:@"attack_3.png"];
     
     hero.walkTextures = [NSMutableArray arrayWithCapacity:10];
-    hero.jumpTextures = [NSMutableArray arrayWithCapacity:3];
+    hero.jumpTextures = [NSMutableArray arrayWithCapacity:8];
     hero.attackTextures = [NSMutableArray arrayWithCapacity:3];
     
     [hero.walkTextures addObject:running_0];
@@ -58,9 +63,14 @@
     [hero.walkTextures addObject:running_7];
     [hero.walkTextures addObject:running_8];
     [hero.walkTextures addObject:running_9];
-    [hero.jumpTextures addObject:f3];
-    [hero.jumpTextures addObject:f4];
-    [hero.jumpTextures addObject:f5];
+    [hero.jumpTextures addObject:jump_1];
+    [hero.jumpTextures addObject:jump_2];
+    [hero.jumpTextures addObject:jump_3];
+    [hero.jumpTextures addObject:jump_4];
+    [hero.jumpTextures addObject:jump_5];
+    [hero.jumpTextures addObject:jump_6];
+    [hero.jumpTextures addObject:jump_7];
+    [hero.jumpTextures addObject:jump_8];
     [hero.attackTextures addObject:attack_1];
     [hero.attackTextures addObject:attack_2];
     [hero.attackTextures addObject:attack_3];
@@ -95,7 +105,7 @@
     if (abs(self.sprite.physicsBody.velocity.dy) < 20 && self.timesJumped <1)
     {
         self.timesJumped += 1;
-        SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.15];
+        SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.1 resize:YES restore:YES];
         [self.sprite runAction:sequenceOfTextures];
         self.sprite.physicsBody.velocity = CGVectorMake(0, 700);
     }
