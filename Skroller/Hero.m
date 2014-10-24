@@ -44,7 +44,7 @@
     
     NSInteger amount2 = blondieJumpAtlas.textureNames.count;
     for (NSInteger i = 1; i <= amount2; i++) {
-        NSString *textureName = [NSString stringWithFormat:@"jumpPlaceholder%ld", (long)i];
+        NSString *textureName = [NSString stringWithFormat:@"jump_0%ld", (long)i];
         SKTexture *temp = [blondieJumpAtlas textureNamed:textureName];
         temp.filteringMode = SKTextureFilteringNearest;
         [hero.jumpTextures addObject:temp];
@@ -82,16 +82,18 @@
 }
 
 
+
 -(void)heroJump
 {
     if (abs(self.sprite.physicsBody.velocity.dy) < 20 && self.timesJumped <1)
     {
         self.timesJumped += 1;
-        SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.15];
+        SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.1 resize:YES restore:YES];
         [self.sprite runAction:sequenceOfTextures];
         self.sprite.physicsBody.velocity = CGVectorMake(0, 700);
     }
 }
+
 
 
 -(void)heroDash: (SKSpriteNode *) heroSprite
