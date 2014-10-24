@@ -12,7 +12,9 @@
 
 @interface Goblin()
 @property BOOL isAttacking;
+@property NSMutableArray *moveTextures;
 @property NSMutableArray *deathTextures;
+@property NSMutableArray *spawnTextures;
 @end
 
 @implementation Goblin
@@ -26,42 +28,41 @@
     
     //load spawn textures
     
-    NSMutableArray *spawnTextures = [NSMutableArray arrayWithCapacity:1];
-    SKTextureAtlas *goblinSpawnAtlas = [SKTextureAtlas atlasNamed:@"respawn"];
+    monster.spawnTextures = [NSMutableArray arrayWithCapacity:1];
+    SKTextureAtlas *goblinSpawnAtlas = [SKTextureAtlas atlasNamed:@"goblinRespawn"];
     
-    NSUInteger amount = goblinSpawnAtlas.textureNames.count -1;
-    for (int i=0; i <= amount; i++) {
-    NSString *textureName = [NSString stringWithFormat:@"spawn%d", i];
+    NSInteger amount = goblinSpawnAtlas.textureNames.count -1;
+    for (NSInteger i=0; i <= amount; i++) {
+    NSString *textureName = [NSString stringWithFormat:@"spawn%ld", (long)i];
     SKTexture *temp = [goblinSpawnAtlas textureNamed:textureName];
     temp.filteringMode = SKTextureFilteringNearest;
-    [spawnTextures addObject:temp];
+    [monster.spawnTextures addObject:temp];
     }
     
     //animate spawn
     
-    SKAction *spawnAnimation = [SKAction animateWithTextures:spawnTextures timePerFrame:0.01];
+    SKAction *spawnAnimation = [SKAction animateWithTextures:monster.spawnTextures timePerFrame:0.01];
     
     SKAction *moveDown = [SKAction moveByX:0 y:0
                                   duration:(250/(500))];
     SKAction *combo = [SKAction group:@[spawnAnimation,moveDown]];
     
-//    [monster.sprite runAction:combo];
-    
     //load move textures
     
-    NSMutableArray *moveTextures = [NSMutableArray arrayWithCapacity:1];
-    SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"move"];
+    monster.moveTextures = [NSMutableArray arrayWithCapacity:1];
+    SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"goblinMove"];
     
-    NSUInteger amount2 = goblinMoveAtlas.textureNames.count;
-    for (int i=1; i <= amount2; i+=2) {
-        NSString *textureName = [NSString stringWithFormat:@"%d", i];
+    NSInteger amount2 = goblinMoveAtlas.textureNames.count;
+    for (NSInteger i=1; i <= amount2; i+=2) {
+        NSString *textureName = [NSString stringWithFormat:@"%ld", (long)i];
         SKTexture *temp = [goblinMoveAtlas textureNamed:textureName];
         temp.filteringMode = SKTextureFilteringNearest;
-        [moveTextures addObject:temp];
+        [monster.moveTextures addObject:temp];
     }
     
+    //animate move
     
-    SKAction *animation = [SKAction animateWithTextures:moveTextures timePerFrame:0.09];
+    SKAction *animation = [SKAction animateWithTextures:monster.moveTextures timePerFrame:0.09];
     SKAction *animate = [SKAction repeatActionForever:animation];
     
     SKAction *moveLeft = [SKAction moveByX:(-400) y:0
@@ -69,7 +70,6 @@
     SKAction *wait = [SKAction waitForDuration:1];
     SKAction *combo2 = [SKAction group:@[wait,animate,moveLeft]];
     
-//    [monster.sprite runAction:combo2];
     SKAction *finalAnim = [SKAction sequence:@[combo,combo2]];
     
     [monster.sprite runAction:finalAnim];
@@ -111,6 +111,25 @@
     self.sprite.physicsBody.contactTestBitMask = 0;
     self.sprite.physicsBody.collisionBitMask = 0;
     [self.sprite removeAllActions];
+    
+    //load death textures
+    
+/*  NSMutableArray monster.deathTextures = [NSMutableArray arrayWithCapacity:1];
+    SKTextureAtlas *goblinDeathAtlas = [SKTextureAtlas atlasNamed:@"goblinDeath"];
+    
+    NSInteger amount3 = goblinDeathAtlas.textureNames.count;
+    for (NSInteger i=0; i <= amount3; i+=3) {
+        NSString *textureName = [NSString stringWithFormat:@"death%ld", (long)i];
+        SKTexture *temp = [goblinDeathAtlas textureNamed:textureName];
+        temp.filteringMode = SKTextureFilteringNearest;
+        [monster.deathTextures addObject:temp];
+    }
+
+    SKAction *deathAnimation = [SKAction animateWithTextures:monster.deathTextures timePerFrame:0.01];
+*/
+//    [self.sprite runAction: deathAnimation];
+
+    
 }
 
 -(BOOL) isNoLongerNeeded {
