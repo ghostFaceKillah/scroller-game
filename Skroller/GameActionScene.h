@@ -13,7 +13,7 @@
 @class Hero;
 
 @interface GameActionScene : SKScene <SKPhysicsContactDelegate>
-@property NSMutableDictionary *monsters;
+@property NSMutableArray *monsters;
 @property SKSpriteNode *gameOverMenu;
 @property NSMutableArray *platforms;
 @property SKSpriteNode *startMenu;

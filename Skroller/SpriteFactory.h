@@ -14,12 +14,7 @@
 +(SpriteFactory *) createSpriteFactory: (GameActionScene *) receiver;
 +(void) animateSprite :(SKSpriteNode *)sprite :(NSMutableArray *)arrayOfTextures :(NSTimeInterval )time;
 +(SKSpriteNode *) createCloud;
--(void) addBaloon;
--(void) addBomb;
--(void) addBirdie;
 -(void) addGoblin;
--(void) addHightower;
--(void) addTwoPartTower;
 -(void) initGameOverMenu;
 -(void) createLandscape : (int) shift;
 -(void) initStaticFloor;

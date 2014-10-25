@@ -41,41 +41,6 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     [sprite runAction:animate];
 }
 
-
--(void) addBomb
-{
-    Bomb *monster = [Bomb spawn];
-    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame)-20, CGRectGetMinY(_receiver.frame)+50);
-    monster.sprite.name = [Constants generateRandomString:10];
-    
-    // and add it to the data structures
-    [_receiver addChild:monster.sprite];
-    [_receiver.monsters setObject:monster forKey:monster.sprite.name];
-}
-
--(void) addHightower
-{
-    Hightower *monster = [Hightower spawn];
-    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame)-20, CGRectGetMinY(_receiver.frame)+50);
-    monster.sprite.name = [Constants generateRandomString:10];
-    
-    // and add it to the data structures
-    [_receiver addChild:monster.sprite];
-    [_receiver.monsters setObject:monster forKey:monster.sprite.name];
-}
-
--(void) addBirdie
-{
-    // wrapper for adding a monster birdie to the scene
-    
-    Birdie *birdie = [Birdie spawn: _receiver.hero];
-    birdie.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame)-20, CGRectGetMaxY(_receiver.frame)-10);
-    birdie.sprite.name = [Constants generateRandomString:10];
-    
-    [_receiver addChild:birdie.sprite];
-    [_receiver.monsters setObject:birdie forKey:birdie.sprite.name];
-}
-
 -(void) addGoblin
 {
     // a wrapper for handling all the monster data structures
@@ -87,36 +52,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     
     // and add it to the data structures
     [_receiver addChild:monster.sprite];
-    [_receiver.monsters setObject:monster forKey:monster.sprite.name];
-}
-
--(void) addTwoPartTower
-{
-    TowerLowerPart *monster = [TowerLowerPart spawn];
-    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame)-20, CGRectGetMinY(_receiver.frame)+50);
-    monster.sprite.name = [Constants generateRandomString:10];
-    
-    TowerUpperPart *attacker = [TowerUpperPart spawn];
-    attacker.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame)-20, CGRectGetMinY(_receiver.frame) + 90);
-    attacker.sprite.name = [Constants generateRandomString:10];
-    
-    // and add it to the data structures
-    [_receiver addChild:monster.sprite];
-    [_receiver addChild:attacker.sprite];
-    [_receiver.monsters setObject:monster forKey:monster.sprite.name];
-    [_receiver.monsters setObject:attacker forKey:attacker.sprite.name];
-}
-
-
--(void) addBaloon
-{
-    Baloon *monster = [Baloon spawn];
-    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame)-20, CGRectGetMaxY(_receiver.frame)-20);
-    monster.sprite.name = [Constants generateRandomString:10];
-    
-    // and add it to the data structures
-    [_receiver addChild:monster.sprite];
-    [_receiver.monsters setObject:monster forKey:monster.sprite.name];
+    [_receiver.monsters addObject:monster];
 }
 
 +(SKSpriteNode *)createFarBackground

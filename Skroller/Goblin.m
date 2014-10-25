@@ -48,10 +48,8 @@
     SKAction *combo = [SKAction group:@[spawnAnimation,moveDown]];
     
     //load move textures
-    
     monster.moveTextures = [NSMutableArray arrayWithCapacity:1];
     SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"goblinMove"];
-    
     NSInteger amount2 = goblinMoveAtlas.textureNames.count;
     for (NSInteger i=1; i <= amount2; i+=2) {
         NSString *textureName = [NSString stringWithFormat:@"%ld", (long)i];
@@ -85,6 +83,9 @@
     monster.sprite.physicsBody.collisionBitMask = heroCategory| floorCategory;
     
     monster.isAttacking = TRUE;
+    
+    monster.sprite.userData = [NSMutableDictionary dictionaryWithCapacity:1];
+    [monster.sprite.userData setObject:monster forKey:@"parent"];
     
     return monster;
 }

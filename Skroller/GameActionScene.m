@@ -27,8 +27,6 @@
 @property BOOL swordActive;
 
 // structs for holding all the sprites
-@property NSMutableArray *monstersToBeGarbaged;
-// @property SKSpriteNode *menu;
 @property NSMutableArray *arrowsToBeGarbaged;
 
 // for accounting if game is in dashing state and for monster spawnining
@@ -135,12 +133,10 @@
     NSString *pathForFile = [[NSBundle mainBundle] pathForResource:@"sound_placeholder" ofType:@"wav"];
     NSURL *soundFile = [[NSURL alloc] initFileURLWithPath:pathForFile];
     _player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFile error:&error];
-    NSLog(@"%@",[error localizedDescription]);
     [_player prepareToPlay];
     
     // create strcutures to hold monster data
-    _monsters = [NSMutableDictionary dictionaryWithCapacity:10];
-    _monstersToBeGarbaged = [NSMutableArray arrayWithCapacity:10];
+    _monsters = [NSMutableArray arrayWithCapacity:10];
     _lastPlatformSpawnInterval = 0;
 
     //create structures to hold landscape data
@@ -177,10 +173,8 @@
 
 -(void) restartGameAfterGameover
 {
-     Monster *m;
-     for (id key in _monsters)
+     for (Monster *m in _monsters)
      {
-         m = _monsters[key];
          [m.sprite removeFromParent];
      }
      [_monsters removeAllObjects];
@@ -350,23 +344,21 @@
 
 -(void) updateMonstersState
 {
-    Monster *m;
-    for (id key in _monsters)
+    NSMutableArray *dumps = [NSMutableArray array];
+    for (Monster *m in _monsters)
     {
-        m = _monsters[key];
         // garbage collect uneeded monsters
         if ([m isNoLongerNeeded])
         {
             // delete this monster
             [m.sprite removeFromParent];
-            [_monstersToBeGarbaged addObject:m.sprite.name];
+            [dumps addObject:m];
         } else
         {
             m.sprite.speed = 1 - 0.001666*_worldSpeedup;
         }
     }
-    [_monsters removeObjectsForKeys:_monstersToBeGarbaged];
-    [_monstersToBeGarbaged removeAllObjects];
+    [_monsters removeObjectsInArray:dumps];
 }
 
 
@@ -429,10 +421,10 @@
 
 - (void)didSimulatePhysics
 {
-    if (![_mode isEqualToString:@"gameOver"]) {
+    if (![_mode isEqualToString:@"gameOver"])
         [self resolveHeroMovement];
+    if (![_mode isEqualToString:@"gameOver"])
         [self updateDashingState];
-    }
     [self updateMonstersState];
     [self handleWorldSpeedup];
     [self handlePlatforming];
@@ -470,7 +462,7 @@
         if (_heroIsDashing)
         {
          //   [secondBody.node removeFromParent];
-            Monster *m = _monsters[secondBody.node.name];
+            Monster *m = (secondBody.node.userData)[@"parent"];
             [m resolveHit];
             _timeSinceLastDash += 10;
         } else
@@ -487,7 +479,7 @@
     if ((firstBody.categoryBitMask & monsterCategory) != 0 &&
         (secondBody.categoryBitMask & arrowCategory) != 0)
     {
-        Monster *m = _monsters[firstBody.node.name];
+        Monster *m = (firstBody.node.userData)[@"parent"];
         [m resolveHit];
 //      // we will later add that some arrows stay in the target :)
 //        [secondBody.node removeFromParent];
