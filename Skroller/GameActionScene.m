@@ -171,7 +171,7 @@
     {
         [current runAction:platform.moveLeft];
     }
-    [_player play];
+//    [_player play];
 }
 
 
@@ -208,7 +208,7 @@
     {
         [current runAction:platform.moveLeft];
     }
-    [_player play];
+//    [_player play];
 }
 
 -(void) endGame
@@ -220,8 +220,8 @@
     [_gameOverMenu runAction:moveDown];
     _shouldSpawnMonsters = FALSE;
     _worldSpeedup = (CGFloat) 500;
-    [_player stop];
-    _player.currentTime = 0;
+//    [_player stop];
+//    _player.currentTime = 0;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
