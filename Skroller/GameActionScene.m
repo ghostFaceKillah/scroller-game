@@ -28,7 +28,7 @@
 
 // structs for holding all the sprites
 @property NSMutableArray *monstersToBeGarbaged;
-@property SKSpriteNode *menu;
+// @property SKSpriteNode *menu;
 @property NSMutableArray *arrowsToBeGarbaged;
 
 // for accounting if game is in dashing state and for monster spawnining
@@ -43,11 +43,15 @@
 // speedup due to dashing etc.
 @property CGFloat worldSpeedup;
 
+// soundtrack
+@property SKAction *soundtrack;
+
+@property AVAudioPlayer *player;
+
 @end
 
 
 @implementation GameActionScene
-
 
 - (void)didMoveToView:(SKView *)view
 {
@@ -68,31 +72,6 @@
     return (randomResult >= valueToCross);
 }
 
--(void) spawnRandomMonster
-{
-    //                CGFloat temp = [Constants randomFloat];
-    //                if (temp < 0.4)
-    //                {
-    [_factory addGoblin];
-    //                } else if (temp < 0.5)
-    //                {
-    //                    [_factory addBirdie];
-    //                } else if (temp < 0.6)
-    //                {
-    //                    [_factory addHightower];
-    //                } else if (temp <0.7)
-    //                {
-    //                    [_factory addBomb];
-    //                } else if (temp < 0.8)
-    //                {
-    //                    [_factory addTwoPartTower];
-    //                } else if (temp < 0.9)
-    //                {
-    //                    [_factory addBaloon];
-    //                }
-
-}
-
 - (void)updateWithTimeSinceLastUpdate:(CFTimeInterval)timeSinceLast
 {
     // check once in a while if we would like to spawn a monster
@@ -107,7 +86,7 @@
             self.lastSpawnTimeInterval = 0;
             if (_shouldSpawnMonsters)
             {
-                [self spawnRandomMonster];
+                [_factory addGoblin];
             }
             SKSpriteNode *cloudey = [SpriteFactory createCloud];
             cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
@@ -151,6 +130,14 @@
     _factory = [SpriteFactory createSpriteFactory:self];
     _swordActive = TRUE;
     
+    // create soundtrack
+    NSError *error;
+    NSString *pathForFile = [[NSBundle mainBundle] pathForResource:@"sound_placeholder" ofType:@"wav"];
+    NSURL *soundFile = [[NSURL alloc] initFileURLWithPath:pathForFile];
+    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFile error:&error];
+    NSLog(@"%@",[error localizedDescription]);
+    [_player prepareToPlay];
+    
     // create strcutures to hold monster data
     _monsters = [NSMutableDictionary dictionaryWithCapacity:10];
     _monstersToBeGarbaged = [NSMutableArray arrayWithCapacity:10];
@@ -160,7 +147,7 @@
     _platforms = [NSMutableArray arrayWithCapacity:10];
     _arrows = [NSMutableArray array];
     _arrowsToBeGarbaged = [NSMutableArray array];
-    
+
     [_factory initSky];
     [_factory initStaticFloor];
     [_factory makeCloud];
@@ -184,22 +171,57 @@
     {
         [current runAction:platform.moveLeft];
     }
+    [_player play];
 }
+
 
 -(void) restartGameAfterGameover
 {
+     Monster *m;
+     for (id key in _monsters)
+     {
+         m = _monsters[key];
+         [m.sprite removeFromParent];
+     }
+     [_monsters removeAllObjects];
+    Platform *p;
+    for (p in _platforms)
+    {
+        for (SKSpriteNode *current in p.parts)
+        {
+            [current removeFromParent];
+        }
+    }
+    [_platforms removeAllObjects];
+    // remake some assets
+    [_factory initStaticFloor];
+    [_factory makeHero];
     // restart game
     _mode = @"gameplay";
     // recreate hero
-    _hero = [Hero createHero];
-    CGFloat y_pos = [self getLastTileFloorHeight] + _hero.sprite.size.height/2;
-    _hero.sprite.position = CGPointMake(CGRectGetMinX(self.frame)+20, y_pos);
-    [self addChild:_hero.sprite];
-    // move menu up
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_gameOverMenu.size.height/2 duration:0.5];
     [_gameOverMenu runAction:moveUp];
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
+    Platform *platform = [_platforms lastObject];
+    for (SKSpriteNode *current in platform.parts)
+    {
+        [current runAction:platform.moveLeft];
+    }
+    [_player play];
+}
+
+-(void) endGame
+{
+    // game over code
+    _mode = @"gameOver";
+    [_hero.sprite removeFromParent];
+    SKAction *moveDown = [SKAction moveToY:CGRectGetMidY(self.frame) duration:0.25];
+    [_gameOverMenu runAction:moveDown];
+    _shouldSpawnMonsters = FALSE;
+    _worldSpeedup = (CGFloat) 500;
+    [_player stop];
+    _player.currentTime = 0;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -316,7 +338,7 @@
     {
         // decay linearly from speed coeff to zero in time from t_0 = dashTime to t_1 = dashDecayTime
         _worldSpeedup =
-            -( (speedCoeff/(dashTime-dashDecayTime ))*_timeSinceLastDash + (speedCoeff/(dashDecayTime-dashTime))*dashDecayTime);
+                -((speedCoeff / (dashTime - dashDecayTime)) * _timeSinceLastDash + (speedCoeff / (dashDecayTime - dashTime)) * dashDecayTime);
         _heroIsDashing = TRUE;
     } else
     {
@@ -340,7 +362,6 @@
             [_monstersToBeGarbaged addObject:m.sprite.name];
         } else
         {
-//            [m resolveMovement: _worldSpeedup];
             m.sprite.speed = 1 - 0.001666*_worldSpeedup;
         }
     }
@@ -370,15 +391,15 @@
 }
 
 
--(void) handlePlatforming
-{
-  // see if we have to spawn a new platform, cause end of this one approaches
-    Platform *lastPlatform = [self.platforms lastObject];
-    SKSpriteNode *lastTile = [lastPlatform.parts lastObject];
-    if (lastTile.position.x + lastTile.size.width/2 + 
-        lastPlatform.gapToNextTile <= self.frame.size.width)
-    {
-        [_factory initPlatform];
+- (void)handlePlatforming {
+    if (![_mode  isEqual: @"gameOver"]) {
+        // see if we have to spawn a new platform, cause end of this one approaches
+        Platform *lastPlatform = [self.platforms lastObject];
+        SKSpriteNode *lastTile = [lastPlatform.parts lastObject];
+        if (lastTile.position.x + lastTile.size.width / 2 +
+                lastPlatform.gapToNextTile <= self.frame.size.width) {
+            [_factory initPlatform];
+        }
     }
 }
 
@@ -408,31 +429,15 @@
 
 - (void)didSimulatePhysics
 {
-    [self resolveHeroMovement];
-    [self updateDashingState];
+    if (![_mode isEqualToString:@"gameOver"]) {
+        [self resolveHeroMovement];
+        [self updateDashingState];
+    }
     [self updateMonstersState];
     [self handleWorldSpeedup];
     [self handlePlatforming];
     [self garbageCollectArrows];
 //    [self handleBackground];
-}
-
--(void) endGame
-{
-    // game over code
-    [_hero.sprite removeFromParent];
-    SKAction *moveDown = [SKAction moveToY:CGRectGetMidY(self.frame) duration:0.25];
-    [_gameOverMenu runAction:moveDown];
-    _shouldSpawnMonsters = FALSE;
-    _mode = @"gameOver";
-    
-    Monster *m;
-    for (id key in _monsters)
-    {
-        m = _monsters[key];
-        [m.sprite removeFromParent];
-    }
-    [_monsters removeAllObjects];
 }
 
 -(CGFloat) getLastTileFloorHeight
@@ -489,8 +494,6 @@
 //        [m.sprite addChild:secondBody.node];
         secondBody.categoryBitMask = 0;
     }
-
-    
 }
 
 

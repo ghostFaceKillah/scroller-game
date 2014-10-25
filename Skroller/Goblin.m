@@ -111,7 +111,7 @@
     self.sprite.physicsBody.contactTestBitMask = 0;
     self.sprite.physicsBody.collisionBitMask = 0;
     [self.sprite removeAllActions];
-    
+
     //load death textures
     
 /*  NSMutableArray monster.deathTextures = [NSMutableArray arrayWithCapacity:1];
