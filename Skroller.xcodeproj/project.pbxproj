@@ -28,6 +28,9 @@
 		CB8CC48B1971490B00DF0104 /* SkrollerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8CC48A1971490B00DF0104 /* SkrollerTests.m */; };
 		CB8DC27E19ACADBF001FA1A9 /* Platform.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8DC27D19ACADBF001FA1A9 /* Platform.m */; };
 		CBAC7B7919C6F6C800DAD9DF /* LaunchImage640x960-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBAC7B7819C6F6C800DAD9DF /* LaunchImage640x960-568h@2x.png */; };
+		CBACCAED19FC186400F98D37 /* countdown_1.png in Resources */ = {isa = PBXBuildFile; fileRef = CBACCAEA19FC186400F98D37 /* countdown_1.png */; };
+		CBACCAEE19FC186400F98D37 /* countdown_2.png in Resources */ = {isa = PBXBuildFile; fileRef = CBACCAEB19FC186400F98D37 /* countdown_2.png */; };
+		CBACCAEF19FC186400F98D37 /* countdown_3.png in Resources */ = {isa = PBXBuildFile; fileRef = CBACCAEC19FC186400F98D37 /* countdown_3.png */; };
 		CBCEC3561971548C00960425 /* GameActionScene.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCEC3551971548C00960425 /* GameActionScene.m */; };
 		CBCEC3581971570A00960425 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBCEC3571971570A00960425 /* SpriteKit.framework */; };
 		CBCFB8FB19FBAD8F001D5973 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBCFB8FA19FBAD8F001D5973 /* AVFoundation.framework */; };
@@ -247,6 +250,9 @@
 		CB8DC27C19ACADBF001FA1A9 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		CB8DC27D19ACADBF001FA1A9 /* Platform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Platform.m; sourceTree = "<group>"; };
 		CBAC7B7819C6F6C800DAD9DF /* LaunchImage640x960-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchImage640x960-568h@2x.png"; sourceTree = "<group>"; };
+		CBACCAEA19FC186400F98D37 /* countdown_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = countdown_1.png; sourceTree = "<group>"; };
+		CBACCAEB19FC186400F98D37 /* countdown_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = countdown_2.png; sourceTree = "<group>"; };
+		CBACCAEC19FC186400F98D37 /* countdown_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = countdown_3.png; sourceTree = "<group>"; };
 		CBCEC3541971548C00960425 /* GameActionScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameActionScene.h; sourceTree = "<group>"; };
 		CBCEC3551971548C00960425 /* GameActionScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameActionScene.m; sourceTree = "<group>"; };
 		CBCEC3571971570A00960425 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
@@ -564,9 +570,21 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		CBACCAE919FC186400F98D37 /* countdown */ = {
+			isa = PBXGroup;
+			children = (
+				CBACCAEA19FC186400F98D37 /* countdown_1.png */,
+				CBACCAEB19FC186400F98D37 /* countdown_2.png */,
+				CBACCAEC19FC186400F98D37 /* countdown_3.png */,
+			);
+			name = countdown;
+			path = sprites/countdown;
+			sourceTree = "<group>";
+		};
 		CBCEC35D19715EDA00960425 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				CBACCAE919FC186400F98D37 /* countdown */,
 				CBCFB8FD19FBB0D5001D5973 /* sound */,
 				FAE8E8EF19FACDCA00D9B741 /* sprites */,
 			);
@@ -941,6 +959,7 @@
 				FAE8E9FF19FACDCA00D9B741 /* mount_move_16.png in Resources */,
 				FAE8E9C019FACDCA00D9B741 /* floor_move_26.png in Resources */,
 				FAE8E9ED19FACDCA00D9B741 /* hightower_placeholder.png in Resources */,
+				CBACCAEF19FC186400F98D37 /* countdown_3.png in Resources */,
 				FAE8E9D919FACDCA00D9B741 /* floor_move_51.png in Resources */,
 				FAE8E9F119FACDCA00D9B741 /* mount_move_02.png in Resources */,
 				FAE8EA2519FACDCA00D9B741 /* mount_move_54.png in Resources */,
@@ -972,6 +991,7 @@
 				FAE8E9B919FACDCA00D9B741 /* floor_move_19.png in Resources */,
 				FAE8EA3019FACDCA00D9B741 /* school_platform_beg.png in Resources */,
 				FAE8EA2419FACDCA00D9B741 /* mount_move_53.png in Resources */,
+				CBACCAED19FC186400F98D37 /* countdown_1.png in Resources */,
 				FAE8E9D719FACDCA00D9B741 /* floor_move_49.png in Resources */,
 				FAE8EA3819FACDCA00D9B741 /* sword_switch.png in Resources */,
 				FAE8E9DA19FACDCA00D9B741 /* floor_move_52.png in Resources */,
@@ -985,6 +1005,7 @@
 				FAE8E9A219FACDCA00D9B741 /* baloon_placeholder.png in Resources */,
 				FAE8EA2819FACDCA00D9B741 /* mount_move_57.png in Resources */,
 				FAE8EA2D19FACDCA00D9B741 /* mount_move_62.png in Resources */,
+				CBACCAEE19FC186400F98D37 /* countdown_2.png in Resources */,
 				FAE8E9A319FACDCA00D9B741 /* birdie_placeholder.png in Resources */,
 				FAE8E99F19FACDCA00D9B741 /* blondeHeroineMove.atlas in Resources */,
 				FACB222B19C6DFC100AF979C /* LaunchImage640x1136.png in Resources */,

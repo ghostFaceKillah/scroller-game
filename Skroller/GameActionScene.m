@@ -153,8 +153,30 @@
     [_factory initSwordSwitch];
 }
 
+-(void) runCountdown {
+    SKSpriteNode *three = [SKSpriteNode spriteNodeWithImageNamed:@"countdown_3.png"];
+    three.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    SKSpriteNode *two = [SKSpriteNode spriteNodeWithImageNamed:@"countdown_2.png"];
+    two.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    SKSpriteNode *one = [SKSpriteNode spriteNodeWithImageNamed:@"countdown_1.png"];
+    one.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    [self addChild:three];
+    [self addChild:two];
+    [self addChild:one];
+    SKAction *hide = [SKAction hide];
+    SKAction *wait = [SKAction waitForDuration:0.5];
+    SKAction *unhide = [SKAction unhide];
+    SKAction *sequence = [SKAction sequence:@[hide, wait, unhide, wait, hide]];
+    SKAction *sequence2 = [SKAction sequence:@[hide, wait, wait, unhide, wait, hide]];
+    SKAction *sequence3 = [SKAction sequence:@[hide, wait, wait, wait, unhide, wait, hide]];
+    [three runAction:sequence];
+    [two runAction:sequence2];
+    [one runAction:sequence3];
+}
+
 -(void) startInitializedGame
 {
+    [self runCountdown];
     _mode = @"gameplay";
     // move menu up
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_startMenu.size.width/2 duration:1];
@@ -167,7 +189,7 @@
     {
         [current runAction:platform.moveLeft];
     }
-//    [_player play];
+    // [_player play];
 }
 
 
