@@ -61,7 +61,6 @@
     }
 }
 
-
 -(BOOL) spawnTest:(CFTimeInterval) timeElapsed
 {
     // check if we should spawn a monster
@@ -87,10 +86,10 @@
             {
                 [_factory addGoblin];
             }
-            SKSpriteNode *cloudey = [SpriteFactory createCloud];
-            cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
             if ([Constants randomFloat] > 0.5)
             {
+                SKSpriteNode *cloudey = [SpriteFactory createCloud];
+                cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
                 [self addChild:cloudey];
             }
         }
@@ -113,6 +112,15 @@
         self.lastUpdateTimeInterval = currentTime;
     }
     [self updateWithTimeSinceLastUpdate:timeSinceLast];
+    
+    if (![_mode isEqualToString:@"gameOver"])
+        [self resolveHeroMovement];
+    if (![_mode isEqualToString:@"gameOver"])
+        [self updateDashingState];
+    [self updateMonstersState];
+    [self handleWorldSpeedup];
+    [self handlePlatforming];
+    [self garbageCollectArrows];
 }
 
 
@@ -444,17 +452,7 @@
 }
 
 - (void)didSimulatePhysics
-{
-    if (![_mode isEqualToString:@"gameOver"])
-        [self resolveHeroMovement];
-    if (![_mode isEqualToString:@"gameOver"])
-        [self updateDashingState];
-    [self updateMonstersState];
-    [self handleWorldSpeedup];
-    [self handlePlatforming];
-    [self garbageCollectArrows];
-//    [self handleBackground];
-}
+{}
 
 -(CGFloat) getLastTileFloorHeight
 {

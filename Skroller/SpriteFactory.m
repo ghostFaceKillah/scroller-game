@@ -48,7 +48,6 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     Goblin *monster = [Goblin spawn];
     CGFloat y_position = [_receiver getLastTileFloorHeight] + monster.sprite.size.height/2;
     monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame)-20, y_position+100);
-    monster.sprite.name = [Constants generateRandomString:10];
     
     // and add it to the data structures
     [_receiver addChild:monster.sprite];

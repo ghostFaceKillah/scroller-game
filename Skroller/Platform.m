@@ -82,8 +82,11 @@ const CGFloat GAP_SCALE = 100;
     platform.parts = [NSMutableArray array];
 
     SKSpriteNode *current = [Platform getCrazyTile: tile_type];
-    platform.moveLeft = [SKAction moveByX:(-platform.length*current.size.width - 1000) y:0
-                                  duration:((platform.length*current.size.width + 1000)/(300))];
+    SKAction *move = [SKAction moveByX:(-platform.length*current.size.width - 1000) y:0
+                              duration:((platform.length*current.size.width + 1000)/(300))];
+    SKAction *die = [SKAction removeFromParent];
+    
+    platform.moveLeft = [SKAction sequence:@[move, die]];
     
 //    for (int i = 0; i < platform.length; i++)
 //    {
