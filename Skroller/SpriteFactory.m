@@ -8,15 +8,8 @@
 
 #import "SpriteFactory.h"
 #import "Constants.h"
-#import "GameActionScene.h"
-#import "Baloon.h"
-#import "TowerLowerPart.h"
-#import "TowerUpperPart.h"
 #import "Goblin.h"
 #import "Hero.h"
-#import "Birdie.h"
-#import "Hightower.h"
-#import "Bomb.h"
 #import "Platform.h"
 
 @interface SpriteFactory()
@@ -29,16 +22,10 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 
 +(SpriteFactory *) createSpriteFactory: (GameActionScene *) receiver;
 {
+    // running away from standard obj-c constructor
     SpriteFactory *factory = [[SpriteFactory alloc] init];
     factory.receiver = receiver;
     return factory;
-}
-
-+(void)animateSprite :(SKSpriteNode *)sprite :(NSMutableArray *)arrayOfTextures :(NSTimeInterval )time
-{
-    SKAction *animation = [SKAction animateWithTextures:arrayOfTextures timePerFrame: time];
-    SKAction *animate = [SKAction repeatActionForever:animation];
-    [sprite runAction:animate];
 }
 
 -(void) addGoblin
@@ -54,20 +41,6 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     [_receiver.monsters addObject:monster];
 }
 
-+(SKSpriteNode *)createFarBackground
-{
-    SKSpriteNode *buildings = [SKSpriteNode spriteNodeWithImageNamed:@"background_placeholder.png"];
-    buildings.name = @"buildings";
-    buildings.zPosition = -100;
-    SKAction* moveLeft = [SKAction moveByX:(-10) y:0
-                                 duration:(0.1)];
-    SKAction* move = [SKAction repeatActionForever:moveLeft];
-    [buildings runAction:move];
-
-    
-    return buildings;
-}
-
 -(void) initSky
 {
     SKSpriteNode *sky = [SKSpriteNode spriteNodeWithImageNamed:@"sky.png"];
@@ -75,7 +48,6 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     sky.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMidY(_receiver.frame));
     [_receiver addChild:sky];
 }
-
 
 -(void) initGameOverMenu
 {
@@ -121,11 +93,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 //    Platform *floor = [Platform getLongPlatform];
     Platform *floor = [Platform spawn];
     floor.heightAboveAbyss = 17;
-    
     int i = 0;
-    
-//    SKSpriteNode *last = floor.parts[0];
-    
     SKSpriteNode *middle = floor.parts[1];
     SKSpriteNode *first = floor.parts[0];
     for (SKSpriteNode *current in floor.parts)
@@ -148,13 +116,10 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     Platform *floor = [Platform spawn];
     Platform *lastPlatform = [_receiver.platforms lastObject];
     floor.heightAboveAbyss = lastPlatform.heightAboveAbyss + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
-    
     while (floor.heightAboveAbyss <= CGRectGetMinY(_receiver.frame) ||
-           floor.heightAboveAbyss >= CGRectGetMaxY(_receiver.frame) - 30)
-    {
+           floor.heightAboveAbyss >= CGRectGetMaxY(_receiver.frame) - 30) {
         floor.heightAboveAbyss = lastPlatform.heightAboveAbyss + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
     }
-    
     SKSpriteNode *current;
     SKSpriteNode *middle = floor.parts[1];
     SKSpriteNode *first = floor.parts[0];
@@ -173,15 +138,8 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 }
 
 
--(void) createLandscape : (int) shift
-{
-    SKSpriteNode *buildings = [SpriteFactory createFarBackground];
-    buildings.position = CGPointMake(CGRectGetMidX(_receiver.frame)+shift, CGRectGetMinY(_receiver.frame)+50);
-    [_receiver addChild:buildings];
-}
 
-
--(void) makeCloud
+-(void) addCloud
 {
     SKSpriteNode *cloud = [SpriteFactory createCloud];
     [_receiver addChild:cloud];
@@ -189,7 +147,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 }
 
 
--(void) makeHero
+-(void) addHero
 {
     _receiver.hero = [Hero createHero];
     _receiver.hero.sprite.position = CGPointMake(CGRectGetMinX(_receiver.frame)+20, CGRectGetMinY(_receiver.frame)+135);

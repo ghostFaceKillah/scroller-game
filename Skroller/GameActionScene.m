@@ -155,8 +155,8 @@
 
     [_factory initSky];
     [_factory initStaticFloor];
-    [_factory makeCloud];
-    [_factory makeHero];
+    [_factory addCloud];
+    [_factory addHero];
     [_factory initStartMenu];
     [_factory initGameOverMenu];
     [_factory initSwordSwitch];
@@ -221,7 +221,7 @@
     [_platforms removeAllObjects];
     // remake some assets
     [_factory initStaticFloor];
-    [_factory makeHero];
+    [_factory addHero];
     // restart game
     _mode = @"gameplay";
     // recreate hero
@@ -424,16 +424,6 @@
                 lastPlatform.gapToNextTile <= self.frame.size.width) {
             [_factory initPlatform];
         }
-    }
-}
-
--(void) handleBackground
-{
- // see if we have to spawn another copy of the background image
-    if (self.lastBackgroundSpawnInterval > 3.75)
-    {
-        [_factory createLandscape : 500];
-        self.lastBackgroundSpawnInterval = 0;
     }
 }
 

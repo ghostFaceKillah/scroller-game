@@ -8,8 +8,7 @@
 
 #import "Hero.h"
 #import "Constants.h"
-#import "GameActionScene.h"
-#import "SpriteFactory.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface Hero()
 @property NSMutableArray* jumpTextures;
@@ -93,8 +92,6 @@
     }
 }
 
-
-
 -(void)heroDash: (SKSpriteNode *) heroSprite
 {
     SKAction *walk = [SKAction animateWithTextures:_walkTextures timePerFrame: 0.08 resize:YES restore:NO];
@@ -102,6 +99,17 @@
     SKAction *dash_animation = [SKAction animateWithTextures:_attack1Textures timePerFrame: 0.15 resize:YES restore:NO];
     SKAction *sequence = [SKAction sequence:@[dash_animation, loop]];
     [self.sprite runAction:sequence];
+    static int k = 0;
+    k = (k+1) % 3;
+    NSString *name;
+    if (k==0) {
+        name = @"attack_placeholder_1.wav";
+    } else if (k==1) {
+        name = @"attack_placeholder_2.wav";
+    } else {
+        name = @"attack_placeholder_3.wav";
+    }
+    [self.sprite runAction:[SKAction playSoundFileNamed:name waitForCompletion:NO]];
     [heroSprite.physicsBody applyImpulse: CGVectorMake(500, 0)];
 }
 

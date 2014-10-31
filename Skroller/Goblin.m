@@ -18,22 +18,21 @@
 @end
 
 @implementation Goblin
+// we want to initialize all things that are shared across monster type
+// to reduce loading times on older devices
 static NSMutableArray *st = nil;
 static NSMutableArray *vt = nil;
 static SKAction *actionCombo = nil;
 
 +(NSMutableArray *) getSpawnTextures {
-    
     if(st==nil)
         st = [NSMutableArray arrayWithCapacity:1];
-    
     return st;
 }
 
 +(NSMutableArray *) getMoveTextures {
     if (vt==nil)
         vt = [NSMutableArray arrayWithCapacity:1];
-
     return vt;
 }
 
@@ -45,15 +44,11 @@ static SKAction *actionCombo = nil;
         SKAction *combo = [SKAction group:@[spawnAnimation,moveDown]];
         
         //animate move
-        
         SKAction *animation = [SKAction animateWithTextures:[Goblin getMoveTextures] timePerFrame:0.09];
         SKAction *animate = [SKAction repeatActionForever:animation];
-        
-        SKAction *moveLeft = [SKAction moveByX:(-400) y:0
-                                      duration:(1000/(500))];
+        SKAction *moveLeft = [SKAction moveByX:(-400) y:0 duration:(1000/(500))];
         SKAction *wait = [SKAction waitForDuration:1];
         SKAction *combo2 = [SKAction group:@[wait,animate,moveLeft]];
-        
         actionCombo = [SKAction sequence:@[combo,combo2]];
     }
     return actionCombo;
@@ -70,7 +65,8 @@ static SKAction *actionCombo = nil;
         temp.filteringMode = SKTextureFilteringNearest;
         [[Goblin getSpawnTextures] addObject:temp];
     }
-    
+
+    // movement textures
     SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"goblinMove"];
     NSInteger amount2 = goblinMoveAtlas.textureNames.count;
     for (NSInteger i=1; i <= amount2; i+=2) {
@@ -97,15 +93,18 @@ static SKAction *actionCombo = nil;
     monster.sprite.physicsBody.categoryBitMask = monsterCategory;
     monster.sprite.physicsBody.contactTestBitMask = heroCategory | floorCategory;
     monster.sprite.physicsBody.collisionBitMask = heroCategory| floorCategory;
-    
+
     monster.isAttacking = TRUE;
-    
+
+    // the thing underneath is to assure communication between Goblin class
+    // and it's sprite. For example when collision of sprite is noted,
+    // we can easily get appropriate Goblin node by going to:
+    // Monster *m = (physicsBody.node.userData)[@"parent"];
     monster.sprite.userData = [NSMutableDictionary dictionaryWithCapacity:1];
     [monster.sprite.userData setObject:monster forKey:@"parent"];
     
     return monster;
 }
-
 
 -(void) resolveMovement: (CGFloat) worldVelocity
 {
@@ -115,38 +114,18 @@ static SKAction *actionCombo = nil;
         // towards our hero
         CGFloat current_y_speed = self.sprite.physicsBody.velocity.dy;
         self.sprite.physicsBody.velocity = CGVectorMake(MIN(-300, 0.5*worldVelocity), current_y_speed);
-        
-        
     }
 }
 
 -(void) resolveHit
 {
+    // just vanilla death
     self.isAttacking = FALSE;
     self.sprite.physicsBody.angularVelocity = 50*([Constants randomFloat] - 0.5);
     self.sprite.physicsBody.categoryBitMask = menuCategory;
     self.sprite.physicsBody.contactTestBitMask = 0;
     self.sprite.physicsBody.collisionBitMask = 0;
     [self.sprite removeAllActions];
-
-    //load death textures
-    
-/*  NSMutableArray monster.deathTextures = [NSMutableArray arrayWithCapacity:1];
-    SKTextureAtlas *goblinDeathAtlas = [SKTextureAtlas atlasNamed:@"goblinDeath"];
-    
-    NSInteger amount3 = goblinDeathAtlas.textureNames.count;
-    for (NSInteger i=0; i <= amount3; i+=3) {
-        NSString *textureName = [NSString stringWithFormat:@"death%ld", (long)i];
-        SKTexture *temp = [goblinDeathAtlas textureNamed:textureName];
-        temp.filteringMode = SKTextureFilteringNearest;
-        [monster.deathTextures addObject:temp];
-    }
-
-    SKAction *deathAnimation = [SKAction animateWithTextures:monster.deathTextures timePerFrame:0.01];
-*/
-//    [self.sprite runAction: deathAnimation];
-
-    
 }
 
 -(BOOL) isNoLongerNeeded {
