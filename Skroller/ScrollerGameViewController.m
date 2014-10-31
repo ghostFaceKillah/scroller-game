@@ -7,7 +7,7 @@
 //
 
 #import "ScrollerGameViewController.h"
-#import "GameActionScene.h"
+#import "MenuScene.h"
 #import "Hero.h"
 
 @interface ScrollerGameViewController ()
@@ -27,11 +27,10 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-//    GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(300,200)];
-    GameActionScene* hello = [[GameActionScene alloc] initWithSize:CGSizeMake(400,300)];
+    MenuScene* menu = [[MenuScene alloc] initWithSize:CGSizeMake(400,300)];
     SKView *spriteView = (SKView *) self.view;
     spriteView.ignoresSiblingOrder = TRUE;
-    [spriteView presentScene: hello];
+    [spriteView presentScene: menu];
 }
 
 - (void)didReceiveMemoryWarning

@@ -38,6 +38,9 @@
 		CBDDB4FD19AA3E950007F6B7 /* Baloon.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDDB4FC19AA3E950007F6B7 /* Baloon.m */; };
 		CBFCBA7D19A61648003B6733 /* Goblin.m in Sources */ = {isa = PBXBuildFile; fileRef = CBFCBA7C19A61648003B6733 /* Goblin.m */; };
 		CBFCBA8019A61951003B6733 /* Birdie.m in Sources */ = {isa = PBXBuildFile; fileRef = CBFCBA7F19A61951003B6733 /* Birdie.m */; };
+		FA2637CC1A03D66B005E8E93 /* NeverGrowUp.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2637CB1A03D66B005E8E93 /* NeverGrowUp.png */; };
+		FA2637CF1A03F538005E8E93 /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2637CE1A03F538005E8E93 /* MenuScene.m */; };
+		FA2637D11A03FFB9005E8E93 /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2637D01A03FFB9005E8E93 /* startButton.png */; };
 		FACB222B19C6DFC100AF979C /* LaunchImage640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */; };
 		FACB222C19C6DFC100AF979C /* LaunchImage640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222A19C6DFC100AF979C /* LaunchImage640x960.png */; };
 		FAE8E99A19FACDCA00D9B741 /* goblinDeath.atlas in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E8F119FACDCA00D9B741 /* goblinDeath.atlas */; };
@@ -264,6 +267,10 @@
 		CBFCBA7C19A61648003B6733 /* Goblin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Goblin.m; sourceTree = "<group>"; };
 		CBFCBA7E19A61951003B6733 /* Birdie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Birdie.h; sourceTree = "<group>"; };
 		CBFCBA7F19A61951003B6733 /* Birdie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Birdie.m; sourceTree = "<group>"; };
+		FA2637CB1A03D66B005E8E93 /* NeverGrowUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NeverGrowUp.png; sourceTree = "<group>"; };
+		FA2637CD1A03F538005E8E93 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
+		FA2637CE1A03F538005E8E93 /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
+		FA2637D01A03FFB9005E8E93 /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startButton.png; sourceTree = "<group>"; };
 		FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage640x1136.png; sourceTree = "<group>"; };
 		FACB222A19C6DFC100AF979C /* LaunchImage640x960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage640x960.png; sourceTree = "<group>"; };
 		FAE8E8F119FACDCA00D9B741 /* goblinDeath.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = goblinDeath.atlas; sourceTree = "<group>"; };
@@ -494,6 +501,8 @@
 		CB8CC4621971490B00DF0104 /* Skroller */ = {
 			isa = PBXGroup;
 			children = (
+				FA2637CD1A03F538005E8E93 /* MenuScene.h */,
+				FA2637CE1A03F538005E8E93 /* MenuScene.m */,
 				CB41833E19CC420600526176 /* Hightower.h */,
 				CB41833F19CC420600526176 /* Hightower.m */,
 				CBDDB4FB19AA3E950007F6B7 /* Baloon.h */,
@@ -567,6 +576,7 @@
 		CBCEC35D19715EDA00960425 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				FA2637CA1A03D66B005E8E93 /* menu */,
 				CBCFB8FD19FBB0D5001D5973 /* sound */,
 				FAE8E8EF19FACDCA00D9B741 /* sprites */,
 			);
@@ -579,6 +589,15 @@
 				CBCFB8FE19FBB0D5001D5973 /* sound_placeholder.wav */,
 			);
 			path = sound;
+			sourceTree = "<group>";
+		};
+		FA2637CA1A03D66B005E8E93 /* menu */ = {
+			isa = PBXGroup;
+			children = (
+				FA2637D01A03FFB9005E8E93 /* startButton.png */,
+				FA2637CB1A03D66B005E8E93 /* NeverGrowUp.png */,
+			);
+			path = menu;
 			sourceTree = "<group>";
 		};
 		FAE8E8EF19FACDCA00D9B741 /* sprites */ = {
@@ -895,6 +914,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAE8E9B819FACDCA00D9B741 /* floor_move_18.png in Resources */,
+				FA2637CC1A03D66B005E8E93 /* NeverGrowUp.png in Resources */,
 				FAE8E9B619FACDCA00D9B741 /* floor_move_16.png in Resources */,
 				FAE8EA3519FACDCA00D9B741 /* school_platform_mid_back.png in Resources */,
 				FAE8E9D319FACDCA00D9B741 /* floor_move_45.png in Resources */,
@@ -1029,6 +1049,7 @@
 				CB8CC4671971490B00DF0104 /* InfoPlist.strings in Resources */,
 				FAE8E9FE19FACDCA00D9B741 /* mount_move_15.png in Resources */,
 				FAE8E9A819FACDCA00D9B741 /* floor_move_02.png in Resources */,
+				FA2637D11A03FFB9005E8E93 /* startButton.png in Resources */,
 				FAE8E9B719FACDCA00D9B741 /* floor_move_17.png in Resources */,
 				FAE8E9CF19FACDCA00D9B741 /* floor_move_41.png in Resources */,
 				FAE8E9DF19FACDCA00D9B741 /* floor_move_57.png in Resources */,
@@ -1095,6 +1116,7 @@
 				CB8DC27E19ACADBF001FA1A9 /* Platform.m in Sources */,
 				CBCEC3561971548C00960425 /* GameActionScene.m in Sources */,
 				CB8CC4691971490B00DF0104 /* main.m in Sources */,
+				FA2637CF1A03F538005E8E93 /* MenuScene.m in Sources */,
 				CBDDB4FD19AA3E950007F6B7 /* Baloon.m in Sources */,
 				CB5582AB19A2AF61008A45C1 /* SpriteFactory.m in Sources */,
 				CB5582B119A33D03008A45C1 /* Constants.m in Sources */,
