@@ -61,12 +61,12 @@
     }
     
     // create hero node
-    SKAction *walk = [SKAction animateWithTextures:hero.walkTextures timePerFrame: 0.08];
+    SKAction *walk = [SKAction animateWithTextures:hero.walkTextures timePerFrame: 0.08 resize:YES restore:NO];
     SKAction *loop = [SKAction repeatActionForever:walk];
     [hero.sprite runAction:loop];
     
     // setup physics
-    hero.sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:hero.sprite.size];
+    hero.sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(26, 42)];
     hero.sprite.physicsBody.dynamic = TRUE;
     hero.sprite.physicsBody.mass = 1;
     hero.sprite.physicsBody.restitution = -10;
@@ -87,7 +87,7 @@
     if (abs(self.sprite.physicsBody.velocity.dy) < 20 && self.timesJumped <1)
     {
         self.timesJumped += 1;
-        SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.1 resize:YES restore:YES];
+        SKAction *sequenceOfTextures = [SKAction animateWithTextures:_jumpTextures timePerFrame: 0.1 resize:YES restore:NO];
         [self.sprite runAction:sequenceOfTextures];
         self.sprite.physicsBody.velocity = CGVectorMake(0, 700);
     }

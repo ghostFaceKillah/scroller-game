@@ -13,6 +13,7 @@
 #import "Platform.h"
 #import "Hero.h"
 #import "GameData.h"
+#import "Goblin.h"
 
 @interface GameActionScene ()
 // factory of sprites for our game
@@ -61,7 +62,6 @@
     }
 }
 
-
 -(BOOL) spawnTest:(CFTimeInterval) timeElapsed
 {
     // check if we should spawn a monster
@@ -87,10 +87,10 @@
             {
                 [_factory addGoblin];
             }
-            SKSpriteNode *cloudey = [SpriteFactory createCloud];
-            cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
             if ([Constants randomFloat] > 0.5)
             {
+                SKSpriteNode *cloudey = [SpriteFactory createCloud];
+                cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
                 [self addChild:cloudey];
             }
         }
@@ -123,6 +123,15 @@
         self.lastUpdateTimeInterval = currentTime;
     }
     [self updateWithTimeSinceLastUpdate:timeSinceLast];
+    
+    if (![_mode isEqualToString:@"gameOver"])
+        [self resolveHeroMovement];
+    if (![_mode isEqualToString:@"gameOver"])
+        [self updateDashingState];
+    [self updateMonstersState];
+    [self handleWorldSpeedup];
+    [self handlePlatforming];
+    [self garbageCollectArrows];
 }
 
 
@@ -162,6 +171,7 @@
     [_factory initStartMenu];
     [_factory initGameOverMenu];
     [_factory initSwordSwitch];
+    [Goblin preloadTextures];
 }
 
 -(void) runCountdown {
@@ -187,7 +197,7 @@
 
 -(void) startInitializedGame
 {
-    [self runCountdown];
+//    [self runCountdown];
     _mode = @"gameplay";
     // move menu up
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_startMenu.size.width/2 duration:1];
@@ -240,7 +250,6 @@
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
     Platform *platform = [_platforms lastObject];
-    
     for (SKSpriteNode *current in platform.parts)
     {
         [current runAction:platform.moveLeft];
@@ -463,17 +472,7 @@
 }
 
 - (void)didSimulatePhysics
-{
-    if (![_mode isEqualToString:@"gameOver"])
-        [self resolveHeroMovement];
-    if (![_mode isEqualToString:@"gameOver"])
-        [self updateDashingState];
-    [self updateMonstersState];
-    [self handleWorldSpeedup];
-    [self handlePlatforming];
-    [self garbageCollectArrows];
-//    [self handleBackground];
-}
+{}
 
 -(CGFloat) getLastTileFloorHeight
 {

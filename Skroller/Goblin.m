@@ -18,60 +18,76 @@
 @end
 
 @implementation Goblin
+static NSMutableArray *st = nil;
+static NSMutableArray *vt = nil;
+static SKAction *actionCombo = nil;
 
-+(Goblin *) spawn
++(NSMutableArray *) getSpawnTextures {
+    
+    if(st==nil)
+        st = [NSMutableArray arrayWithCapacity:1];
+    
+    return st;
+}
+
++(NSMutableArray *) getMoveTextures {
+    if (vt==nil)
+        vt = [NSMutableArray arrayWithCapacity:1];
+
+    return vt;
+}
+
++(SKAction *) getActionCombo {
+    if(actionCombo == nil) {
+        //animate spawn
+        SKAction *spawnAnimation = [SKAction animateWithTextures:[Goblin getSpawnTextures] timePerFrame:0.01];
+        SKAction *moveDown = [SKAction moveByX:0 y:0 duration:(250/(500))];
+        SKAction *combo = [SKAction group:@[spawnAnimation,moveDown]];
+        
+        //animate move
+        
+        SKAction *animation = [SKAction animateWithTextures:[Goblin getMoveTextures] timePerFrame:0.09];
+        SKAction *animate = [SKAction repeatActionForever:animation];
+        
+        SKAction *moveLeft = [SKAction moveByX:(-400) y:0
+                                      duration:(1000/(500))];
+        SKAction *wait = [SKAction waitForDuration:1];
+        SKAction *combo2 = [SKAction group:@[wait,animate,moveLeft]];
+        
+        actionCombo = [SKAction sequence:@[combo,combo2]];
+    }
+    return actionCombo;
+}
+
++(void) preloadTextures
 {
-    // alloc and init monster goblin
-    Goblin *monster = [[Goblin alloc] init];
-    monster.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"1.png"];
-    monster.sprite.texture.filteringMode = SKTextureFilteringNearest;
-    
-    //load spawn textures
-    
-    monster.spawnTextures = [NSMutableArray arrayWithCapacity:1];
+    // spawn Textures
     SKTextureAtlas *goblinSpawnAtlas = [SKTextureAtlas atlasNamed:@"goblinRespawn"];
-    
     NSInteger amount = goblinSpawnAtlas.textureNames.count -1;
     for (NSInteger i=0; i <= amount; i++) {
         NSString *textureName = [NSString stringWithFormat:@"spawn%ld", (long)i];
         SKTexture *temp = [goblinSpawnAtlas textureNamed:textureName];
         temp.filteringMode = SKTextureFilteringNearest;
-        [monster.spawnTextures addObject:temp];
+        [[Goblin getSpawnTextures] addObject:temp];
     }
     
-    //animate spawn
-    
-    SKAction *spawnAnimation = [SKAction animateWithTextures:monster.spawnTextures timePerFrame:0.01];
-    
-    SKAction *moveDown = [SKAction moveByX:0 y:0
-                                  duration:(250/(500))];
-    SKAction *combo = [SKAction group:@[spawnAnimation,moveDown]];
-    
-    //load move textures
-    monster.moveTextures = [NSMutableArray arrayWithCapacity:1];
     SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"goblinMove"];
     NSInteger amount2 = goblinMoveAtlas.textureNames.count;
     for (NSInteger i=1; i <= amount2; i+=2) {
         NSString *textureName = [NSString stringWithFormat:@"%ld", (long)i];
         SKTexture *temp = [goblinMoveAtlas textureNamed:textureName];
         temp.filteringMode = SKTextureFilteringNearest;
-        [monster.moveTextures addObject:temp];
+        [[Goblin getMoveTextures] addObject:temp];
     }
-    
-    //animate move
-    
-    SKAction *animation = [SKAction animateWithTextures:monster.moveTextures timePerFrame:0.09];
-    SKAction *animate = [SKAction repeatActionForever:animation];
-    
-    SKAction *moveLeft = [SKAction moveByX:(-400) y:0
-                                  duration:(1000/(500))];
-    SKAction *wait = [SKAction waitForDuration:1];
-    SKAction *combo2 = [SKAction group:@[wait,animate,moveLeft]];
-    
-    SKAction *finalAnim = [SKAction sequence:@[combo,combo2]];
-    
-    [monster.sprite runAction:finalAnim];
-    
+}
+
+
++(Goblin *) spawn
+{
+    // alloc and init monster goblin
+    Goblin *monster = [[Goblin alloc] init];
+    monster.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"1.png"];
+    [monster.sprite runAction:[Goblin getActionCombo]];
     
     // setup gobbo's physics
     monster.sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:monster.sprite.size];
