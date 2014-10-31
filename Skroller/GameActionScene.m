@@ -12,6 +12,7 @@
 #import "Monster.h"
 #import "Platform.h"
 #import "Hero.h"
+#import "GameData.h"
 #import "Goblin.h"
 
 @interface GameActionScene ()
@@ -105,6 +106,16 @@
     self.lastUpdateTimeInterval = currentTime;
     _timeSinceLastDash += timeSinceLast;
     
+    //progress tracker update
+    static NSTimeInterval _lastCurrentTime = 0;
+    if ((currentTime-_lastCurrentTime>1) && ([_mode isEqualToString:@"gameplay"])) {
+        [GameData sharedGameData].distance++;
+        [GameData sharedGameData].totalDistance++;
+        _distance.text = [NSString stringWithFormat:@"%i miles", [GameData sharedGameData].distance];
+        _lastCurrentTime = currentTime;
+    }
+    
+    
     if (timeSinceLast > 1)
     {
         // more than a second since last update
@@ -137,7 +148,7 @@
     _factory = [SpriteFactory createSpriteFactory:self];
     _swordActive = TRUE;
     
-    // create soundtrack
+        // create soundtrack
     NSError *error;
     NSString *pathForFile = [[NSBundle mainBundle] pathForResource:@"sound_placeholder" ofType:@"wav"];
     NSURL *soundFile = [[NSURL alloc] initFileURLWithPath:pathForFile];
@@ -191,10 +202,15 @@
     // move menu up
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_startMenu.size.width/2 duration:1];
     [_startMenu runAction:moveUp];
+    // setup HUD
+    [self setupHUD];
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
     // start platforming move
     Platform *platform = [_platforms lastObject];
+    _highScore.text = [NSString stringWithFormat:@"Highscore: %li pt", [GameData sharedGameData].highScore];
+    //_score.text = @"0 pt";
+    _distance.text = @"";
     for (SKSpriteNode *current in platform.parts)
     {
         [current runAction:platform.moveLeft];
@@ -227,6 +243,10 @@
     // recreate hero
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_gameOverMenu.size.height/2 duration:0.5];
     [_gameOverMenu runAction:moveUp];
+    //reset progress tracker
+    [GameData sharedGameData].highScore = MAX([GameData sharedGameData].distance,
+                                                [GameData sharedGameData].highScore);
+    [[GameData sharedGameData] reset];
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
     Platform *platform = [_platforms lastObject];
@@ -498,6 +518,33 @@
 //        [m.sprite addChild:secondBody.node];
         secondBody.categoryBitMask = 0;
     }
+}
+
+SKLabelNode* _score;
+SKLabelNode* _highScore;
+SKLabelNode* _distance;
+
+-(void)setupHUD
+{
+//    _score = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
+//    _score.fontSize = 12.0;
+//    _score.position = CGPointMake(50, 7);
+//    _score.fontColor = [SKColor greenColor];
+//    [self addChild:_score];
+    
+    _distance = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
+    _distance.fontSize = 12.0;
+    _distance.position = CGPointMake(115, 257);
+    _distance.fontColor = [SKColor orangeColor];
+    _distance.zPosition = 1000;
+    [self addChild:_distance];
+    
+    _highScore = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
+    _highScore.fontSize = 12.0;
+    _highScore.position = CGPointMake(200, 257);
+    _highScore.fontColor = [SKColor greenColor];
+    _highScore.zPosition = 1000;
+    [self addChild:_highScore];
 }
 
 
