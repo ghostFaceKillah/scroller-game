@@ -12,6 +12,7 @@
 #import "Monster.h"
 #import "Platform.h"
 #import "Hero.h"
+#import "Goblin.h"
 
 @interface GameActionScene ()
 // factory of sprites for our game
@@ -151,6 +152,7 @@
     [_factory initStartMenu];
     [_factory initGameOverMenu];
     [_factory initSwordSwitch];
+    [Goblin preloadTextures];
 }
 
 -(void) runCountdown {

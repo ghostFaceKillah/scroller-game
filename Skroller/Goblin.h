@@ -15,4 +15,7 @@
 -(BOOL) isNoLongerNeeded;
 -(void) resolveMovement: (CGFloat) worldVelocity;
 -(void) resolveHit;
++(void) preloadTextures;
++(NSMutableArray *) getSpawnTextures;
++(NSMutableArray *) getMoveTextures;
 @end

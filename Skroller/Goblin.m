@@ -18,6 +18,46 @@
 @end
 
 @implementation Goblin
+static NSMutableArray *st = nil;
+static NSMutableArray *vt = nil;
+
++(NSMutableArray *) getSpawnTextures {
+    
+    if(st==nil)
+        st = [NSMutableArray arrayWithCapacity:1];
+    
+    return st;
+}
+
++(NSMutableArray *) getMoveTextures {
+    if (vt==nil)
+        vt = [NSMutableArray arrayWithCapacity:1];
+
+    return vt;
+}
+
++(void) preloadTextures
+{
+    // spawn Textures
+    SKTextureAtlas *goblinSpawnAtlas = [SKTextureAtlas atlasNamed:@"goblinRespawn"];
+    NSInteger amount = goblinSpawnAtlas.textureNames.count -1;
+    for (NSInteger i=0; i <= amount; i++) {
+        NSString *textureName = [NSString stringWithFormat:@"spawn%ld", (long)i];
+        SKTexture *temp = [goblinSpawnAtlas textureNamed:textureName];
+        temp.filteringMode = SKTextureFilteringNearest;
+        [[Goblin getSpawnTextures] addObject:temp];
+    }
+    
+    SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"goblinMove"];
+    NSInteger amount2 = goblinMoveAtlas.textureNames.count;
+    for (NSInteger i=1; i <= amount2; i+=2) {
+        NSString *textureName = [NSString stringWithFormat:@"%ld", (long)i];
+        SKTexture *temp = [goblinMoveAtlas textureNamed:textureName];
+        temp.filteringMode = SKTextureFilteringNearest;
+        [[Goblin getMoveTextures] addObject:temp];
+    }
+}
+
 
 +(Goblin *) spawn
 {
@@ -25,42 +65,15 @@
     Goblin *monster = [[Goblin alloc] init];
     monster.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"1.png"];
     monster.sprite.texture.filteringMode = SKTextureFilteringNearest;
-    
-    //load spawn textures
-    
-    monster.spawnTextures = [NSMutableArray arrayWithCapacity:1];
-    SKTextureAtlas *goblinSpawnAtlas = [SKTextureAtlas atlasNamed:@"goblinRespawn"];
-    
-    NSInteger amount = goblinSpawnAtlas.textureNames.count -1;
-    for (NSInteger i=0; i <= amount; i++) {
-        NSString *textureName = [NSString stringWithFormat:@"spawn%ld", (long)i];
-        SKTexture *temp = [goblinSpawnAtlas textureNamed:textureName];
-        temp.filteringMode = SKTextureFilteringNearest;
-        [monster.spawnTextures addObject:temp];
-    }
-    
+
     //animate spawn
-    
-    SKAction *spawnAnimation = [SKAction animateWithTextures:monster.spawnTextures timePerFrame:0.01];
-    
-    SKAction *moveDown = [SKAction moveByX:0 y:0
-                                  duration:(250/(500))];
+    SKAction *spawnAnimation = [SKAction animateWithTextures:[Goblin getSpawnTextures] timePerFrame:0.01];
+    SKAction *moveDown = [SKAction moveByX:0 y:0 duration:(250/(500))];
     SKAction *combo = [SKAction group:@[spawnAnimation,moveDown]];
-    
-    //load move textures
-    monster.moveTextures = [NSMutableArray arrayWithCapacity:1];
-    SKTextureAtlas *goblinMoveAtlas = [SKTextureAtlas atlasNamed:@"goblinMove"];
-    NSInteger amount2 = goblinMoveAtlas.textureNames.count;
-    for (NSInteger i=1; i <= amount2; i+=2) {
-        NSString *textureName = [NSString stringWithFormat:@"%ld", (long)i];
-        SKTexture *temp = [goblinMoveAtlas textureNamed:textureName];
-        temp.filteringMode = SKTextureFilteringNearest;
-        [monster.moveTextures addObject:temp];
-    }
     
     //animate move
     
-    SKAction *animation = [SKAction animateWithTextures:monster.moveTextures timePerFrame:0.09];
+    SKAction *animation = [SKAction animateWithTextures:[Goblin getMoveTextures] timePerFrame:0.09];
     SKAction *animate = [SKAction repeatActionForever:animation];
     
     SKAction *moveLeft = [SKAction moveByX:(-400) y:0
