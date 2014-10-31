@@ -47,7 +47,7 @@
         // if monster is still fresh and has not been killed, make it move forward
         // towards our hero
 //        CGFloat current_y_speed = self.sprite.physicsBody.velocity.dy;
-        self.sprite.physicsBody.velocity = CGVectorMake(MIN(-200, 0.5*worldVelocity), 30);
+        self.sprite.physicsBody.velocity = CGVectorMake((CGFloat) MIN(-200, 0.5*worldVelocity), 30);
         if (self.sprite.position.x <= 200)
         {
             self.state = @"circling";
@@ -57,8 +57,8 @@
     {
         self.alpha += 0.1;
         CGFloat flyingPower = 100;
-        CGFloat x_prime = flyingPower * sin(self.alpha);
-        CGFloat y_prime = -flyingPower * cos(self.alpha) + 30;
+        CGFloat x_prime = (CGFloat) (flyingPower * sin(self.alpha));
+        CGFloat y_prime = (CGFloat) (-flyingPower * cos(self.alpha) + 30);
         self.sprite.physicsBody.velocity = CGVectorMake(x_prime, y_prime);
         if ([Constants randomFloat] < 0.005)
         {

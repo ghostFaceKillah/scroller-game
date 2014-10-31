@@ -27,7 +27,6 @@
 //    hero.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"killer.png"];
   
     // load textures
-    
     hero.walkTextures = [NSMutableArray arrayWithCapacity:1];
     SKTextureAtlas *blondieMoveAtlas = [SKTextureAtlas atlasNamed:@"blondeHeroineMove"];
     

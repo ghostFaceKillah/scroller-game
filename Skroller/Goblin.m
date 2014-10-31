@@ -33,10 +33,10 @@
     
     NSInteger amount = goblinSpawnAtlas.textureNames.count -1;
     for (NSInteger i=0; i <= amount; i++) {
-    NSString *textureName = [NSString stringWithFormat:@"spawn%ld", (long)i];
-    SKTexture *temp = [goblinSpawnAtlas textureNamed:textureName];
-    temp.filteringMode = SKTextureFilteringNearest;
-    [monster.spawnTextures addObject:temp];
+        NSString *textureName = [NSString stringWithFormat:@"spawn%ld", (long)i];
+        SKTexture *temp = [goblinSpawnAtlas textureNamed:textureName];
+        temp.filteringMode = SKTextureFilteringNearest;
+        [monster.spawnTextures addObject:temp];
     }
     
     //animate spawn
