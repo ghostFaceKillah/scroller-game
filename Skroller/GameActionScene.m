@@ -176,7 +176,7 @@
 
 -(void) startInitializedGame
 {
-    [self runCountdown];
+//    [self runCountdown];
     _mode = @"gameplay";
     // move menu up
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_startMenu.size.width/2 duration:1];

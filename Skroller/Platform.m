@@ -119,7 +119,8 @@ const CGFloat GAP_SCALE = 100;
     
     for (int i = 0; i < platform.length; i++)
     {
-        current = [Platform getSingleTile: (i==0): (i==platform.length - 1)];
+//        current = [Platform getSingleTile: (i==0): (i==platform.length - 1)];
+        current = [Platform getCrazyTile:@"honey_tile.png"];
         [platform.parts addObject:current];
     }
     

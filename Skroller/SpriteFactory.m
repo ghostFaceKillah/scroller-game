@@ -120,7 +120,6 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 -(void) initStaticFloor
 {
 //    Platform *floor = [Platform getLongPlatform];
-    
     Platform *floor = [Platform spawn];
     floor.heightAboveAbyss = 17;
     
