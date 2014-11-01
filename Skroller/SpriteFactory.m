@@ -53,6 +53,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 -(void) initGameOverMenu
 {
     SKSpriteNode *menu = [SKSpriteNode spriteNodeWithImageNamed:@"game_over_menu_placeholder.png"];
+    menu.name = @"gameOverMenu";
     menu.zPosition = 1100;
     menu.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMaxY(_receiver.frame) + menu.size.height/2);
     SKSpriteNode *tryAgainButton = [SKSpriteNode spriteNodeWithImageNamed:@"try_again_button_placeholder.png"];
@@ -104,7 +105,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
                                        first.size.width +
                                        (i-1) * middle.size.width,
                                        heightAboveAbyss);
-        current.name = @"platform_tile";
+        current.name = @"platform";
         i++;
     }
     [_receiver addChild:floor];
@@ -136,7 +137,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
                                        (i-1) * middle.size.width,
                                        floor_h);
         [current runAction:moveLeft];
-        current.name = @"platform_tile";
+        current.name = @"platform";
         i++;
     }
     [_receiver addChild:floor];

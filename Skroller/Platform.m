@@ -73,8 +73,8 @@ const CGFloat GAP_SCALE = 100;
     CGFloat heightAboveAbyss = 0;
     int length = arc4random_uniform(10) + 5;
     SKSpriteNode *current = [Platform getCrazyTile: tile_type];
-    SKAction *move = [SKAction moveByX:(-length*current.size.width - 1000) y:0
-                              duration:((length*current.size.width + 1000)/(300))];
+    SKAction *move = [SKAction moveByX:(-length*current.size.width - 30000) y:0
+                              duration:((length*current.size.width + 30000)/(300))];
     SKAction *kill = [SKAction runBlock: ^{
         [GarbageCollctor cleanObject:platform];
     }];

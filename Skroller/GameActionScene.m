@@ -203,13 +203,15 @@
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
     // start platforming move
-    SKNode *platform = [_platforms lastObject];
     _highScore.text = [NSString stringWithFormat:@"Highscore: %li pt", [GameData sharedGameData].highScore];
     //_score.text = @"0 pt";
     _distance.text = @"";
+    SKNode *platform = [_platforms lastObject];
     SKAction *moveLeft = [platform.userData objectForKey:@"moveLeft"];
-    for (SKSpriteNode *current in platform.children) {
-        [current runAction:moveLeft];
+    for (SKNode *p in _platforms) {
+        for (SKSpriteNode *current in p.children) {
+            [current runAction:moveLeft];
+        }
     }
     // [_player play];
 }
@@ -246,8 +248,10 @@
         _shouldSpawnMonsters = TRUE;
         SKNode *platform = [_platforms lastObject];
         SKAction *moveLeft = [platform.userData objectForKey:@"moveLeft"];
-        for (SKSpriteNode *current in platform.children) {
-            [current runAction:moveLeft];
+        for (SKNode *p in _platforms) {
+            for (SKSpriteNode *current in p.children) {
+                [current runAction:moveLeft];
+            }
         }
 //    [_player play];
     }];
@@ -411,17 +415,20 @@
 
 -(void) handleWorldSpeedup
 {
-    _floor.speed = 1 - 0.001666*_worldSpeedup;
     //    NSLog(@"%f", _floor.speed);
     for (SKSpriteNode *sprite in self.children)
     {
-        if ([sprite.name isEqualToString:@"cloud"] || [sprite.name isEqualToString:@"mountains"] ||
-            [sprite.name isEqualToString:@"platform"])
+        if (![sprite.name isEqualToString:@"hero"] && ![sprite.name isEqualToString:@"gameOverMenu"])
         {
             sprite.speed = 1 - 0.001666*_worldSpeedup;
         }
     }
+    for (SKNode *p in _platforms)
+    {
+        p.speed = 1 - 0.001666*_worldSpeedup;
+    }
 }
+
 
 
 - (void)handlePlatforming {

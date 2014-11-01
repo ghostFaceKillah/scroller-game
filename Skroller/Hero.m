@@ -23,6 +23,7 @@
 {
     Hero *hero = [[Hero alloc] init];
     hero.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"girl0.png"];
+    hero.sprite.name = @"hero";
 //    hero.sprite = [SKSpriteNode spriteNodeWithImageNamed:@"killer.png"];
   
     // load textures
