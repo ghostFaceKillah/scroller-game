@@ -7,6 +7,7 @@
 //
 
 #import "GameActionScene.h"
+#import "GarbageCollctor.h"
 #import "Constants.h"
 #import "SpriteFactory.h"
 #import "Monster.h"
@@ -100,7 +101,6 @@
 - (void)update:(NSTimeInterval)currentTime
 {
     
-    NSLog(@"started update: currentTIme");
     // Handle time delta.
     // If we drop below 60fps, we would still like things to happen
     // at approximately the same rate
@@ -117,9 +117,6 @@
         _lastCurrentTime = currentTime;
     }
     
-    
-    
-    NSLog(@"the middle of update");
     if (timeSinceLast > 1) {
         // more than a second since last update
         timeSinceLast = 1.0 / 60.0;
@@ -137,7 +134,6 @@
     [self garbageCollectArrows];
     
     
-    NSLog(@"end of updateTIme");
 }
 
 
@@ -208,7 +204,7 @@
     // move menu up
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_startMenu.size.width/2 duration:1];
     [_startMenu runAction:moveUp];
-    // setup HUD
+    /// setup HUD
     [self setupHUD];
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
@@ -229,7 +225,7 @@
 {
      for (Monster *m in _monsters)
      {
-         [m.sprite removeFromParent];
+         [GarbageCollctor cleanObject: m.sprite];
      }
      [_monsters removeAllObjects];
     Platform *p;
@@ -237,7 +233,7 @@
     {
         for (SKSpriteNode *current in p.parts)
         {
-            [current removeFromParent];
+            [GarbageCollctor cleanObject: current];
         }
     }
     [_platforms removeAllObjects];
@@ -250,8 +246,7 @@
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_gameOverMenu.size.height/2 duration:0.5];
     [_gameOverMenu runAction:moveUp];
     //reset progress tracker
-    [GameData sharedGameData].highScore = MAX([GameData sharedGameData].distance,
-                                                [GameData sharedGameData].highScore);
+    [GameData sharedGameData].highScore = MAX([GameData sharedGameData].distance, [GameData sharedGameData].highScore);
     [[GameData sharedGameData] reset];
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
@@ -267,7 +262,7 @@
 {
     // game over code
     _mode = @"gameOver";
-    [_hero.sprite removeFromParent];
+    [GarbageCollctor cleanObject: _hero.sprite];
     SKAction *moveDown = [SKAction moveToY:CGRectGetMidY(self.frame) duration:0.25];
     [_gameOverMenu runAction:moveDown];
     _shouldSpawnMonsters = FALSE;
@@ -340,7 +335,6 @@
 
 -(void)resolveHeroMovement
 {
-    NSLog(@"started resolveHeroMovement");
     if (_hero.sprite.position.y < -100)
     {
         [self endGame];
@@ -379,7 +373,6 @@
 
 -(void)updateDashingState
 {
-    NSLog(@"started updateDasingState");
     CGFloat dashTime = 0.3;
     CGFloat dashDecayTime = 0.4;
     CGFloat speedCoeff = 750;
@@ -404,15 +397,13 @@
 
 -(void) updateMonstersState
 {
-    NSLog(@"started updateMonstersState");
     NSMutableArray *dumps = [NSMutableArray array];
     for (Monster *m in _monsters)
     {
         // garbage collect uneeded monsters
         if ([m isNoLongerNeeded])
         {
-            // delete this monster
-            [m.sprite removeFromParent];
+            [GarbageCollctor cleanObject: m.sprite];
             [dumps addObject:m];
         } else
         {
@@ -425,7 +416,6 @@
 
 -(void) handleWorldSpeedup
 {
-    NSLog(@"started handleWorldSPeedup");
     _floor.speed = 1 - 0.001666*_worldSpeedup;
     //    NSLog(@"%f", _floor.speed);
     for (SKSpriteNode *sprite in self.children)
@@ -441,7 +431,6 @@
 
 - (void)handlePlatforming {
     
-    NSLog(@"started handlePlatforming");
     if (![_mode  isEqual: @"gameOver"]) {
         // see if we have to spawn a new platform, cause end of this one approaches
         Platform *lastPlatform = [self.platforms lastObject];
@@ -451,12 +440,10 @@
             [_factory initPlatform];
         }
     }
-    NSLog(@"ended updateDasingState");
 }
 
 -(void) garbageCollectArrows
 {
-    NSLog(@"started garbageCOllcetArrows");
     for (SKSpriteNode *arrow in _arrows)
     {
         if ((arrow.position.x < 0) || (arrow.position.y < 0) || arrow.position.x > self.frame.size.width + 10)
@@ -464,17 +451,15 @@
             [_arrowsToBeGarbaged addObject:arrow];
         }
     }
-    [_arrows removeObjectsInArray:_arrowsToBeGarbaged];
-    [self removeChildrenInArray:_arrowsToBeGarbaged];
-    [_arrowsToBeGarbaged removeAllObjects];
+    // [_arrows removeObjectsInArray:_arrowsToBeGarbaged];
+    // [self removeChildrenInArray:_arrowsToBeGarbaged];
+    // [_arrowsToBeGarbaged removeAllObjects];
     
-    NSLog(@"finished garbage Collce arrows");
 }
 
 - (void)didSimulatePhysics
 {
     
-    NSLog(@"started didSimultaePhysics");
 }
 
 -(CGFloat) getLastTileFloorHeight
@@ -506,7 +491,6 @@
     {
         if (_heroIsDashing)
         {
-         //   [secondBody.node removeFromParent];
             Monster *m = (secondBody.node.userData)[@"parent"];
             [m resolveHit];
             _timeSinceLastDash += 10;
@@ -526,9 +510,6 @@
     {
         Monster *m = (firstBody.node.userData)[@"parent"];
         [m resolveHit];
-//      // we will later add that some arrows stay in the target :)
-//        [secondBody.node removeFromParent];
-//        [m.sprite addChild:secondBody.node];
         secondBody.categoryBitMask = 0;
     }
 }

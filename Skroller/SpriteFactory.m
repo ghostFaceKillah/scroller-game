@@ -82,8 +82,15 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     cloud.zPosition = -10;
     cloud.name = @"cloud";
     SKAction *move = [SKAction moveToX:-cloud.size.width duration:2+4*[Constants randomFloat]];
-    SKAction *die = [SKAction removeFromParent];
-    [cloud runAction:[SKAction sequence:@[move, die]]];
+    SKAction *die =  [SKAction runBlock:^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [cloud removeAllChildren];
+                    [cloud removeAllActions];
+                    [cloud runAction:[SKAction removeFromParent]];
+                });
+            }];
+    // [cloud runAction:[SKAction sequence:@[move, die]]];
+    [cloud runAction:move];
     return cloud;
 }
 
