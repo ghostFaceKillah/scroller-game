@@ -10,13 +10,5 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface Platform : NSObject
-@property CGFloat gapToNextTile;
-@property CGFloat heightAboveAbyss;
-@property int length;
-@property NSMutableArray *parts;
-@property SKAction *moveLeft;
-+(Platform *) spawn;
-+(Platform *) getLongPlatform;
--(BOOL) isNoLongerNeeded;
--(void) resolveMovement: (CGFloat) worldVelocity;
++(SKNode *) spawn;
 @end

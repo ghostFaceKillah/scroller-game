@@ -90,9 +90,7 @@
             }
             if ([Constants randomFloat] > 0.5)
             {
-                SKSpriteNode *cloudey = [SpriteFactory createCloud];
-                cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
-                [self addChild:cloudey];
+                [_factory createCloud];
             }
         }
     }
@@ -166,9 +164,9 @@
     _arrows = [NSMutableArray array];
     _arrowsToBeGarbaged = [NSMutableArray array];
 
-    [_factory initSky];
+    [_factory addSky];
     [_factory initStaticFloor];
-    [_factory addCloud];
+    [_factory createCloud];
     [_factory addHero];
     [_factory initStartMenu];
     [_factory initGameOverMenu];
@@ -209,13 +207,13 @@
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
     // start platforming move
-    Platform *platform = [_platforms lastObject];
+    SKNode *platform = [_platforms lastObject];
     _highScore.text = [NSString stringWithFormat:@"Highscore: %li pt", [GameData sharedGameData].highScore];
     //_score.text = @"0 pt";
     _distance.text = @"";
-    for (SKSpriteNode *current in platform.parts)
-    {
-        [current runAction:platform.moveLeft];
+    SKAction *moveLeft = [platform.userData objectForKey:@"moveLeft"];
+    for (SKSpriteNode *current in platform.children) {
+        [current runAction:moveLeft];
     }
     // [_player play];
 }
@@ -223,39 +221,40 @@
 
 -(void) restartGameAfterGameover
 {
-     for (Monster *m in _monsters)
-     {
-         [GarbageCollctor cleanObject: m.sprite];
-     }
-     [_monsters removeAllObjects];
-    Platform *p;
-    for (p in _platforms)
-    {
-        for (SKSpriteNode *current in p.parts)
-        {
-            [GarbageCollctor cleanObject: current];
+    [self runAction:[SKAction runBlock:^{
+        // clean up old assets
+        for (Monster *m in _monsters) {
+            [GarbageCollctor cleanObject: m.sprite];
         }
-    }
-    [_platforms removeAllObjects];
-    // remake some assets
-    [_factory initStaticFloor];
-    [_factory addHero];
-    // restart game
-    _mode = @"gameplay";
-    // recreate hero
-    SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_gameOverMenu.size.height/2 duration:0.5];
-    [_gameOverMenu runAction:moveUp];
-    //reset progress tracker
-    [GameData sharedGameData].highScore = MAX([GameData sharedGameData].distance, [GameData sharedGameData].highScore);
-    [[GameData sharedGameData] reset];
-    // start spawning monsters
-    _shouldSpawnMonsters = TRUE;
-    Platform *platform = [_platforms lastObject];
-    for (SKSpriteNode *current in platform.parts)
-    {
-        [current runAction:platform.moveLeft];
-    }
+        [_monsters removeAllObjects];
+        for (SKNode *p in _platforms) {
+            [GarbageCollctor cleanObject: p];
+        }
+        for (SKNode *platform in _platforms) {
+            [GarbageCollctor cleanObject:platform];
+        }
+        [_platforms removeAllObjects];
+    }] completion:^{
+        // remake assets
+        [_factory initStaticFloor];
+        [_factory addHero];
+        // restart game
+        _mode = @"gameplay";
+        // recreate hero
+        SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_gameOverMenu.size.height/2 duration:0.5];
+        [_gameOverMenu runAction:moveUp];
+        //reset progress tracker
+        [GameData sharedGameData].highScore = MAX([GameData sharedGameData].distance, [GameData sharedGameData].highScore);
+        [[GameData sharedGameData] reset];
+        // start spawning monsters
+        _shouldSpawnMonsters = TRUE;
+        SKNode *platform = [_platforms lastObject];
+        SKAction *moveLeft = [platform.userData objectForKey:@"moveLeft"];
+        for (SKSpriteNode *current in platform.children) {
+            [current runAction:moveLeft];
+        }
 //    [_player play];
+    }];
 }
 
 -(void) endGame
@@ -421,7 +420,7 @@
     for (SKSpriteNode *sprite in self.children)
     {
         if ([sprite.name isEqualToString:@"cloud"] || [sprite.name isEqualToString:@"mountains"] ||
-            [sprite.name isEqualToString:@"platform_tile"])
+            [sprite.name isEqualToString:@"platform"])
         {
             sprite.speed = 1 - 0.001666*_worldSpeedup;
         }
@@ -433,10 +432,11 @@
     
     if (![_mode  isEqual: @"gameOver"]) {
         // see if we have to spawn a new platform, cause end of this one approaches
-        Platform *lastPlatform = [self.platforms lastObject];
-        SKSpriteNode *lastTile = [lastPlatform.parts lastObject];
-        if (lastTile.position.x + lastTile.size.width / 2 +
-                lastPlatform.gapToNextTile <= self.frame.size.width) {
+        SKNode *lastPlatform = [self.platforms lastObject];
+        SKSpriteNode *lastTile = [lastPlatform.children lastObject];
+        NSNumber *temp = [lastPlatform.userData objectForKey:@"gapToNextTile"];
+        CGFloat gap = [temp floatValue];
+        if (lastTile.position.x + lastTile.size.width / 2 + gap <= self.frame.size.width) {
             [_factory initPlatform];
         }
     }
@@ -464,8 +464,8 @@
 
 -(CGFloat) getLastTileFloorHeight
 {
-    Platform *lastPlatform = [self.platforms lastObject];
-    SKSpriteNode *lastTile = [lastPlatform.parts lastObject];
+    SKNode *lastPlatform = [self.platforms lastObject];
+    SKSpriteNode *lastTile = [lastPlatform.children lastObject];
     return (lastTile.position.y + lastTile.size.height/2);
 }
 

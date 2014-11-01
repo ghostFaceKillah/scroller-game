@@ -11,6 +11,7 @@
 #import "Goblin.h"
 #import "Hero.h"
 #import "Platform.h"
+#import "GarbageCollctor.h"
 
 @interface SpriteFactory()
 @property GameActionScene *receiver;
@@ -41,7 +42,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     [_receiver.monsters addObject:monster];
 }
 
--(void) initSky
+-(void) addSky
 {
     SKSpriteNode *sky = [SKSpriteNode spriteNodeWithImageNamed:@"sky.png"];
     sky.zPosition = -100;
@@ -76,84 +77,75 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     [_receiver addChild:swordSwitch];
 }
 
-+(SKSpriteNode *) createCloud
+-(void) createCloud
 {
     SKSpriteNode *cloud = [SKSpriteNode spriteNodeWithImageNamed:@"cloud_prototype.png"];
     cloud.zPosition = -10;
     cloud.name = @"cloud";
     SKAction *move = [SKAction moveToX:-cloud.size.width duration:2+4*[Constants randomFloat]];
     SKAction *die =  [SKAction runBlock:^{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [cloud removeAllChildren];
-                    [cloud removeAllActions];
-                    [cloud runAction:[SKAction removeFromParent]];
-                });
-            }];
-    // [cloud runAction:[SKAction sequence:@[move, die]]];
-    [cloud runAction:move];
-    return cloud;
+        [GarbageCollctor cleanObject:cloud];
+    }];
+    [_receiver addChild:cloud];
+    cloud.position = CGPointMake(CGRectGetMaxX(_receiver.frame), CGRectGetMaxY(_receiver.frame)-50);
+    [cloud runAction:[SKAction sequence:@[move, die]]];
 }
 
 
 -(void) initStaticFloor
 {
-//    Platform *floor = [Platform getLongPlatform];
-    Platform *floor = [Platform spawn];
-    floor.heightAboveAbyss = 17;
+    SKNode *floor = [Platform spawn];
+    CGFloat heightAboveAbyss = 17;
     int i = 0;
-    SKSpriteNode *middle = floor.parts[1];
-    SKSpriteNode *first = floor.parts[0];
-    for (SKSpriteNode *current in floor.parts)
+    SKSpriteNode *middle = floor.children[1];
+    SKSpriteNode *first = floor.children[0];
+    for (SKSpriteNode *current in floor.children)
     {
-        
         current.position = CGPointMake(CGRectGetMinX(_receiver.frame) +
                                        current.size.width/2 +
                                        first.size.width +
                                        (i-1) * middle.size.width,
-                                       floor.heightAboveAbyss);
+                                       heightAboveAbyss);
         current.name = @"platform_tile";
-        [_receiver addChild:current];
         i++;
     }
+    [_receiver addChild:floor];
     [_receiver.platforms addObject:floor];
 }
 
 
 -(void) initPlatform
 {
-    Platform *floor = [Platform spawn];
-    Platform *lastPlatform = [_receiver.platforms lastObject];
-    floor.heightAboveAbyss = lastPlatform.heightAboveAbyss + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
-    while (floor.heightAboveAbyss <= CGRectGetMinY(_receiver.frame) ||
-           floor.heightAboveAbyss >= CGRectGetMaxY(_receiver.frame) - 30) {
-        floor.heightAboveAbyss = lastPlatform.heightAboveAbyss + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
+    SKNode *floor = [Platform spawn];
+    SKNode *lastPlatform = [_receiver.platforms lastObject];
+    NSNumber *temp = [lastPlatform.userData objectForKey:@"heightAboveAbyss"];
+    CGFloat lp_h = [temp floatValue];
+    CGFloat floor_h = lp_h + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
+    while (floor_h <= CGRectGetMinY(_receiver.frame) ||
+           floor_h >= CGRectGetMaxY(_receiver.frame) - 30) {
+        floor_h = lp_h + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
     }
-    SKSpriteNode *current;
-    SKSpriteNode *middle = floor.parts[1];
-    SKSpriteNode *first = floor.parts[0];
-    for (int i = 0; i < floor.length; i++)
+    [floor.userData setValue:[NSNumber numberWithFloat:floor_h] forKey:@"heightAboveAbyss"];
+    SKSpriteNode *middle = floor.children[1];
+    SKSpriteNode *first = floor.children[0];
+    SKAction *moveLeft = [floor.userData objectForKey:@"moveLeft"];
+
+    int i = 0;
+    for (SKSpriteNode *current in floor.children)
     {
-        current = floor.parts[i];
         current.position = CGPointMake(CGRectGetMaxX(_receiver.frame) +
                                        current.size.width/2 +
                                        first.size.width +
                                        (i-1) * middle.size.width,
-                                       floor.heightAboveAbyss);
-        [current runAction:floor.moveLeft];
+                                       floor_h);
+        [current runAction:moveLeft];
         current.name = @"platform_tile";
-        [_receiver addChild:current];
+        i++;
     }
+    [_receiver addChild:floor];
     [_receiver.platforms addObject:floor];
 }
 
-
-
--(void) addCloud
-{
-    SKSpriteNode *cloud = [SpriteFactory createCloud];
-    [_receiver addChild:cloud];
-    cloud.position = CGPointMake(CGRectGetMaxX(_receiver.frame), CGRectGetMaxY(_receiver.frame)-50);
-}
 
 
 -(void) addHero
@@ -177,6 +169,5 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     menu.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMidY(_receiver.frame));
     _receiver.startMenu = menu;
 }
-
 
 @end
