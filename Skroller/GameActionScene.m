@@ -99,6 +99,8 @@
 
 - (void)update:(NSTimeInterval)currentTime
 {
+    
+    NSLog(@"started update: currentTIme");
     // Handle time delta.
     // If we drop below 60fps, we would still like things to happen
     // at approximately the same rate
@@ -116,8 +118,9 @@
     }
     
     
-    if (timeSinceLast > 1)
-    {
+    
+    NSLog(@"the middle of update");
+    if (timeSinceLast > 1) {
         // more than a second since last update
         timeSinceLast = 1.0 / 60.0;
         self.lastUpdateTimeInterval = currentTime;
@@ -132,6 +135,9 @@
     [self handleWorldSpeedup];
     [self handlePlatforming];
     [self garbageCollectArrows];
+    
+    
+    NSLog(@"end of updateTIme");
 }
 
 
@@ -334,6 +340,7 @@
 
 -(void)resolveHeroMovement
 {
+    NSLog(@"started resolveHeroMovement");
     if (_hero.sprite.position.y < -100)
     {
         [self endGame];
@@ -372,6 +379,7 @@
 
 -(void)updateDashingState
 {
+    NSLog(@"started updateDasingState");
     CGFloat dashTime = 0.3;
     CGFloat dashDecayTime = 0.4;
     CGFloat speedCoeff = 750;
@@ -396,6 +404,7 @@
 
 -(void) updateMonstersState
 {
+    NSLog(@"started updateMonstersState");
     NSMutableArray *dumps = [NSMutableArray array];
     for (Monster *m in _monsters)
     {
@@ -416,26 +425,23 @@
 
 -(void) handleWorldSpeedup
 {
+    NSLog(@"started handleWorldSPeedup");
     _floor.speed = 1 - 0.001666*_worldSpeedup;
     //    NSLog(@"%f", _floor.speed);
     for (SKSpriteNode *sprite in self.children)
     {
-        if ([sprite.name isEqualToString:@"cloud"] || [sprite.name isEqualToString:@"mountains"])
+        if ([sprite.name isEqualToString:@"cloud"] || [sprite.name isEqualToString:@"mountains"] ||
+            [sprite.name isEqualToString:@"platform_tile"])
         {
             sprite.speed = 1 - 0.001666*_worldSpeedup;
-        }
-    }
-    for (Platform *platform in self.platforms)
-    {
-        for (SKSpriteNode *tile in platform.parts)
-        {
-            tile.speed = 1 - 0.001666*_worldSpeedup;
         }
     }
 }
 
 
 - (void)handlePlatforming {
+    
+    NSLog(@"started handlePlatforming");
     if (![_mode  isEqual: @"gameOver"]) {
         // see if we have to spawn a new platform, cause end of this one approaches
         Platform *lastPlatform = [self.platforms lastObject];
@@ -445,10 +451,12 @@
             [_factory initPlatform];
         }
     }
+    NSLog(@"ended updateDasingState");
 }
 
 -(void) garbageCollectArrows
 {
+    NSLog(@"started garbageCOllcetArrows");
     for (SKSpriteNode *arrow in _arrows)
     {
         if ((arrow.position.x < 0) || (arrow.position.y < 0) || arrow.position.x > self.frame.size.width + 10)
@@ -459,10 +467,15 @@
     [_arrows removeObjectsInArray:_arrowsToBeGarbaged];
     [self removeChildrenInArray:_arrowsToBeGarbaged];
     [_arrowsToBeGarbaged removeAllObjects];
+    
+    NSLog(@"finished garbage Collce arrows");
 }
 
 - (void)didSimulatePhysics
-{}
+{
+    
+    NSLog(@"started didSimultaePhysics");
+}
 
 -(CGFloat) getLastTileFloorHeight
 {

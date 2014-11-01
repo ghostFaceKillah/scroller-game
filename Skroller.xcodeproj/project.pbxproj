@@ -41,8 +41,6 @@
 		CBFCBA7D19A61648003B6733 /* Goblin.m in Sources */ = {isa = PBXBuildFile; fileRef = CBFCBA7C19A61648003B6733 /* Goblin.m */; };
 		CBFCBA8019A61951003B6733 /* Birdie.m in Sources */ = {isa = PBXBuildFile; fileRef = CBFCBA7F19A61951003B6733 /* Birdie.m */; };
 		FA2637CF1A03F538005E8E93 /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2637CE1A03F538005E8E93 /* MenuScene.m */; };
-		FABFE8811A04244A008F0C2F /* NeverGrowUp.png in Resources */ = {isa = PBXBuildFile; fileRef = FABFE87F1A04244A008F0C2F /* NeverGrowUp.png */; };
-		FABFE8821A04244A008F0C2F /* startButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FABFE8801A04244A008F0C2F /* startButton.png */; };
 		FABFE8851A0428A3008F0C2F /* GameData.m in Sources */ = {isa = PBXBuildFile; fileRef = FABFE8841A0428A3008F0C2F /* GameData.m */; };
 		FACB222B19C6DFC100AF979C /* LaunchImage640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */; };
 		FACB222C19C6DFC100AF979C /* LaunchImage640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222A19C6DFC100AF979C /* LaunchImage640x960.png */; };
@@ -120,7 +118,6 @@
 		FAE8E9E119FACDCA00D9B741 /* floor_move_59.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E93D19FACDCA00D9B741 /* floor_move_59.png */; };
 		FAE8E9E219FACDCA00D9B741 /* floor_move_60.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E93E19FACDCA00D9B741 /* floor_move_60.png */; };
 		FAE8E9E319FACDCA00D9B741 /* floor_move_61.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E93F19FACDCA00D9B741 /* floor_move_61.png */; };
-		FAE8E9E419FACDCA00D9B741 /* floor_move_62.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E94019FACDCA00D9B741 /* floor_move_62.png */; };
 		FAE8E9E519FACDCA00D9B741 /* floor_move_63.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E94119FACDCA00D9B741 /* floor_move_63.png */; };
 		FAE8E9E619FACDCA00D9B741 /* floor_move_64.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E94219FACDCA00D9B741 /* floor_move_64.png */; };
 		FAE8E9E719FACDCA00D9B741 /* floor_tile.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E94319FACDCA00D9B741 /* floor_tile.png */; };
@@ -205,7 +202,6 @@
 		FAE8EA3619FACDCA00D9B741 /* sky.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E99419FACDCA00D9B741 /* sky.png */; };
 		FAE8EA3719FACDCA00D9B741 /* start_button_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E99519FACDCA00D9B741 /* start_button_placeholder.png */; };
 		FAE8EA3819FACDCA00D9B741 /* sword_switch.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E99619FACDCA00D9B741 /* sword_switch.png */; };
-		FAE8EA3919FACDCA00D9B741 /* tower_down_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E99719FACDCA00D9B741 /* tower_down_placeholder.png */; };
 		FAE8EA3A19FACDCA00D9B741 /* tower_up_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E99819FACDCA00D9B741 /* tower_up_placeholder.png */; };
 		FAE8EA3B19FACDCA00D9B741 /* try_again_button_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = FAE8E99919FACDCA00D9B741 /* try_again_button_placeholder.png */; };
 		FAEE84D71975CE6D00A9F183 /* Hero.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEE84D61975CE6D00A9F183 /* Hero.m */; };
@@ -272,8 +268,6 @@
 		CBFCBA7F19A61951003B6733 /* Birdie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Birdie.m; sourceTree = "<group>"; };
 		FA2637CD1A03F538005E8E93 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		FA2637CE1A03F538005E8E93 /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
-		FABFE87F1A04244A008F0C2F /* NeverGrowUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NeverGrowUp.png; sourceTree = "<group>"; };
-		FABFE8801A04244A008F0C2F /* startButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startButton.png; sourceTree = "<group>"; };
 		FABFE8831A0428A3008F0C2F /* GameData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameData.h; sourceTree = "<group>"; };
 		FABFE8841A0428A3008F0C2F /* GameData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameData.m; sourceTree = "<group>"; };
 		FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage640x1136.png; sourceTree = "<group>"; };
@@ -520,10 +514,6 @@
 				FA2637CE1A03F538005E8E93 /* MenuScene.m */,
 				FABFE8831A0428A3008F0C2F /* GameData.h */,
 				FABFE8841A0428A3008F0C2F /* GameData.m */,
-				CB41833E19CC420600526176 /* Hightower.h */,
-				CB41833F19CC420600526176 /* Hightower.m */,
-				CBDDB4FB19AA3E950007F6B7 /* Baloon.h */,
-				CBDDB4FC19AA3E950007F6B7 /* Baloon.m */,
 				CBFCBA7E19A61951003B6733 /* Birdie.h */,
 				CBFCBA7F19A61951003B6733 /* Birdie.m */,
 				CBD2328419A8F25B00C18545 /* Bomb.h */,
@@ -601,7 +591,6 @@
 		CBCEC35D19715EDA00960425 /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				FABFE87E1A04244A008F0C2F /* menu */,
 				CBACCAE919FC186400F98D37 /* countdown */,
 				CBCFB8FD19FBB0D5001D5973 /* sound */,
 				FAE8E8EF19FACDCA00D9B741 /* sprites */,
@@ -997,7 +986,6 @@
 				FAE8E9BC19FACDCA00D9B741 /* floor_move_22.png in Resources */,
 				FAE8E9BA19FACDCA00D9B741 /* floor_move_20.png in Resources */,
 				FAE8EA0F19FACDCA00D9B741 /* mount_move_32.png in Resources */,
-				FABFE8821A04244A008F0C2F /* startButton.png in Resources */,
 				FAE8E9AB19FACDCA00D9B741 /* floor_move_05.png in Resources */,
 				FAE8E9DD19FACDCA00D9B741 /* floor_move_55.png in Resources */,
 				FAE8E9E619FACDCA00D9B741 /* floor_move_64.png in Resources */,
@@ -1054,9 +1042,6 @@
 				FAE8E9B219FACDCA00D9B741 /* floor_move_12.png in Resources */,
 				FAE8EA1019FACDCA00D9B741 /* mount_move_33.png in Resources */,
 				FAE8E9D619FACDCA00D9B741 /* floor_move_48.png in Resources */,
-				FABFE8811A04244A008F0C2F /* NeverGrowUp.png in Resources */,
-				FAE8E9E419FACDCA00D9B741 /* floor_move_62.png in Resources */,
-				FAE8EA3919FACDCA00D9B741 /* tower_down_placeholder.png in Resources */,
 				FAE8E9BE19FACDCA00D9B741 /* floor_move_24.png in Resources */,
 				FAE8E9E319FACDCA00D9B741 /* floor_move_61.png in Resources */,
 				FAE8E9F519FACDCA00D9B741 /* mount_move_06.png in Resources */,

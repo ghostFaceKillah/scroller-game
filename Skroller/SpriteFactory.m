@@ -104,6 +104,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
                                        first.size.width +
                                        (i-1) * middle.size.width,
                                        floor.heightAboveAbyss);
+        current.name = @"platform_tile";
         [_receiver addChild:current];
         i++;
     }
@@ -132,6 +133,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
                                        (i-1) * middle.size.width,
                                        floor.heightAboveAbyss);
         [current runAction:floor.moveLeft];
+        current.name = @"platform_tile";
         [_receiver addChild:current];
     }
     [_receiver.platforms addObject:floor];
