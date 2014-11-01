@@ -32,7 +32,6 @@ const CGFloat GAP_SCALE = 100;
     background.position = CGPointMake(0, tile.size.height/2 + background.size.height/2);
     tile.texture.filteringMode = SKTextureFilteringNearest;
     background.texture.filteringMode = SKTextureFilteringNearest;
-
     tile.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:tile.size];
     tile.physicsBody.dynamic = NO;
     tile.physicsBody.categoryBitMask = floorCategory;
@@ -64,13 +63,12 @@ const CGFloat GAP_SCALE = 100;
     CGFloat tiles_no = 3;
     platform.name = @"platform";
     NSString *tile_type;
-    if (temp < 1/tiles_no) {
+    if (temp < 1/tiles_no)
         tile_type = @"honey_tile.png";
-    } else if (temp < 2/tiles_no) {
+    else if (temp < 2/tiles_no)
         tile_type = @"pink_disco_tile.png";
-    } else {
+    else
         tile_type = @"violet_heart_tile.png";
-    }
     CGFloat gaplen = ([Constants randomFloat]*2 + 0.5) * GAP_SCALE;
     CGFloat heightAboveAbyss = 0;
     int length = arc4random_uniform(10) + 5;

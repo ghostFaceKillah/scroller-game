@@ -14,7 +14,7 @@
 +(SpriteFactory *) createSpriteFactory: (GameActionScene *) receiver;
 -(void) addGoblin;-(void) initGameOverMenu;
 -(void) initStaticFloor;
--(void) createCloud;
+-(void)addCloud;
 -(void) addHero;
 -(void) initStartMenu;
 -(void) initPlatform;

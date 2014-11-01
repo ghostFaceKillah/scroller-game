@@ -60,10 +60,8 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     tryAgainButton.position = CGPointMake(4, 40);
     tryAgainButton.name = @"tryAgain";
     tryAgainButton.zPosition = 1110;
-    
     [_receiver addChild:menu];
     _receiver.gameOverMenu = menu;
-
 }
 
 -(void) initSwordSwitch
@@ -77,7 +75,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     [_receiver addChild:swordSwitch];
 }
 
--(void) createCloud
+-(void) addCloud
 {
     SKSpriteNode *cloud = [SKSpriteNode spriteNodeWithImageNamed:@"cloud_prototype.png"];
     cloud.zPosition = -10;
@@ -129,7 +127,6 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     SKSpriteNode *middle = floor.children[1];
     SKSpriteNode *first = floor.children[0];
     SKAction *moveLeft = [floor.userData objectForKey:@"moveLeft"];
-
     int i = 0;
     for (SKSpriteNode *current in floor.children)
     {
@@ -145,7 +142,6 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     [_receiver addChild:floor];
     [_receiver.platforms addObject:floor];
 }
-
 
 
 -(void) addHero

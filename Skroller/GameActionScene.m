@@ -45,8 +45,7 @@
 @property CGFloat worldSpeedup;
 
 // soundtrack
-@property SKAction *soundtrack;
-
+// @property SKAction *soundtrack;
 @property AVAudioPlayer *player;
 
 @end
@@ -56,8 +55,7 @@
 
 - (void)didMoveToView:(SKView *)view
 {
-    if (!self.contentCreated)
-    {
+    if (!self.contentCreated) {
         [self createSceneContents];
         self.contentCreated = YES;
     }
@@ -90,7 +88,7 @@
             }
             if ([Constants randomFloat] > 0.5)
             {
-                [_factory createCloud];
+                [_factory addCloud];
             }
         }
     }
@@ -130,8 +128,6 @@
     [self handleWorldSpeedup];
     [self handlePlatforming];
     [self garbageCollectArrows];
-    
-    
 }
 
 
@@ -166,7 +162,7 @@
 
     [_factory addSky];
     [_factory initStaticFloor];
-    [_factory createCloud];
+    [_factory addCloud];
     [_factory addHero];
     [_factory initStartMenu];
     [_factory initGameOverMenu];
@@ -449,18 +445,15 @@
         if ((arrow.position.x < 0) || (arrow.position.y < 0) || arrow.position.x > self.frame.size.width + 10)
         {
             [_arrowsToBeGarbaged addObject:arrow];
+            [GarbageCollctor cleanObject:arrow];
         }
     }
-    // [_arrows removeObjectsInArray:_arrowsToBeGarbaged];
-    // [self removeChildrenInArray:_arrowsToBeGarbaged];
-    // [_arrowsToBeGarbaged removeAllObjects];
+    [_arrows removeObjectsInArray:_arrowsToBeGarbaged];
+    [_arrowsToBeGarbaged removeAllObjects];
     
 }
 
-- (void)didSimulatePhysics
-{
-    
-}
+- (void)didSimulatePhysics {}
 
 -(CGFloat) getLastTileFloorHeight
 {
