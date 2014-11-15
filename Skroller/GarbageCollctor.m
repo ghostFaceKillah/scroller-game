@@ -25,15 +25,11 @@
     for (SKNode *child in objectToClean.children) {
         [GarbageCollctor cleanObject: child];
     }
-    [objectToClean runAction:
-            [SKAction runBlock:^{
-                dispatch_async(dispatch_get_main_queue(), ^{
                     [objectToClean removeAllChildren];
                     [objectToClean removeAllActions];
-                    [objectToClean runAction:[SKAction removeFromParent]];
-                });
-            }]];
+                    [objectToClean removeFromParent];
 };
+
 
 @end
 

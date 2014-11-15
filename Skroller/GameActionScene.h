@@ -20,5 +20,6 @@
 @property SKSpriteNode *floor;
 @property NSMutableArray *arrows;
 @property Hero* hero;
+@property dispatch_queue_t queue;
 -(CGFloat) getLastTileFloorHeight;
 @end

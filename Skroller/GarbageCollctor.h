@@ -10,8 +10,6 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface GarbageCollctor : NSObject
-
-+(void) addObjectToGarbage: (SKNode *) objectToDump;
-+(void) cleanGarbage;
 +(void) cleanObject: (SKNode *) objectToClean;
++(void) cleanGarbage;
 @end

@@ -34,9 +34,9 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     // a wrapper for handling all the monster data structures
     // create monster node
     Goblin *monster = [Goblin spawn];
-    CGFloat y_position = [_receiver getLastTileFloorHeight] + monster.sprite.size.height/2;
-    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame)-20, y_position+100);
-    
+    CGFloat y_position = [_receiver getLastTileFloorHeight] + monster.sprite.size.height / 2;
+    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame) - 20, y_position + 100);
+
     // and add it to the data structures
     [_receiver addChild:monster.sprite];
     [_receiver.monsters addObject:monster];
@@ -121,7 +121,7 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     CGFloat lp_h = [temp floatValue];
     CGFloat floor_h = lp_h + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
     while (floor_h <= CGRectGetMinY(_receiver.frame) ||
-           floor_h >= CGRectGetMaxY(_receiver.frame) - 30) {
+            floor_h >= CGRectGetMaxY(_receiver.frame) - 30) {
         floor_h = lp_h + ([Constants randomFloat] - 0.5) * HEIGHT_VARIABILITY;
     }
     [floor.userData setValue:[NSNumber numberWithFloat:floor_h] forKey:@"heightAboveAbyss"];
@@ -129,13 +129,12 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     SKSpriteNode *first = floor.children[0];
     SKAction *moveLeft = [floor.userData objectForKey:@"moveLeft"];
     int i = 0;
-    for (SKSpriteNode *current in floor.children)
-    {
+    for (SKSpriteNode *current in floor.children) {
         current.position = CGPointMake(CGRectGetMaxX(_receiver.frame) +
-                                       current.size.width/2 +
-                                       first.size.width +
-                                       (i-1) * middle.size.width,
-                                       floor_h);
+                        current.size.width / 2 +
+                        first.size.width +
+                        (i - 1) * middle.size.width,
+                floor_h);
         [current runAction:moveLeft];
         current.name = @"platform";
         i++;
@@ -147,9 +146,9 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 
 -(void) addHero
 {
-    _receiver.hero = [Hero createHero];
-    _receiver.hero.sprite.position = CGPointMake(CGRectGetMinX(_receiver.frame)+20, CGRectGetMinY(_receiver.frame)+135);
-    [_receiver addChild:_receiver.hero.sprite];
+        _receiver.hero = [Hero createHero];
+        _receiver.hero.sprite.position = CGPointMake(CGRectGetMinX(_receiver.frame) + 20, CGRectGetMinY(_receiver.frame) + 135);
+        [_receiver addChild:_receiver.hero.sprite];
 }
 
 

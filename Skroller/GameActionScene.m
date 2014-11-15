@@ -48,6 +48,7 @@
 // @property SKAction *soundtrack;
 @property AVAudioPlayer *player;
 
+
 @end
 
 
@@ -84,11 +85,15 @@
             self.lastSpawnTimeInterval = 0;
             if (_shouldSpawnMonsters)
             {
-                [_factory addGoblin];
+                dispatch_sync(_queue, ^{
+                    [_factory addGoblin];
+                });
             }
             if ([Constants randomFloat] > 0.5)
             {
-                [_factory addCloud];
+                dispatch_sync(_queue, ^{
+                    [_factory addCloud];
+                });
             }
         }
     }
@@ -133,6 +138,9 @@
 
 - (void)createSceneContents
 {
+    
+    self.queue = dispatch_queue_create("garbage_collecting", NULL);
+    
     // General scene setup
     self.physicsWorld.gravity = CGVectorMake(0, -12);
     self.physicsWorld.contactDelegate = self;
@@ -216,10 +224,9 @@
     // [_player play];
 }
 
-
 -(void) restartGameAfterGameover
 {
-    [self runAction:[SKAction runBlock:^{
+    dispatch_sync(_queue, ^{
         // clean up old assets
         for (Monster *m in _monsters) {
             [GarbageCollctor cleanObject: m.sprite];
@@ -232,13 +239,12 @@
             [GarbageCollctor cleanObject:platform];
         }
         [_platforms removeAllObjects];
-    }] completion:^{
+ 
         // remake assets
         [_factory initStaticFloor];
         [_factory addHero];
         // restart game
         _mode = @"gameplay";
-        // recreate hero
         SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_gameOverMenu.size.height/2 duration:0.5];
         [_gameOverMenu runAction:moveUp];
         //reset progress tracker
@@ -253,15 +259,18 @@
                 [current runAction:moveLeft];
             }
         }
-//    [_player play];
-    }];
+    });
+        
+
 }
 
 -(void) endGame
 {
     // game over code
     _mode = @"gameOver";
-    [GarbageCollctor cleanObject: _hero.sprite];
+    dispatch_sync(_queue, ^{
+        [GarbageCollctor cleanObject: _hero.sprite];
+    });
     SKAction *moveDown = [SKAction moveToY:CGRectGetMidY(self.frame) duration:0.25];
     [_gameOverMenu runAction:moveDown];
     _shouldSpawnMonsters = FALSE;
@@ -396,6 +405,7 @@
 
 -(void) updateMonstersState
 {
+    dispatch_sync(_queue, ^{
     NSMutableArray *dumps = [NSMutableArray array];
     for (Monster *m in _monsters)
     {
@@ -410,6 +420,7 @@
         }
     }
     [_monsters removeObjectsInArray:dumps];
+    });
 }
 
 
@@ -418,7 +429,7 @@
     //    NSLog(@"%f", _floor.speed);
     for (SKSpriteNode *sprite in self.children)
     {
-        if (![sprite.name isEqualToString:@"hero"] && ![sprite.name isEqualToString:@"gameOverMenu"])
+        if ([sprite.name isEqualToString:@"cloud"] && ![sprite.name isEqualToString:@"gameOverMenu"])
         {
             sprite.speed = 1 - 0.001666*_worldSpeedup;
         }
@@ -447,6 +458,7 @@
 
 -(void) garbageCollectArrows
 {
+    dispatch_sync(_queue, ^{
     for (SKSpriteNode *arrow in _arrows)
     {
         if ((arrow.position.x < 0) || (arrow.position.y < 0) || arrow.position.x > self.frame.size.width + 10)
@@ -457,7 +469,7 @@
     }
     [_arrows removeObjectsInArray:_arrowsToBeGarbaged];
     [_arrowsToBeGarbaged removeAllObjects];
-    
+    });
 }
 
 - (void)didSimulatePhysics {}
