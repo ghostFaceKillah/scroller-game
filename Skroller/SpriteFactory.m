@@ -11,6 +11,7 @@
 #import "Goblin.h"
 #import "Hero.h"
 #import "Platform.h"
+#import "GameData.h"
 
 @interface SpriteFactory()
 @property GameActionScene *receiver;
@@ -53,10 +54,18 @@ const CGFloat HEIGHT_VARIABILITY = 100;
 {
     SKSpriteNode *menu = [SKSpriteNode spriteNodeWithImageNamed:@"game_over_menu_placeholder.png"];
     menu.zPosition = 1100;
-    menu.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMaxY(_receiver.frame) + menu.size.height/2);
+    menu.position = CGPointMake(CGRectGetMidX(_receiver.frame), CGRectGetMaxY(_receiver.frame) + menu.size.height/2);    
+    NSString *distance = [NSString stringWithFormat:@"You've been running for %li seconds", (long)[GameData sharedGameData].distance];
+    SKLabelNode *score = [SKLabelNode labelNodeWithText:distance];
+    score.fontColor = [SKColor redColor];
+    score.name = @"score";
+    score.fontName = @"Chalkduster";
+    score.fontSize = 10.0;
+    score.position = CGPointMake(3, 40);
+    [menu addChild:score];
     SKSpriteNode *tryAgainButton = [SKSpriteNode spriteNodeWithImageNamed:@"try_again_button_placeholder.png"];
     [menu addChild:tryAgainButton];
-    tryAgainButton.position = CGPointMake(4, 40);
+    tryAgainButton.position = CGPointMake(4, -40);
     tryAgainButton.name = @"tryAgain";
     tryAgainButton.zPosition = 1110;
     

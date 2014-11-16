@@ -113,7 +113,7 @@
     if ((currentTime-_lastCurrentTime>1) && ([_mode isEqualToString:@"gameplay"])) {
         [GameData sharedGameData].distance++;
         [GameData sharedGameData].totalDistance++;
-        _distance.text = [NSString stringWithFormat:@"%i miles", [GameData sharedGameData].distance];
+        _distance.text = [NSString stringWithFormat:@"Time survived: %i seconds", [GameData sharedGameData].distance];
         _lastCurrentTime = currentTime;
     }
     
@@ -214,7 +214,7 @@
     _shouldSpawnMonsters = TRUE;
     // start platforming move
     Platform *platform = [_platforms lastObject];
-    _highScore.text = [NSString stringWithFormat:@"Highscore: %li pt", [GameData sharedGameData].highScore];
+    _highScore.text = [NSString stringWithFormat:@"Highscore: %li seconds",(long)[GameData sharedGameData].highScore];
     //_score.text = @"0 pt";
     _distance.text = @"";
     for (SKSpriteNode *current in platform.parts)
@@ -249,10 +249,14 @@
     // recreate hero
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_gameOverMenu.size.height/2 duration:0.5];
     [_gameOverMenu runAction:moveUp];
+    
     //reset progress tracker
-    [GameData sharedGameData].highScore = MAX([GameData sharedGameData].distance,
-                                                [GameData sharedGameData].highScore);
+    [GameData sharedGameData].highScore = MAX([GameData sharedGameData].distance,[GameData sharedGameData].highScore);
+    [[GameData sharedGameData] save];
     [[GameData sharedGameData] reset];
+    _highScore.text = [NSString stringWithFormat:@"Highscore: %li seconds", (long)[GameData sharedGameData].highScore];
+
+    
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
     Platform *platform = [_platforms lastObject];
@@ -270,6 +274,9 @@
     [_hero.sprite removeFromParent];
     SKAction *moveDown = [SKAction moveToY:CGRectGetMidY(self.frame) duration:0.25];
     [_gameOverMenu runAction:moveDown];
+    SKLabelNode *score = (SKLabelNode*)[_gameOverMenu childNodeWithName:@"score"];
+    NSString *distance = [NSString stringWithFormat:@"You've been running for %li seconds", (long)[GameData sharedGameData].distance];
+    score.text = distance;
     _shouldSpawnMonsters = FALSE;
     _worldSpeedup = (CGFloat) 500;
 //    [_player stop];
@@ -548,14 +555,14 @@ SKLabelNode* _distance;
     _distance = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
     _distance.fontSize = 12.0;
     _distance.position = CGPointMake(115, 257);
-    _distance.fontColor = [SKColor orangeColor];
+    _distance.fontColor = [SKColor greenColor];
     _distance.zPosition = 1000;
     [self addChild:_distance];
     
     _highScore = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
     _highScore.fontSize = 12.0;
-    _highScore.position = CGPointMake(200, 257);
-    _highScore.fontColor = [SKColor greenColor];
+    _highScore.position = CGPointMake(215, 257);
+    _highScore.fontColor = [SKColor redColor];
     _highScore.zPosition = 1000;
     [self addChild:_highScore];
 }

@@ -8,15 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GameData : NSObject
+@interface GameData : NSObject <NSCoding>
 
-@property (assign, nonatomic) long score;
-@property (assign, nonatomic) int distance;
+@property (assign, nonatomic) NSInteger score;
+@property (assign, nonatomic) NSInteger distance;
 
-@property (assign, nonatomic) long highScore;
-@property (assign, nonatomic) long totalDistance;
+@property (assign, nonatomic) NSInteger highScore;
+@property (assign, nonatomic) NSInteger totalDistance;
 
 +(instancetype)sharedGameData;
 -(void)reset;
+-(void)save;
 
 @end

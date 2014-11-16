@@ -19,6 +19,7 @@
 @property SKSpriteNode *startMenu;
 @property SKSpriteNode *floor;
 @property NSMutableArray *arrows;
+@property (nonatomic) NSInteger dist;
 @property Hero* hero;
 -(CGFloat) getLastTileFloorHeight;
 @end
