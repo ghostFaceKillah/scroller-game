@@ -7,6 +7,7 @@
 //
 
 #import "GameActionScene.h"
+#import "GarbageCollctor.h"
 #import "Constants.h"
 #import "SpriteFactory.h"
 #import "Monster.h"
@@ -44,9 +45,9 @@
 @property CGFloat worldSpeedup;
 
 // soundtrack
-@property SKAction *soundtrack;
-
+// @property SKAction *soundtrack;
 @property AVAudioPlayer *player;
+
 
 @end
 
@@ -55,8 +56,7 @@
 
 - (void)didMoveToView:(SKView *)view
 {
-    if (!self.contentCreated)
-    {
+    if (!self.contentCreated) {
         [self createSceneContents];
         self.contentCreated = YES;
     }
@@ -85,13 +85,15 @@
             self.lastSpawnTimeInterval = 0;
             if (_shouldSpawnMonsters)
             {
-                [_factory addGoblin];
+                dispatch_sync(_queue, ^{
+                    [_factory addGoblin];
+                });
             }
             if ([Constants randomFloat] > 0.5)
             {
-                SKSpriteNode *cloudey = [SpriteFactory createCloud];
-                cloudey.position = CGPointMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame)-50);
-                [self addChild:cloudey];
+                dispatch_sync(_queue, ^{
+                    [_factory addCloud];
+                });
             }
         }
     }
@@ -100,7 +102,6 @@
 - (void)update:(NSTimeInterval)currentTime
 {
     
-    NSLog(@"started update: currentTIme");
     // Handle time delta.
     // If we drop below 60fps, we would still like things to happen
     // at approximately the same rate
@@ -117,9 +118,6 @@
         _lastCurrentTime = currentTime;
     }
     
-    
-    
-    NSLog(@"the middle of update");
     if (timeSinceLast > 1) {
         // more than a second since last update
         timeSinceLast = 1.0 / 60.0;
@@ -135,14 +133,14 @@
     [self handleWorldSpeedup];
     [self handlePlatforming];
     [self garbageCollectArrows];
-    
-    
-    NSLog(@"end of updateTIme");
 }
 
 
 - (void)createSceneContents
 {
+    
+    self.queue = dispatch_queue_create("garbage_collecting", NULL);
+    
     // General scene setup
     self.physicsWorld.gravity = CGVectorMake(0, -12);
     self.physicsWorld.contactDelegate = self;
@@ -170,7 +168,7 @@
     _arrows = [NSMutableArray array];
     _arrowsToBeGarbaged = [NSMutableArray array];
 
-    [_factory initSky];
+    [_factory addSky];
     [_factory initStaticFloor];
     [_factory addCloud];
     [_factory addHero];
@@ -208,7 +206,7 @@
     // move menu up
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_startMenu.size.width/2 duration:1];
     [_startMenu runAction:moveUp];
-    // setup HUD
+    /// setup HUD
     [self setupHUD];
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
@@ -217,27 +215,22 @@
     _highScore.text = [NSString stringWithFormat:@"Highscore: %li seconds",(long)[GameData sharedGameData].highScore];
     //_score.text = @"0 pt";
     _distance.text = @"";
-    for (SKSpriteNode *current in platform.parts)
-    {
-        [current runAction:platform.moveLeft];
+    SKNode *platform = [_platforms lastObject];
+    SKAction *moveLeft = [platform.userData objectForKey:@"moveLeft"];
+    for (SKNode *p in _platforms) {
+        for (SKSpriteNode *current in p.children) {
+            [current runAction:moveLeft];
+        }
     }
     // [_player play];
 }
 
-
 -(void) restartGameAfterGameover
 {
-     for (Monster *m in _monsters)
-     {
-         [m.sprite removeFromParent];
-     }
-     [_monsters removeAllObjects];
-    Platform *p;
-    for (p in _platforms)
-    {
-        for (SKSpriteNode *current in p.parts)
-        {
-            [current removeFromParent];
+    dispatch_sync(_queue, ^{
+        // clean up old assets
+        for (Monster *m in _monsters) {
+            [GarbageCollctor cleanObject: m.sprite];
         }
     }
     [_platforms removeAllObjects];
@@ -271,7 +264,9 @@
 {
     // game over code
     _mode = @"gameOver";
-    [_hero.sprite removeFromParent];
+    dispatch_sync(_queue, ^{
+        [GarbageCollctor cleanObject: _hero.sprite];
+    });
     SKAction *moveDown = [SKAction moveToY:CGRectGetMidY(self.frame) duration:0.25];
     [_gameOverMenu runAction:moveDown];
     SKLabelNode *score = (SKLabelNode*)[_gameOverMenu childNodeWithName:@"score"];
@@ -347,7 +342,6 @@
 
 -(void)resolveHeroMovement
 {
-    NSLog(@"started resolveHeroMovement");
     if (_hero.sprite.position.y < -100)
     {
         [self endGame];
@@ -386,7 +380,6 @@
 
 -(void)updateDashingState
 {
-    NSLog(@"started updateDasingState");
     CGFloat dashTime = 0.3;
     CGFloat dashDecayTime = 0.4;
     CGFloat speedCoeff = 750;
@@ -411,15 +404,14 @@
 
 -(void) updateMonstersState
 {
-    NSLog(@"started updateMonstersState");
+    dispatch_sync(_queue, ^{
     NSMutableArray *dumps = [NSMutableArray array];
     for (Monster *m in _monsters)
     {
         // garbage collect uneeded monsters
         if ([m isNoLongerNeeded])
         {
-            // delete this monster
-            [m.sprite removeFromParent];
+            [GarbageCollctor cleanObject: m.sprite];
             [dumps addObject:m];
         } else
         {
@@ -427,67 +419,64 @@
         }
     }
     [_monsters removeObjectsInArray:dumps];
+    });
 }
 
 
 -(void) handleWorldSpeedup
 {
-    NSLog(@"started handleWorldSPeedup");
-    _floor.speed = 1 - 0.001666*_worldSpeedup;
     //    NSLog(@"%f", _floor.speed);
     for (SKSpriteNode *sprite in self.children)
     {
-        if ([sprite.name isEqualToString:@"cloud"] || [sprite.name isEqualToString:@"mountains"] ||
-            [sprite.name isEqualToString:@"platform_tile"])
+        if ([sprite.name isEqualToString:@"cloud"] && ![sprite.name isEqualToString:@"gameOverMenu"])
         {
             sprite.speed = 1 - 0.001666*_worldSpeedup;
         }
     }
+    for (SKNode *p in _platforms)
+    {
+        p.speed = 1 - 0.001666*_worldSpeedup;
+    }
 }
+
 
 
 - (void)handlePlatforming {
     
-    NSLog(@"started handlePlatforming");
     if (![_mode  isEqual: @"gameOver"]) {
         // see if we have to spawn a new platform, cause end of this one approaches
-        Platform *lastPlatform = [self.platforms lastObject];
-        SKSpriteNode *lastTile = [lastPlatform.parts lastObject];
-        if (lastTile.position.x + lastTile.size.width / 2 +
-                lastPlatform.gapToNextTile <= self.frame.size.width) {
+        SKNode *lastPlatform = [self.platforms lastObject];
+        SKSpriteNode *lastTile = [lastPlatform.children lastObject];
+        NSNumber *temp = [lastPlatform.userData objectForKey:@"gapToNextTile"];
+        CGFloat gap = [temp floatValue];
+        if (lastTile.position.x + lastTile.size.width / 2 + gap <= self.frame.size.width) {
             [_factory initPlatform];
         }
     }
-    NSLog(@"ended updateDasingState");
 }
 
 -(void) garbageCollectArrows
 {
-    NSLog(@"started garbageCOllcetArrows");
+    dispatch_sync(_queue, ^{
     for (SKSpriteNode *arrow in _arrows)
     {
         if ((arrow.position.x < 0) || (arrow.position.y < 0) || arrow.position.x > self.frame.size.width + 10)
         {
             [_arrowsToBeGarbaged addObject:arrow];
+            [GarbageCollctor cleanObject:arrow];
         }
     }
     [_arrows removeObjectsInArray:_arrowsToBeGarbaged];
-    [self removeChildrenInArray:_arrowsToBeGarbaged];
     [_arrowsToBeGarbaged removeAllObjects];
-    
-    NSLog(@"finished garbage Collce arrows");
+    });
 }
 
-- (void)didSimulatePhysics
-{
-    
-    NSLog(@"started didSimultaePhysics");
-}
+- (void)didSimulatePhysics {}
 
 -(CGFloat) getLastTileFloorHeight
 {
-    Platform *lastPlatform = [self.platforms lastObject];
-    SKSpriteNode *lastTile = [lastPlatform.parts lastObject];
+    SKNode *lastPlatform = [self.platforms lastObject];
+    SKSpriteNode *lastTile = [lastPlatform.children lastObject];
     return (lastTile.position.y + lastTile.size.height/2);
 }
 
@@ -513,7 +502,6 @@
     {
         if (_heroIsDashing)
         {
-         //   [secondBody.node removeFromParent];
             Monster *m = (secondBody.node.userData)[@"parent"];
             [m resolveHit];
             _timeSinceLastDash += 10;
@@ -533,9 +521,6 @@
     {
         Monster *m = (firstBody.node.userData)[@"parent"];
         [m resolveHit];
-//      // we will later add that some arrows stay in the target :)
-//        [secondBody.node removeFromParent];
-//        [m.sprite addChild:secondBody.node];
         secondBody.categoryBitMask = 0;
     }
 }

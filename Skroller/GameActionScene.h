@@ -21,5 +21,6 @@
 @property NSMutableArray *arrows;
 @property (nonatomic) NSInteger dist;
 @property Hero* hero;
+@property dispatch_queue_t queue;
 -(CGFloat) getLastTileFloorHeight;
 @end

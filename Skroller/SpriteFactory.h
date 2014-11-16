@@ -21,5 +21,5 @@
 -(void) initStartMenu;
 -(void) initPlatform;
 -(void) initSwordSwitch;
--(void) initSky;
+-(void)addSky;
 @end
