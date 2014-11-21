@@ -59,16 +59,20 @@ const CGFloat GAP_SCALE = 100;
 {
     SKNode *platform = [[SKNode alloc] init];
     // draw what type of tile it is
-    CGFloat temp = [Constants randomFloat];
-    CGFloat tiles_no = 3;
     platform.name = @"platform";
     NSString *tile_type;
+    CGFloat temp = [Constants randomFloat];
+    CGFloat tiles_no = 4;
     if (temp < 1/tiles_no)
         tile_type = @"honey_tile.png";
     else if (temp < 2/tiles_no)
         tile_type = @"pink_disco_tile.png";
-    else
+    else if (temp < 3/tiles_no)
         tile_type = @"violet_heart_tile.png";
+    else
+        tile_type = @"grassy_one.png";
+    
+    
     CGFloat gaplen = ([Constants randomFloat]*2 + 0.5) * GAP_SCALE;
     CGFloat heightAboveAbyss = 0;
     int length = arc4random_uniform(10) + 5;

@@ -260,8 +260,6 @@
             }
         }
     });
-        
-
 }
 
 -(void) endGame
@@ -532,12 +530,6 @@ SKLabelNode* _distance;
 
 -(void)setupHUD
 {
-//    _score = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
-//    _score.fontSize = 12.0;
-//    _score.position = CGPointMake(50, 7);
-//    _score.fontColor = [SKColor greenColor];
-//    [self addChild:_score];
-    
     _distance = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
     _distance.fontSize = 12.0;
     _distance.position = CGPointMake(115, 257);
