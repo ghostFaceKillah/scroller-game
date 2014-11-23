@@ -82,7 +82,6 @@
 }
 
 
-
 -(void)heroJump
 {
     if (abs(self.sprite.physicsBody.velocity.dy) < 20 && self.timesJumped <1)
@@ -96,8 +95,9 @@
 
 -(void)heroDash: (SKSpriteNode *) heroSprite
 {
-    // disallow to many dashes
-    if (self.dashesInAir < 2) {
+    const int how_many_dashes_are_allowed = 2;
+    // disallow too many dashes
+    if (self.dashesInAir < how_many_dashes_are_allowed) {
         self.dashesInAir++;
         SKAction *walk = [SKAction animateWithTextures:_walkTextures timePerFrame: 0.08 resize:YES restore:NO];
         SKAction *loop = [SKAction repeatActionForever:walk];
