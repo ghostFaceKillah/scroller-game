@@ -521,38 +521,11 @@
 		CB8CC4621971490B00DF0104 /* Skroller */ = {
 			isa = PBXGroup;
 			children = (
-				FA2637CD1A03F538005E8E93 /* MenuScene.h */,
-				FA2637CE1A03F538005E8E93 /* MenuScene.m */,
-				FA99F90C1A1FC1F100ECF18A /* OptionsScene.h */,
-				FA99F90D1A1FC1F100ECF18A /* OptionsScene.m */,
-				CB6DB0A31A04E9B200ED5A1D /* GarbageCollctor.h */,
-				CB6DB0A41A04E9B200ED5A1D /* GarbageCollctor.m */,
-				FABFE8831A0428A3008F0C2F /* GameData.h */,
-				FABFE8841A0428A3008F0C2F /* GameData.m */,
-				CBFCBA7E19A61951003B6733 /* Birdie.h */,
-				CBFCBA7F19A61951003B6733 /* Birdie.m */,
-				CBD2328419A8F25B00C18545 /* Bomb.h */,
-				CBD2328519A8F25B00C18545 /* Bomb.m */,
-				CB5582AF19A33D03008A45C1 /* Constants.h */,
-				CB5582B019A33D03008A45C1 /* Constants.m */,
-				CBCEC3541971548C00960425 /* GameActionScene.h */,
-				CBCEC3551971548C00960425 /* GameActionScene.m */,
-				CBFCBA7B19A61648003B6733 /* Goblin.h */,
-				CBFCBA7C19A61648003B6733 /* Goblin.m */,
-				FAEE84D51975CE6D00A9F183 /* Hero.h */,
-				FAEE84D61975CE6D00A9F183 /* Hero.m */,
-				CB8CC46E1971490B00DF0104 /* Main_iPhone.storyboard */,
-				CB8CC4711971490B00DF0104 /* Main_iPad.storyboard */,
-				CB0475FD199793F600BB975E /* Monster.h */,
-				CB0475FE199793F600BB975E /* Monster.m */,
-				CB8DC27C19ACADBF001FA1A9 /* Platform.h */,
-				CB8DC27D19ACADBF001FA1A9 /* Platform.m */,
-				CB8CC46B1971490B00DF0104 /* ScrollerGameAppDelegate.h */,
-				CB8CC46C1971490B00DF0104 /* ScrollerGameAppDelegate.m */,
-				CB8CC4741971490B00DF0104 /* ScrollerGameViewController.h */,
-				CB8CC4751971490B00DF0104 /* ScrollerGameViewController.m */,
-				CB5582A919A2AF61008A45C1 /* SpriteFactory.h */,
-				CB5582AA19A2AF61008A45C1 /* SpriteFactory.m */,
+				CBDB93161A225D4600EA8FD1 /* Scenes */,
+				CBDB93141A225D1F00EA8FD1 /* SharedResources */,
+				CBDB93131A225D0000EA8FD1 /* Monsters */,
+				CBDB93171A225D6300EA8FD1 /* BasicActors */,
+				CBDB93151A225D3000EA8FD1 /* ViewControllers */,
 				CB8CC4771971490B00DF0104 /* Images.xcassets */,
 				CB8CC4631971490B00DF0104 /* Supporting Files */,
 			);
@@ -622,6 +595,73 @@
 				CBCFB8FE19FBB0D5001D5973 /* sound_placeholder.wav */,
 			);
 			path = sound;
+			sourceTree = "<group>";
+		};
+		CBDB93131A225D0000EA8FD1 /* Monsters */ = {
+			isa = PBXGroup;
+			children = (
+				CBFCBA7B19A61648003B6733 /* Goblin.h */,
+				CBFCBA7C19A61648003B6733 /* Goblin.m */,
+				CBFCBA7E19A61951003B6733 /* Birdie.h */,
+				CBFCBA7F19A61951003B6733 /* Birdie.m */,
+				CBD2328419A8F25B00C18545 /* Bomb.h */,
+				CBD2328519A8F25B00C18545 /* Bomb.m */,
+			);
+			name = Monsters;
+			sourceTree = "<group>";
+		};
+		CBDB93141A225D1F00EA8FD1 /* SharedResources */ = {
+			isa = PBXGroup;
+			children = (
+				CB6DB0A31A04E9B200ED5A1D /* GarbageCollctor.h */,
+				CB6DB0A41A04E9B200ED5A1D /* GarbageCollctor.m */,
+				FABFE8831A0428A3008F0C2F /* GameData.h */,
+				FABFE8841A0428A3008F0C2F /* GameData.m */,
+				CB5582AF19A33D03008A45C1 /* Constants.h */,
+				CB5582B019A33D03008A45C1 /* Constants.m */,
+			);
+			name = SharedResources;
+			sourceTree = "<group>";
+		};
+		CBDB93151A225D3000EA8FD1 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CB8CC46B1971490B00DF0104 /* ScrollerGameAppDelegate.h */,
+				CB8CC46C1971490B00DF0104 /* ScrollerGameAppDelegate.m */,
+				CB8CC4741971490B00DF0104 /* ScrollerGameViewController.h */,
+				CB8CC4751971490B00DF0104 /* ScrollerGameViewController.m */,
+				CB8CC46E1971490B00DF0104 /* Main_iPhone.storyboard */,
+				CB8CC4711971490B00DF0104 /* Main_iPad.storyboard */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CBDB93161A225D4600EA8FD1 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				FA2637CD1A03F538005E8E93 /* MenuScene.h */,
+				FA2637CE1A03F538005E8E93 /* MenuScene.m */,
+				FA99F90C1A1FC1F100ECF18A /* OptionsScene.h */,
+				FA99F90D1A1FC1F100ECF18A /* OptionsScene.m */,
+				CBCEC3541971548C00960425 /* GameActionScene.h */,
+				CBCEC3551971548C00960425 /* GameActionScene.m */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		CBDB93171A225D6300EA8FD1 /* BasicActors */ = {
+			isa = PBXGroup;
+			children = (
+				FAEE84D51975CE6D00A9F183 /* Hero.h */,
+				FAEE84D61975CE6D00A9F183 /* Hero.m */,
+				CB0475FD199793F600BB975E /* Monster.h */,
+				CB0475FE199793F600BB975E /* Monster.m */,
+				CB8DC27C19ACADBF001FA1A9 /* Platform.h */,
+				CB8DC27D19ACADBF001FA1A9 /* Platform.m */,
+				CB5582A919A2AF61008A45C1 /* SpriteFactory.h */,
+				CB5582AA19A2AF61008A45C1 /* SpriteFactory.m */,
+			);
+			name = BasicActors;
 			sourceTree = "<group>";
 		};
 		FAE8E8EF19FACDCA00D9B741 /* sprites */ = {
