@@ -114,7 +114,7 @@
     if ((currentTime-_lastCurrentTime>1) && ([_mode isEqualToString:@"gameplay"])) {
         [GameData sharedGameData].distance++;
         [GameData sharedGameData].totalDistance++;
-        _distance.text = [NSString stringWithFormat:@"Time survived: %i seconds", [GameData sharedGameData].distance];
+        _distance.text = [NSString stringWithFormat:@"Time survived: %ld seconds", (long)[GameData sharedGameData].distance];
         _lastCurrentTime = currentTime;
     }
     
