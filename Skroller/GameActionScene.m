@@ -114,7 +114,7 @@
     if ((currentTime-_lastCurrentTime>1) && ([_mode isEqualToString:@"gameplay"])) {
         [GameData sharedGameData].distance++;
         [GameData sharedGameData].totalDistance++;
-        _distance.text = [NSString stringWithFormat:@"%i miles", [GameData sharedGameData].distance];
+        _distance.text = [NSString stringWithFormat:@"Time survived: %i seconds", [GameData sharedGameData].distance];
         _lastCurrentTime = currentTime;
     }
     
@@ -206,12 +206,12 @@
     // move menu up
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_startMenu.size.width/2 duration:1];
     [_startMenu runAction:moveUp];
-    /// setup HUD
+    // setup HUD
     [self setupHUD];
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
     // start platforming move
-    _highScore.text = [NSString stringWithFormat:@"Highscore: %li pt", [GameData sharedGameData].highScore];
+    _highScore.text = [NSString stringWithFormat:@"Highscore: %li pt", (long)[GameData sharedGameData].highScore];
     //_score.text = @"0 pt";
     _distance.text = @"";
     SKNode *platform = [_platforms lastObject];
@@ -271,6 +271,9 @@
     });
     SKAction *moveDown = [SKAction moveToY:CGRectGetMidY(self.frame) duration:0.25];
     [_gameOverMenu runAction:moveDown];
+    SKLabelNode *score = (SKLabelNode*)[_gameOverMenu childNodeWithName:@"score"];
+    NSString *distance = [NSString stringWithFormat:@"You've been running for %li seconds", (long)[GameData sharedGameData].distance];
+    score.text = distance;
     _shouldSpawnMonsters = FALSE;
     _worldSpeedup = (CGFloat) 500;
 //    [_player stop];
@@ -533,14 +536,14 @@ SKLabelNode* _distance;
     _distance = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
     _distance.fontSize = 12.0;
     _distance.position = CGPointMake(115, 257);
-    _distance.fontColor = [SKColor orangeColor];
+    _distance.fontColor = [SKColor greenColor];
     _distance.zPosition = 1000;
     [self addChild:_distance];
     
     _highScore = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
     _highScore.fontSize = 12.0;
-    _highScore.position = CGPointMake(200, 257);
-    _highScore.fontColor = [SKColor greenColor];
+    _highScore.position = CGPointMake(215, 257);
+    _highScore.fontColor = [SKColor redColor];
     _highScore.zPosition = 1000;
     [self addChild:_highScore];
 }

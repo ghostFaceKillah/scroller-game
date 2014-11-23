@@ -15,7 +15,7 @@
 -(void) addGoblin;
 -(void) initGameOverMenu;
 -(void) initStaticFloor;
--(void)addCloud;
+-(void) addCloud;
 -(void) addHero;
 -(void) initStartMenu;
 -(void) initPlatform;
