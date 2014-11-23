@@ -206,13 +206,12 @@
     // move menu up
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_startMenu.size.width/2 duration:1];
     [_startMenu runAction:moveUp];
-    /// setup HUD
+    // setup HUD
     [self setupHUD];
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
     // start platforming move
-    Platform *platform = [_platforms lastObject];
-    _highScore.text = [NSString stringWithFormat:@"Highscore: %li seconds",(long)[GameData sharedGameData].highScore];
+    _highScore.text = [NSString stringWithFormat:@"Highscore: %li pt", (long)[GameData sharedGameData].highScore];
     //_score.text = @"0 pt";
     _distance.text = @"";
     SKNode *platform = [_platforms lastObject];
@@ -232,32 +231,37 @@
         for (Monster *m in _monsters) {
             [GarbageCollctor cleanObject: m.sprite];
         }
-    }
-    [_platforms removeAllObjects];
-    // remake some assets
-    [_factory initStaticFloor];
-    [_factory addHero];
-    // restart game
-    _mode = @"gameplay";
-    // recreate hero
-    SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_gameOverMenu.size.height/2 duration:0.5];
-    [_gameOverMenu runAction:moveUp];
-    
-    //reset progress tracker
-    [GameData sharedGameData].highScore = MAX([GameData sharedGameData].distance,[GameData sharedGameData].highScore);
-    [[GameData sharedGameData] save];
-    [[GameData sharedGameData] reset];
-    _highScore.text = [NSString stringWithFormat:@"Highscore: %li seconds", (long)[GameData sharedGameData].highScore];
+        [_monsters removeAllObjects];
+        for (SKNode *p in _platforms) {
+            [GarbageCollctor cleanObject: p];
+        }
+        for (SKNode *platform in _platforms) {
+            [GarbageCollctor cleanObject:platform];
+        }
+        [_platforms removeAllObjects];
+ 
+        // remake assets
+        [_factory initStaticFloor];
+        [_factory addHero];
+        // restart game
+        _mode = @"gameplay";
+        SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_gameOverMenu.size.height/2 duration:0.5];
+        [_gameOverMenu runAction:moveUp];
+        //reset progress tracker
+        [GameData sharedGameData].highScore = MAX([GameData sharedGameData].distance, [GameData sharedGameData].highScore);
+        [[GameData sharedGameData] reset];
+        // start spawning monsters
+        _shouldSpawnMonsters = TRUE;
+        SKNode *platform = [_platforms lastObject];
+        SKAction *moveLeft = [platform.userData objectForKey:@"moveLeft"];
+        for (SKNode *p in _platforms) {
+            for (SKSpriteNode *current in p.children) {
+                [current runAction:moveLeft];
+            }
+        }
+    });
+        
 
-    
-    // start spawning monsters
-    _shouldSpawnMonsters = TRUE;
-    Platform *platform = [_platforms lastObject];
-    for (SKSpriteNode *current in platform.parts)
-    {
-        [current runAction:platform.moveLeft];
-    }
-//    [_player play];
 }
 
 -(void) endGame

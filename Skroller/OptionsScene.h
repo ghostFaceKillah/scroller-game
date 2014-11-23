@@ -8,6 +8,8 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface optionsScene : SKScene
+@interface OptionsScene : SKScene
+
+-(id)initWithSize:(CGSize)size;
 
 @end

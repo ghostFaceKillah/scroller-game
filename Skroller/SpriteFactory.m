@@ -12,6 +12,7 @@
 #import "Hero.h"
 #import "Platform.h"
 #import "GameData.h"
+#import "GarbageCollctor.h"
 
 @interface SpriteFactory()
 @property GameActionScene *receiver;

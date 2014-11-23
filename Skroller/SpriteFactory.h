@@ -12,7 +12,6 @@
 
 @interface SpriteFactory : NSObject
 +(SpriteFactory *) createSpriteFactory: (GameActionScene *) receiver;
-+(SKSpriteNode *) createCloud;
 -(void) addGoblin;
 -(void) initGameOverMenu;
 -(void) initStaticFloor;

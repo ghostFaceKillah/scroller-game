@@ -42,6 +42,8 @@
 		CBFCBA7D19A61648003B6733 /* Goblin.m in Sources */ = {isa = PBXBuildFile; fileRef = CBFCBA7C19A61648003B6733 /* Goblin.m */; };
 		CBFCBA8019A61951003B6733 /* Birdie.m in Sources */ = {isa = PBXBuildFile; fileRef = CBFCBA7F19A61951003B6733 /* Birdie.m */; };
 		FA2637CF1A03F538005E8E93 /* MenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2637CE1A03F538005E8E93 /* MenuScene.m */; };
+		FA99F90B1A1FBF4800ECF18A /* optionsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FA99F90A1A1FBF4800ECF18A /* optionsButton.png */; };
+		FA99F90E1A1FC1F100ECF18A /* OptionsScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FA99F90D1A1FC1F100ECF18A /* OptionsScene.m */; };
 		FABFE8851A0428A3008F0C2F /* GameData.m in Sources */ = {isa = PBXBuildFile; fileRef = FABFE8841A0428A3008F0C2F /* GameData.m */; };
 		FACB222B19C6DFC100AF979C /* LaunchImage640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */; };
 		FACB222C19C6DFC100AF979C /* LaunchImage640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = FACB222A19C6DFC100AF979C /* LaunchImage640x960.png */; };
@@ -271,6 +273,9 @@
 		CBFCBA7F19A61951003B6733 /* Birdie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Birdie.m; sourceTree = "<group>"; };
 		FA2637CD1A03F538005E8E93 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		FA2637CE1A03F538005E8E93 /* MenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuScene.m; sourceTree = "<group>"; };
+		FA99F90A1A1FBF4800ECF18A /* optionsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = optionsButton.png; sourceTree = "<group>"; };
+		FA99F90C1A1FC1F100ECF18A /* OptionsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsScene.h; sourceTree = "<group>"; };
+		FA99F90D1A1FC1F100ECF18A /* OptionsScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsScene.m; sourceTree = "<group>"; };
 		FABFE8831A0428A3008F0C2F /* GameData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameData.h; sourceTree = "<group>"; };
 		FABFE8841A0428A3008F0C2F /* GameData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameData.m; sourceTree = "<group>"; };
 		FACB222919C6DFC100AF979C /* LaunchImage640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage640x1136.png; sourceTree = "<group>"; };
@@ -470,6 +475,7 @@
 		CB6DB08F1A041C6800ED5A1D /* menu */ = {
 			isa = PBXGroup;
 			children = (
+				FA99F90A1A1FBF4800ECF18A /* optionsButton.png */,
 				CB6DB0901A041C6900ED5A1D /* NeverGrowUp.png */,
 				CB6DB0911A041C6900ED5A1D /* startButton.png */,
 			);
@@ -515,6 +521,8 @@
 			children = (
 				FA2637CD1A03F538005E8E93 /* MenuScene.h */,
 				FA2637CE1A03F538005E8E93 /* MenuScene.m */,
+				FA99F90C1A1FC1F100ECF18A /* OptionsScene.h */,
+				FA99F90D1A1FC1F100ECF18A /* OptionsScene.m */,
 				CB6DB0A31A04E9B200ED5A1D /* GarbageCollctor.h */,
 				CB6DB0A41A04E9B200ED5A1D /* GarbageCollctor.m */,
 				FABFE8831A0428A3008F0C2F /* GameData.h */,
@@ -939,6 +947,7 @@
 				FAE8E9F219FACDCA00D9B741 /* mount_move_03.png in Resources */,
 				FAE8E9F319FACDCA00D9B741 /* mount_move_04.png in Resources */,
 				FAE8E9D819FACDCA00D9B741 /* floor_move_50.png in Resources */,
+				FA99F90B1A1FBF4800ECF18A /* optionsButton.png in Resources */,
 				FAE8EA0219FACDCA00D9B741 /* mount_move_19.png in Resources */,
 				FAE8E9C319FACDCA00D9B741 /* floor_move_29.png in Resources */,
 				FAE8EA3219FACDCA00D9B741 /* school_platform_end.png in Resources */,
@@ -1122,6 +1131,7 @@
 				CBFCBA7D19A61648003B6733 /* Goblin.m in Sources */,
 				CB6DB0A51A04E9B200ED5A1D /* GarbageCollctor.m in Sources */,
 				CB0475FF199793F600BB975E /* Monster.m in Sources */,
+				FA99F90E1A1FC1F100ECF18A /* OptionsScene.m in Sources */,
 				FAEE84D71975CE6D00A9F183 /* Hero.m in Sources */,
 				CB8CC46D1971490B00DF0104 /* ScrollerGameAppDelegate.m in Sources */,
 				CBD2328619A8F25B00C18545 /* Bomb.m in Sources */,
