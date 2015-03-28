@@ -144,6 +144,7 @@
     [caller.arrows addObject:arrow];
     arrow.position = heroSprite.position;
     
+    
     CGFloat x = targetLocation.x - heroSprite.position.x;
     CGFloat y = targetLocation.y - heroSprite.position.y;
     arrow.zRotation = atan(y/x);

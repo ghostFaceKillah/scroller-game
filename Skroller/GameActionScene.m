@@ -48,6 +48,10 @@
 // @property SKAction *soundtrack;
 @property AVAudioPlayer *player;
 
+// for handling bow shooting
+@property UITouch *bowTouch;
+@property CGPoint bowTouchBeginPoint;
+
 
 @end
 
@@ -122,7 +126,7 @@
     if ((currentTime-_lastCurrentTime>1) && ([_mode isEqualToString:@"gameplay"])) {
         [GameData sharedGameData].distance++;
         [GameData sharedGameData].totalDistance++;
-        _distance.text = [NSString stringWithFormat:@"Time survived: %ld seconds", (long)[GameData sharedGameData].distance];
+        // _distance.text = [NSString stringWithFormat:@"Time survived: %ld seconds", (long)[GameData sharedGameData].distance];
         _lastCurrentTime = currentTime;
     }
     
@@ -215,13 +219,13 @@
     SKAction *moveUp = [SKAction moveToY:CGRectGetMaxY(self.frame)+_startMenu.size.width/2 duration:1];
     [_startMenu runAction:moveUp];
     // setup HUD
-    [self setupHUD];
+    // [self setupHUD];
     // start spawning monsters
     _shouldSpawnMonsters = TRUE;
     // start platforming move
-    _highScore.text = [NSString stringWithFormat:@"Highscore: %li pt", (long)[GameData sharedGameData].highScore];
+    // _highScore.text = [NSString stringWithFormat:@"Highscore: %li pt", (long)[GameData sharedGameData].highScore];
     //_score.text = @"0 pt";
-    _distance.text = @"";
+    // _distance.text = @"";
     SKNode *platform = [_platforms lastObject];
     SKAction *moveLeft = [platform.userData objectForKey:@"moveLeft"];
     for (SKNode *p in _platforms) {
@@ -279,9 +283,10 @@
     });
     SKAction *moveDown = [SKAction moveToY:CGRectGetMidY(self.frame) duration:0.25];
     [_gameOverMenu runAction:moveDown];
-    SKLabelNode *score = (SKLabelNode*)[_gameOverMenu childNodeWithName:@"score"];
-    NSString *distance = [NSString stringWithFormat:@"You've been running for %li seconds", (long)[GameData sharedGameData].distance];
-    score.text = distance;
+    // SKLabelNode *score = (SKLabelNode*)[_gameOverMenu childNodeWithName:@"score"];
+    // NSString *distance =
+    // [NSString stringWithFormat:@"You've been running for %li seconds", (long)[GameData sharedGameData].distance];
+    // score.text = distance;
     _shouldSpawnMonsters = FALSE;
     _worldSpeedup = (CGFloat) 500;
 //    [_player stop];
@@ -322,14 +327,15 @@
             CGPoint location = [touch locationInNode:self];
             if (location.x >= CGRectGetMinX(self.frame) + 0.35 * (CGRectGetMidX(self.frame) - CGRectGetMinX(self.frame)))
             {
-                if (_swordActive)
+                if (location.y < CGRectGetMidY(self.frame))
                 {
                     [_hero heroDash:_hero.sprite];
                     _timeSinceLastDash = 0;
+                
                 } else
                 {
-                    //shoot freaking bow
-                    [_hero shootBow:_hero.sprite :location :self];
+                    self.bowTouch = touch;
+                    self.bowTouchBeginPoint = location;
                 }
             } else
             {
@@ -347,6 +353,23 @@
             }
         }
     }
+}
+
+-(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches)
+    {
+        if (touch == self.bowTouch)
+        {
+            CGPoint current = [touch locationInNode:self];
+            CGFloat scale = 100.0;
+            CGFloat x = -(self.bowTouchBeginPoint.x + scale * (current.x - self.bowTouchBeginPoint.x));
+            CGFloat y = -(self.bowTouchBeginPoint.y + scale * (current.y - self.bowTouchBeginPoint.y));
+            CGPoint where = CGPointMake(x, y);
+            [_hero shootBow:_hero.sprite :where :self];
+        }
+    }
+    
 }
 
 
@@ -535,26 +558,26 @@
     }
 }
 
-SKLabelNode* _score;
-SKLabelNode* _highScore;
-SKLabelNode* _distance;
-
--(void)setupHUD
-{
-    _distance = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
-    _distance.fontSize = 12.0;
-    _distance.position = CGPointMake(115, 257);
-    _distance.fontColor = [SKColor greenColor];
-    _distance.zPosition = 1000;
-    [self addChild:_distance];
-    
-    _highScore = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
-    _highScore.fontSize = 12.0;
-    _highScore.position = CGPointMake(215, 257);
-    _highScore.fontColor = [SKColor redColor];
-    _highScore.zPosition = 1000;
-    [self addChild:_highScore];
-}
+// SKLabelNode* _score;
+// SKLabelNode* _highScore;
+// SKLabelNode* _distance;
+// 
+// -(void)setupHUD
+// {
+//     _distance = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
+//     _distance.fontSize = 12.0;
+//     _distance.position = CGPointMake(115, 257);
+//     _distance.fontColor = [SKColor greenColor];
+//     _distance.zPosition = 1000;
+//     [self addChild:_distance];
+//     
+//     _highScore = [[SKLabelNode alloc] initWithFontNamed:@"Futura-CondensedMedium"];
+//     _highScore.fontSize = 12.0;
+//     _highScore.position = CGPointMake(215, 257);
+//     _highScore.fontColor = [SKColor redColor];
+//     _highScore.zPosition = 1000;
+//     [self addChild:_highScore];
+// }
 
 
 @end
