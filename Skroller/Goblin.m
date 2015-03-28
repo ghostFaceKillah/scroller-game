@@ -39,17 +39,18 @@ static SKAction *actionCombo = nil;
 +(SKAction *) getActionCombo {
     if(actionCombo == nil) {
         //animate spawn
-        SKAction *spawnAnimation = [SKAction animateWithTextures:[Goblin getSpawnTextures] timePerFrame:0.01];
-        SKAction *moveDown = [SKAction moveByX:0 y:0 duration:(250/(500))];
-        SKAction *combo = [SKAction group:@[spawnAnimation,moveDown]];
-        
-        //animate move
-        SKAction *animation = [SKAction animateWithTextures:[Goblin getMoveTextures] timePerFrame:0.09];
-        SKAction *animate = [SKAction repeatActionForever:animation];
-        SKAction *moveLeft = [SKAction moveByX:(-400) y:0 duration:(1000/(500))];
-        SKAction *wait = [SKAction waitForDuration:1];
-        SKAction *combo2 = [SKAction group:@[wait,animate,moveLeft]];
-        actionCombo = [SKAction sequence:@[combo,combo2]];
+        // SKAction *spawnAnimation = [SKAction animateWithTextures:[Goblin getSpawnTextures] timePerFrame:0.01];
+        // SKAction *moveDown = [SKAction moveByX:0 y:0 duration:(250/(500))];
+        // SKAction *combo = [SKAction group:@[spawnAnimation,moveDown]];
+        // 
+        // //animate move
+        // SKAction *animation = [SKAction animateWithTextures:[Goblin getMoveTextures] timePerFrame:0.09];
+        // SKAction *animate = [SKAction repeatActionForever:animation];
+        SKAction *moveLeft = [SKAction moveByX:(-600) y:0 duration:(6/3)];
+        // SKAction *wait = [SKAction waitForDuration:1];
+        // SKAction *combo2 = [SKAction group:@[wait,animate,moveLeft]];
+        // actionCombo = [SKAction sequence:@[combo,combo2]];
+        actionCombo = moveLeft;
     }
     return actionCombo;
 }

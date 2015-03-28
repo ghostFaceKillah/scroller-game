@@ -85,9 +85,17 @@
             self.lastSpawnTimeInterval = 0;
             if (_shouldSpawnMonsters)
             {
-                dispatch_sync(_queue, ^{
-                    [_factory addGoblin];
-                });
+                if ([Constants randomFloat] > 0.5)
+                {
+                    dispatch_sync(_queue, ^{
+                        [_factory addGoblin];
+                    });
+                } else
+                {
+                    dispatch_sync(_queue, ^{
+                        [_factory addBomb];
+                    });
+                }
             }
             if ([Constants randomFloat] > 0.5)
             {

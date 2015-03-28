@@ -14,7 +14,7 @@
 @end
 
 @implementation Bomb
-
+static SKAction *actionCombo = nil;
 
 +(Bomb*) spawn
 {
@@ -33,7 +33,17 @@
     monster.sprite.physicsBody.contactTestBitMask = heroCategory | floorCategory;
     monster.sprite.physicsBody.collisionBitMask = heroCategory| floorCategory;
     
+    [monster.sprite runAction:[Bomb getActionCombo]];
+    
     return monster;
+}
+
++(SKAction *) getActionCombo {
+    if(actionCombo == nil) {
+        SKAction *moveLeft = [SKAction moveByX:(-600) y:0 duration:(6/3)];
+        actionCombo = moveLeft;
+    }
+    return actionCombo;
 }
 
 

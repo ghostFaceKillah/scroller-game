@@ -17,6 +17,7 @@
 -(void) initStaticFloor;
 -(void) addCloud;
 -(void) addHero;
+-(void) addBomb;
 -(void) initStartMenu;
 -(void) initPlatform;
 -(void) initSwordSwitch;

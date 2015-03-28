@@ -10,6 +10,7 @@
 #import "Constants.h"
 #import "Goblin.h"
 #import "Hero.h"
+#import "Bomb.h"
 #import "Platform.h"
 #import "GameData.h"
 #import "GarbageCollctor.h"
@@ -36,7 +37,20 @@ const CGFloat HEIGHT_VARIABILITY = 100;
     // create monster node
     Goblin *monster = [Goblin spawn];
     CGFloat y_position = [_receiver getLastTileFloorHeight] + monster.sprite.size.height / 2;
-    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame) - 20, y_position + 100);
+    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame) + monster.sprite.size.width, y_position);
+
+    // and add it to the data structures
+    [_receiver addChild:monster.sprite];
+    [_receiver.monsters addObject:monster];
+}
+
+-(void) addBomb
+{
+    // a wrapper for handling all the monster data structures
+    // create monster node
+    Bomb *monster = [Bomb spawn];
+    CGFloat y_position = [_receiver getLastTileFloorHeight] + monster.sprite.size.height / 2;
+    monster.sprite.position = CGPointMake(CGRectGetMaxX(_receiver.frame) + monster.sprite.size.width, y_position);
 
     // and add it to the data structures
     [_receiver addChild:monster.sprite];
