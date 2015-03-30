@@ -327,19 +327,11 @@
             CGPoint location = [touch locationInNode:self];
             if (location.x >= CGRectGetMinX(self.frame) + 0.35 * (CGRectGetMidX(self.frame) - CGRectGetMinX(self.frame)))
             {
-                if (location.y < CGRectGetMidY(self.frame))
-                {
-                    [_hero heroDash:_hero.sprite];
-                    _timeSinceLastDash = 0;
-                
-                } else
-                {
-                    self.bowTouch = touch;
-                    self.bowTouchBeginPoint = location;
-                }
+                self.bowTouch = touch;
+                self.bowTouchBeginPoint = location;
             } else
             {
-              [_hero heroJump];
+                [_hero heroJump];
             }
         }
     } else if ([_mode isEqualToString:@"gameOver"])
@@ -363,10 +355,19 @@
         {
             CGPoint current = [touch locationInNode:self];
             CGFloat scale = 100.0;
-            CGFloat x = -(self.bowTouchBeginPoint.x + scale * (current.x - self.bowTouchBeginPoint.x));
-            CGFloat y = -(self.bowTouchBeginPoint.y + scale * (current.y - self.bowTouchBeginPoint.y));
-            CGPoint where = CGPointMake(x, y);
-            [_hero shootBow:_hero.sprite :where :self];
+            CGFloat dx = current.x - self.bowTouchBeginPoint.x;
+            CGFloat dy = current.y - self.bowTouchBeginPoint.y;
+            if (abs(dx) + abs(dy) > 20)
+            {
+                CGFloat x = -(self.bowTouchBeginPoint.x + scale * (dx));
+                CGFloat y = -(self.bowTouchBeginPoint.y + scale * (dy));
+                CGPoint where = CGPointMake(x, y);
+                [_hero shootBow:_hero.sprite :where :self];
+            } else
+            {
+                [_hero heroDash:_hero.sprite];
+                _timeSinceLastDash = 0;
+            }
         }
     }
     
