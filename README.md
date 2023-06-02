@@ -2,6 +2,7 @@
 
 We made a game with [Janek](https://github.com/jan-gajl) in 2015, in objective C.
 - We never released it. 
+- I did actually release [other game, Planetoid](https://kwcodes.com/how-i-failed-5-side-projects-in-6-years-earning-0/) with my friend [Krzysztof](kwcodes.com).
 - I still love objective C.
 - BTW, Apple had a memory leak and crashes in SpriteKit. It was just released.
 No-one believed me back then, but it was true in the end, lol.
